@@ -82,6 +82,9 @@ temp/
 *.bak
 *.cache
 
+# Java heap dumps
+*.hprof
+
 # Documentation build files (keep source MD files)
 docs/_build/
 site/

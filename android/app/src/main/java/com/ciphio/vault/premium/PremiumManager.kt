@@ -47,7 +47,6 @@ class RealPremiumManager(
 
     private val billingClient = BillingClient.newBuilder(context)
         .setListener(this)
-        .enablePendingPurchases()
         .build()
 
     private var productDetails: ProductDetails? = null

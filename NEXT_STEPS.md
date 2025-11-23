@@ -30,7 +30,7 @@ cd android
 #### iOS Tests
 ```bash
 cd ios
-xcodebuild test -scheme Cryptatext -destination 'platform=iOS Simulator,name=iPhone 15'
+xcodebuild test -scheme Ciphio -destination 'platform=iOS Simulator,name=iPhone 15'
 ```
 
 **Or in Xcode:**
@@ -69,7 +69,7 @@ xcodebuild test -scheme Cryptatext -destination 'platform=iOS Simulator,name=iPh
 
 #### iOS Manual Testing
 1. **Build in Xcode:**
-   - Open `ios/Cryptatext.xcodeproj`
+   - Open `ios/Ciphio.xcodeproj`
    - Select a simulator or device
    - Press `⌘ + R` to build and run
 
@@ -128,7 +128,7 @@ xcodebuild test -scheme Cryptatext -destination 'platform=iOS Simulator,name=iPh
 cd android && ./gradlew test
 
 # iOS
-cd ios && xcodebuild test -scheme Cryptatext
+cd ios && xcodebuild test -scheme Ciphio
 ```
 
 ### Build Apps

@@ -1,12 +1,12 @@
-# Privacy Policy for Cryptatext
+# Privacy Policy for Ciphio
 
-**Last Updated:** [Date]
+**Last Updated:** November 20, 2025
 
 ---
 
 ## Introduction
 
-Cryptatext ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we handle information when you use our mobile application ("App").
+Ciphio ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we handle information when you use our mobile application ("App").
 
 ---
 
@@ -14,7 +14,7 @@ Cryptatext ("we", "our", or "us") is committed to protecting your privacy. This 
 
 **We do not collect, store, or transmit any personal information.**
 
-Cryptatext is designed to work entirely offline. All encryption, decryption, and password generation happens locally on your device. We do not:
+Ciphio is designed to work entirely offline. All encryption, decryption, and password generation happens locally on your device. We do not:
 
 - Collect any personal information
 - Store any data on our servers
@@ -46,7 +46,7 @@ You can clear all local data at any time through the app's settings or by uninst
 
 ## Third-Party Services
 
-Cryptatext does not use any third-party services that collect data. The app:
+Ciphio does not use any third-party services that collect data. The app:
 - Does not use analytics
 - Does not use advertising
 - Does not use crash reporting services
@@ -78,15 +78,15 @@ If you have any questions about this Privacy Policy, please contact us at:
 
 **Email:** [Your Email Address]
 
-**Website:** [Your Website URL]
+**Website:** https://ciphio.com
 
 ---
 
 ## Consent
 
-By using Cryptatext, you consent to this Privacy Policy.
+By using Ciphio, you consent to this Privacy Policy.
 
 ---
 
-**Note:** This is a template. Replace [Date], [Your Email Address], and [Your Website URL] with your actual information before publishing.
+**Note:** Replace [Your Email Address] with your actual support email address before publishing.
 

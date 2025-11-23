@@ -1,7 +1,7 @@
-# Codebase Review Report - Cryptatext
+# Codebase Review Report - Ciphio
 **Date:** November 19, 2025  
 **Reviewer:** AI Assistant (Claude 4.5)  
-**Project:** Cryptatext Mobile Apps (Android + iOS)
+**Project:** Ciphio Mobile Apps (Android + iOS)
 
 ---
 
@@ -38,7 +38,7 @@
 ```
 
 **Files Changed:**
-- `/Users/qaantum/Desktop/Project/ios/Cryptatext/Cryptatext/PasswordVaultStore.swift`
+- `/Users/qaantum/Desktop/Project/ios/Ciphio/Ciphio/PasswordVaultStore.swift`
 
 ---
 
@@ -63,7 +63,7 @@ cachePassword = newPassword
 ```
 
 **Files Changed:**
-- `/Users/qaantum/Desktop/Project/ios/Cryptatext/Cryptatext/PasswordVaultStore.swift`
+- `/Users/qaantum/Desktop/Project/ios/Ciphio/Ciphio/PasswordVaultStore.swift`
 
 ---
 
@@ -101,7 +101,7 @@ try await store.deleteEntry(id: entry.id)
 ```
 
 **Files Changed:**
-- `/Users/qaantum/Desktop/Project/ios/Cryptatext/CryptatextTests/PasswordVaultStoreTests.swift`
+- `/Users/qaantum/Desktop/Project/ios/Ciphio/CiphioTests/PasswordVaultStoreTests.swift`
 
 ---
 
@@ -155,10 +155,10 @@ try await store.deleteEntry(id: entry.id)
 **Priority:** LOW
 
 **Location:**
-- `android/app/src/main/java/com/cryptatext/passwordmanager/PasswordVaultRepository.kt`
-- `android/app/src/main/java/com/cryptatext/passwordmanager/PasswordManagerViewModel.kt`
-- `android/app/src/main/java/com/cryptatext/passwordmanager/BiometricHelper.kt`
-- `android/app/src/main/java/com/cryptatext/passwordmanager/KeystoreHelper.kt`
+- `android/app/src/main/java/com/ciphio/passwordmanager/PasswordVaultRepository.kt`
+- `android/app/src/main/java/com/ciphio/passwordmanager/PasswordManagerViewModel.kt`
+- `android/app/src/main/java/com/ciphio/passwordmanager/BiometricHelper.kt`
+- `android/app/src/main/java/com/ciphio/passwordmanager/KeystoreHelper.kt`
 
 **Issue:**
 - Extensive `android.util.Log.d()` calls throughout the codebase
@@ -310,7 +310,7 @@ buildTypes {
 
 ### 📋 Manual Testing Checklist
 - [ ] Run Android tests: `cd android && ./gradlew test`
-- [ ] Run iOS tests: `cd ios && xcodebuild test -scheme Cryptatext`
+- [ ] Run iOS tests: `cd ios && xcodebuild test -scheme Ciphio`
 - [ ] Test on real devices (not just simulators)
 - [ ] Test biometric unlock on devices with biometric hardware
 - [ ] Test CSV import from various password managers
@@ -367,7 +367,7 @@ All identified issues have been resolved. The app is ready for testing and deplo
    cd android && ./gradlew test
    
    # iOS
-   cd ios && xcodebuild test -scheme Cryptatext -destination 'platform=iOS Simulator,name=iPhone 15'
+   cd ios && xcodebuild test -scheme Ciphio -destination 'platform=iOS Simulator,name=iPhone 15'
    ```
 3. 📋 **Manual testing** (See NEXT_STEPS.md)
 4. 📋 **Address recommendations** (Optional, before release)

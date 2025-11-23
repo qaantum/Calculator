@@ -4,18 +4,18 @@ Follow these steps in order:
 
 ## ✅ Step 1: Delete Default ContentView.swift
 
-1. In Xcode left sidebar, find `ContentView.swift` (under Cryptatext folder)
+1. In Xcode left sidebar, find `ContentView.swift` (under Ciphio folder)
 2. Right-click on it
 3. Select **"Delete"**
 4. Choose **"Move to Trash"**
 
 ## ✅ Step 2: Add Your Swift Files
 
-1. In Xcode left sidebar, right-click on **"Cryptatext"** folder (blue icon)
-2. Select **"Add Files to 'Cryptatext'..."**
+1. In Xcode left sidebar, right-click on **"Ciphio"** folder (blue icon)
+2. Select **"Add Files to 'Ciphio'..."**
 3. Navigate to: `/Users/qaantum/Desktop/Project/ios`
 4. Select ALL these files (⌘A or click each while holding ⌘):
-   - ✅ `CryptatextApp.swift`
+   - ✅ `CiphioApp.swift`
    - ✅ `ContentView.swift`
    - ✅ `CryptoService.swift`
    - ✅ `PasswordGenerator.swift`
@@ -23,13 +23,13 @@ Follow these steps in order:
    - ✅ `HomeViewModel.swift`
    - ✅ `ThemeOption.swift`
 5. **IMPORTANT**: Uncheck **"Copy items if needed"** (we want to reference, not copy)
-6. **IMPORTANT**: Check **"Add to targets: Cryptatext"**
+6. **IMPORTANT**: Check **"Add to targets: Ciphio"**
 7. Click **"Add"**
 
 ## ✅ Step 3: Set Deployment Target
 
-1. Click on **"Cryptatext"** project name (blue icon at top of left sidebar)
-2. Select **"Cryptatext"** target (under TARGETS section)
+1. Click on **"Ciphio"** project name (blue icon at top of left sidebar)
+2. Select **"Ciphio"** target (under TARGETS section)
 3. Click **"General"** tab
 4. Scroll to **"Deployment Info"** section
 5. Set **iOS** to **13.0** (or higher - required for CryptoKit)
@@ -37,9 +37,9 @@ Follow these steps in order:
 
 ## ✅ Step 4: Verify Entry Point
 
-1. Open `CryptatextApp.swift` in Xcode
+1. Open `CiphioApp.swift` in Xcode
 2. Make sure it has `@main` at the top (it should)
-3. If not, add `@main` before `struct CryptatextApp: App`
+3. If not, add `@main` before `struct CiphioApp: App`
 
 ## ✅ Step 5: Build and Run
 
@@ -52,9 +52,9 @@ Follow these steps in order:
 
 ## 🐛 If You See Errors
 
-### "Cannot find 'CryptatextPalette' in scope"
+### "Cannot find 'CiphioPalette' in scope"
 - **Fix**: Make sure `ThemeOption.swift` is added to target
-- Select `ThemeOption.swift` → File Inspector → Target Membership → Check "Cryptatext"
+- Select `ThemeOption.swift` → File Inspector → Target Membership → Check "Ciphio"
 
 ### "No such module 'CryptoKit'"
 - **Fix**: Set deployment target to iOS 13.0+ (Step 3 above)
@@ -65,14 +65,14 @@ Follow these steps in order:
 
 ### Build errors about missing files
 - **Fix**: Make sure all 7 Swift files are added to target
-- Select each file → File Inspector → Target Membership → Check "Cryptatext"
+- Select each file → File Inspector → Target Membership → Check "Ciphio"
 
 ---
 
 ## ✅ Verification
 
 After adding files, you should see in Xcode:
-- ✅ `CryptatextApp.swift` (with @main)
+- ✅ `CiphioApp.swift` (with @main)
 - ✅ `ContentView.swift`
 - ✅ `CryptoService.swift`
 - ✅ `PasswordGenerator.swift`

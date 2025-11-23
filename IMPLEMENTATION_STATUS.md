@@ -142,7 +142,7 @@
 - `KeychainHelper.swift` - Keychain operations
 - `PasswordVaultStoreTests.swift` - Unit tests
 - `PasswordVaultSecurityTests.swift` - Security tests
-- `CryptatextUITests.swift` - UI test templates
+- `CiphioUITests.swift` - UI test templates
 
 ---
 

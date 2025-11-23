@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.cryptatext"
+    namespace = "com.ciphio.vault"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.cryptatext"
+        applicationId = "com.ciphio.vault"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

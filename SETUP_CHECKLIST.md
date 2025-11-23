@@ -68,15 +68,15 @@ Use this checklist to verify your setup is correct before running the apps.
 ## ✅ Testing Setup Checklist
 
 ### Android Tests
-- [ ] Test files exist in `app/src/test/java/com/cryptatext/`
+- [ ] Test files exist in `app/src/test/java/com/ciphio/`
 - [ ] Test dependencies added to `build.gradle.kts` (JUnit, Truth)
 - [ ] Can run tests: Right-click test file → Run
 - [ ] All tests pass (green checkmarks)
 
 ### iOS Tests
-- [ ] Test target created in Xcode (CryptatextTests)
+- [ ] Test target created in Xcode (CiphioTests)
 - [ ] Test files added to test target
-- [ ] `@testable import Cryptatext` added if needed (replace Cryptatext with your target name)
+- [ ] `@testable import Ciphio` added if needed (replace Ciphio with your target name)
 - [ ] Can run tests: Product → Test or ⌘U
 - [ ] All tests pass (green checkmarks)
 
@@ -110,7 +110,7 @@ cd android
 ```bash
 cd ios
 xcodebuild -list         # Should show available schemes
-xcodebuild -scheme CryptatextApp -destination 'platform=iOS Simulator,name=iPhone 15' build  # Should build
+xcodebuild -scheme CiphioApp -destination 'platform=iOS Simulator,name=iPhone 15' build  # Should build
 ```
 
 ---

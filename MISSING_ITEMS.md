@@ -5,9 +5,9 @@
 ## ✅ Recently Fixed
 
 ### 1. Premium Status Integration (FIXED)
-- **Issue**: `isPremium` was hardcoded in `CryptatextApp.kt` and had a TODO in `PasswordManagerViewModel.kt`
-- **Fix**: Connected `PremiumManager` to `CryptatextApp` and passed premium status to `PasswordManagerApp`
-- **Status**: ✅ **COMPLETE** - Premium status now flows from `PremiumManager` → `CryptatextApp` → `PasswordManagerApp` → `PasswordManagerViewModel`
+- **Issue**: `isPremium` was hardcoded in `CiphioApp.kt` and had a TODO in `PasswordManagerViewModel.kt`
+- **Fix**: Connected `PremiumManager` to `CiphioApp` and passed premium status to `PasswordManagerApp`
+- **Status**: ✅ **COMPLETE** - Premium status now flows from `PremiumManager` → `CiphioApp` → `PasswordManagerApp` → `PasswordManagerViewModel`
 
 ### 2. Composable Calls in Remember Blocks (FIXED)
 - **Issue**: Compilation errors about composable calls inside `remember` blocks
@@ -19,7 +19,7 @@
 ## ⚠️ Known Missing Items
 
 ### 1. Android - Purchase Verification (INTENTIONALLY DEFERRED)
-- **Location**: `android/app/src/main/java/com/cryptatext/premium/PremiumManager.kt`
+- **Location**: `android/app/src/main/java/com/ciphio/premium/PremiumManager.kt`
 - **Issue**: `verifyPurchase()` and `restorePurchases()` are placeholders
 - **Status**: ⏸️ **INTENTIONALLY DEFERRED** - These are placeholders for production
 - **Note**: `BillingManager` handles actual purchase flow. These methods are for server-side verification (optional for production)

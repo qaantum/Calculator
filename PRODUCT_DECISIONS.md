@@ -2,7 +2,7 @@
 
 ## 🎯 Current Status
 
-**App:** Cryptatext - Text Encryption & Password Generator  
+**App:** Ciphio - Text Encryption & Password Generator  
 **Current Features:**
 - ✅ Text encryption/decryption (3 algorithms: GCM, CBC, CTR)
 - ✅ Password generator with strength calculation

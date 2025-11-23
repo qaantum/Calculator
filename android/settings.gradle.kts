@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Cryptatext"
+rootProject.name = "Ciphio"
 include(":app")

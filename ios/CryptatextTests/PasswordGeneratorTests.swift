@@ -1,6 +1,6 @@
 import XCTest
-// Note: If tests are in a separate test target in Xcode, add: @testable import Cryptatext
-// (Replace "Cryptatext" with your actual app target name)
+// Note: If tests are in a separate test target in Xcode, add: @testable import Ciphio
+// (Replace "Ciphio" with your actual app target name)
 
 /**
  * PasswordGeneratorTests

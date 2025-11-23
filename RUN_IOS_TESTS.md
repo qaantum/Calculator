@@ -4,7 +4,7 @@
 
 1. **Open the project:**
    ```bash
-   open ios/Cryptatext/Cryptatext.xcodeproj
+   open ios/Ciphio/Ciphio.xcodeproj
    ```
 
 2. **Select a simulator or device:**
@@ -31,9 +31,9 @@ If you have full Xcode installed (not just command line tools):
 ```bash
 cd ios
 xcodebuild test \
-  -scheme Cryptatext \
+  -scheme Ciphio \
   -destination 'platform=iOS Simulator,name=iPhone 15' \
-  -only-testing:CryptatextTests
+  -only-testing:CiphioTests
 ```
 
 ## Expected Test Results
@@ -51,7 +51,7 @@ xcodebuild test \
   - Data integrity
   - Wrong password rejection
 
-- **CryptatextTests**: Basic app tests
+- **CiphioTests**: Basic app tests
 
 **Total: ~22+ test methods**
 
@@ -59,7 +59,7 @@ xcodebuild test \
 
 ### If tests fail to compile:
 1. Make sure the test target includes all necessary files
-2. Check that `@testable import Cryptatext` works
+2. Check that `@testable import Ciphio` works
 3. Verify Swift Testing framework is available (iOS 18+ or Xcode 15+)
 
 ### If you see "No such module 'Testing'":
@@ -68,7 +68,7 @@ xcodebuild test \
 
 ### If tests can't find PasswordVaultStore:
 - Check that `PasswordVaultStore.swift` is included in the main app target
-- Verify `@testable import Cryptatext` is correct
+- Verify `@testable import Ciphio` is correct
 
 ## Test Coverage
 

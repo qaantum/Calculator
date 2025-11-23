@@ -1,6 +1,6 @@
-# Getting Started with Cryptatext Mobile Apps
+# Getting Started with Ciphio Mobile Apps
 
-Welcome! This guide will walk you through setting up and running the Cryptatext apps step-by-step. Don't worry if you're new to mobile development—we'll explain everything.
+Welcome! This guide will walk you through setting up and running the Ciphio apps step-by-step. Don't worry if you're new to mobile development—we'll explain everything.
 
 > **🔍 Quick Check**: Before starting, you can run `./verify_setup.sh` to check if your environment is set up correctly. (This is optional, but helpful!)
 
@@ -86,9 +86,9 @@ If you see individual Swift files but no project:
 1. In Xcode: File → New → Project
 2. Choose **iOS** → **App**
 3. Fill in:
-   - Product Name: `Cryptatext`
+   - Product Name: `Ciphio`
    - Team: Your Apple ID (or "None" for simulator only)
-   - Organization Identifier: `com.cryptatext`
+   - Organization Identifier: `com.ciphio`
    - Interface: **SwiftUI**
    - Language: **Swift**
 4. Save it in the `ios` folder
@@ -97,11 +97,11 @@ If you see individual Swift files but no project:
 ### Step 4: Set Up Tests (Optional but Recommended)
 1. In Xcode: File → New → Target
 2. Choose **iOS** → **Unit Testing Bundle**
-3. Name it `CryptatextTests`
-4. Add the test files from `ios/CryptatextTests/` to this target
+3. Name it `CiphioTests`
+4. Add the test files from `ios/CiphioTests/` to this target
 5. If tests don't compile, add this line at the top of each test file:
    ```swift
-   @testable import Cryptatext
+   @testable import Ciphio
    ```
 
 ### Step 5: Run the App
@@ -118,7 +118,7 @@ If you see individual Swift files but no project:
 > **💡 Tip**: You can also run `./verify_setup.sh` from the project root to automatically check your setup!
 
 ### Android Verification
-1. **App launches**: You should see the Cryptatext home screen
+1. **App launches**: You should see the Ciphio home screen
 2. **Test encryption**:
    - Type some text in the input field
    - Enter a password
@@ -135,7 +135,7 @@ If you see individual Swift files but no project:
    - The strength indicator should show (Weak/Moderate/Strong/Very Strong)
 
 ### iOS Verification
-1. **App launches**: You should see the Cryptatext home screen
+1. **App launches**: You should see the Ciphio home screen
 2. **Test encryption**: Same as Android above
 3. **Test password generator**: Same as Android above
 
@@ -145,7 +145,7 @@ If you see individual Swift files but no project:
 
 ### Android Tests
 1. In Android Studio, open the **Project** view (left sidebar)
-2. Navigate to: `app/src/test/java/com/cryptatext/`
+2. Navigate to: `app/src/test/java/com/ciphio/`
 3. Right-click on a test file (e.g., `CryptoServiceTest.kt`)
 4. Click **"Run 'CryptoServiceTest'"**
 5. Or run all tests: Right-click the `test` folder → **"Run Tests"**
@@ -205,8 +205,8 @@ cd android
 **Problem: Tests can't find classes**
 - **Solution**: 
   1. Make sure test files are in the test target (check Target Membership in File Inspector)
-  2. Add `@testable import Cryptatext` at the top of test files
-  3. Replace `Cryptatext` with your actual app target name
+  2. Add `@testable import Ciphio` at the top of test files
+  3. Replace `Ciphio` with your actual app target name
 
 ---
 
@@ -235,7 +235,7 @@ android/
 ├── app/
 │   ├── src/
 │   │   ├── main/          ← Your app code lives here
-│   │   │   ├── java/com/cryptatext/
+│   │   │   ├── java/com/ciphio/
 │   │   │   │   ├── crypto/        ← Encryption logic
 │   │   │   │   ├── password/      ← Password generator
 │   │   │   │   ├── ui/            ← All screens and UI
@@ -252,7 +252,7 @@ ios/
 ├── HomeViewModel.swift      ← Business logic
 ├── ContentView.swift        ← All screens and UI
 ├── HistoryStore.swift       ← Storage (history, settings)
-└── CryptatextTests/        ← Unit tests
+└── CiphioTests/        ← Unit tests
 ```
 
 ---

@@ -20,15 +20,15 @@
 - **Location**: Input text field
 - **How it works**:
   - Copy text from WhatsApp/anywhere
-  - Open Cryptatext
+  - Open Ciphio
   - Tap "Paste" button
   - Text appears in input field
 
 #### 3. **Receive Shared Text (Android)** ✅
-- **Android**: Share text from WhatsApp/other apps to Cryptatext
+- **Android**: Share text from WhatsApp/other apps to Ciphio
 - **How it works**:
   - In WhatsApp, tap "Share" on a message
-  - Select "Cryptatext" from share menu
+  - Select "Ciphio" from share menu
   - App opens with text in input field
   - Ready to encrypt/decrypt
 

@@ -1,4 +1,4 @@
-# Monetization Strategy for Cryptatext
+# Monetization Strategy for Ciphio
 
 ## 💰 Monetization Options
 

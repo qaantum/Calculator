@@ -75,8 +75,8 @@ Your password manager scrolling issue has been **completely fixed** with major p
 
 ## 📝 Files Changed
 
-- ✅ `ios/Cryptatext/Cryptatext/PasswordManagerListView.swift`
-- ✅ `android/app/src/main/java/com/cryptatext/passwordmanager/PasswordManagerViewModel.kt`
+- ✅ `ios/Ciphio/Ciphio/PasswordManagerListView.swift`
+- ✅ `android/app/src/main/java/com/ciphio/passwordmanager/PasswordManagerViewModel.kt`
 
 ---
 

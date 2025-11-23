@@ -77,19 +77,19 @@
 3. `IMPROVEMENTS_SUMMARY.md` - This file
 
 ### Modified
-1. `android/app/src/main/java/com/cryptatext/passwordmanager/PasswordManagerScreens.kt`
+1. `android/app/src/main/java/com/ciphio/passwordmanager/PasswordManagerScreens.kt`
    - Optimized LazyColumn rendering
    - Added search debouncing
    - Improved empty state with button
    - Moved dialogs outside LazyColumn
 
-2. `android/app/src/main/java/com/cryptatext/passwordmanager/PasswordManagerViewModel.kt`
+2. `android/app/src/main/java/com/ciphio/passwordmanager/PasswordManagerViewModel.kt`
    - Optimized filtering logic
    - Single-pass filtering
    - Pre-computed lowercase query
    - Early exit for no filters
 
-3. `ios/Cryptatext/Cryptatext/PasswordManagerListView.swift`
+3. `ios/Ciphio/Ciphio/PasswordManagerListView.swift`
    - Optimized filtering logic
    - Fixed filtering bug
    - Disabled autocorrection

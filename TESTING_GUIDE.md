@@ -8,7 +8,7 @@ This document describes all the tests available for the Password Manager feature
 
 #### Unit Tests
 
-**Location:** `android/app/src/test/java/com/cryptatext/passwordmanager/`
+**Location:** `android/app/src/test/java/com/ciphio/passwordmanager/`
 
 1. **PasswordVaultRepositoryTest.kt**
    - Tests CRUD operations (Create, Read, Update, Delete)
@@ -40,7 +40,7 @@ This document describes all the tests available for the Password Manager feature
 
 #### UI Tests
 
-**Location:** `android/app/src/androidTest/java/com/cryptatext/passwordmanager/`
+**Location:** `android/app/src/androidTest/java/com/ciphio/passwordmanager/`
 
 1. **PasswordManagerUITest.kt**
    - Test structure for UI flows:
@@ -57,7 +57,7 @@ This document describes all the tests available for the Password Manager feature
 
 #### Unit Tests
 
-**Location:** `ios/Cryptatext/CryptatextTests/`
+**Location:** `ios/Ciphio/CiphioTests/`
 
 1. **PasswordVaultStoreTests.swift**
    - Tests CRUD operations
@@ -80,9 +80,9 @@ This document describes all the tests available for the Password Manager feature
 
 #### UI Tests
 
-**Location:** `ios/Cryptatext/CryptatextUITests/`
+**Location:** `ios/Ciphio/CiphioUITests/`
 
-1. **CryptatextUITests.swift**
+1. **CiphioUITests.swift**
    - Test structure for UI flows:
      - App launch
      - Password manager tab navigation
@@ -105,9 +105,9 @@ cd android
 
 #### Run Specific Test Class
 ```bash
-./gradlew test --tests "com.cryptatext.passwordmanager.PasswordVaultRepositoryTest"
-./gradlew test --tests "com.cryptatext.passwordmanager.CsvImportTest"
-./gradlew test --tests "com.cryptatext.passwordmanager.PasswordVaultSecurityTest"
+./gradlew test --tests "com.ciphio.passwordmanager.PasswordVaultRepositoryTest"
+./gradlew test --tests "com.ciphio.passwordmanager.CsvImportTest"
+./gradlew test --tests "com.ciphio.passwordmanager.PasswordVaultSecurityTest"
 ```
 
 #### Run UI Tests (requires emulator/device)
@@ -131,7 +131,7 @@ cd android
 #### Run Tests from Command Line
 ```bash
 cd ios
-xcodebuild test -scheme Cryptatext -destination 'platform=iOS Simulator,name=iPhone 15'
+xcodebuild test -scheme Ciphio -destination 'platform=iOS Simulator,name=iPhone 15'
 ```
 
 #### Run Specific Test Suite

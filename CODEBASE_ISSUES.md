@@ -3,14 +3,14 @@
 ## 🔴 Critical Issues
 
 ### 1. **iOS App Store ID Placeholder**
-**Location:** `ios/Cryptatext/Cryptatext/CryptatextApp.swift:88`
+**Location:** `ios/Ciphio/Ciphio/CiphioApp.swift:88`
 **Issue:** Placeholder `"YOUR_APP_STORE_ID"` will cause App Store link to fail
 **Fix:** Replace with actual App Store ID when app is published
 
 ### 2. **Beta Expiration Hardcoded**
 **Location:** 
 - `android/app/build.gradle.kts:25` - `IS_BETA = true`
-- `ios/Cryptatext/Cryptatext/CryptatextApp.swift:9` - `isBeta = true`
+- `ios/Ciphio/Ciphio/CiphioApp.swift:9` - `isBeta = true`
 **Issue:** Beta expiration is always enabled, even for production builds
 **Fix:** Set to `false` for production releases
 
@@ -19,7 +19,7 @@
 ## ⚠️ Important Issues
 
 ### 3. **Unused Imports in MainActivity** ✅ FIXED
-**Location:** `android/app/src/main/java/com/cryptatext/MainActivity.kt:4,7`
+**Location:** `android/app/src/main/java/com/ciphio/MainActivity.kt:4,7`
 **Issue:** `PackageManager` and `Activity` are imported but never used
 **Fix:** Remove unused imports
 
@@ -35,7 +35,7 @@
 **Note:** This is fine for now since `isMinifyEnabled = false`, but should be populated if enabling minification
 
 ### 6. **Missing Error Handling for Play Store Intent** ✅ FIXED
-**Location:** `android/app/src/main/java/com/cryptatext/MainActivity.kt:68-82`
+**Location:** `android/app/src/main/java/com/ciphio/MainActivity.kt:68-82`
 **Issue:** If both Play Store app and browser fail, app will crash
 **Fix:** Added try-catch blocks and fallback to browser/graceful failure
 
@@ -58,7 +58,7 @@
 
 ### 11. **No Deep Linking Configuration** ✅ FIXED
 **Issue:** App can receive shared text, but no deep linking for encrypted text URLs
-**Suggestion:** Implemented `cryptatext://` scheme on Android and iOS
+**Suggestion:** Implemented `ciphio://` scheme on Android and iOS
 
 ---
 

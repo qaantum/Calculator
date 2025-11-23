@@ -20,8 +20,8 @@
 The iOS deployment target is currently set to 18.5, which is incorrect. Here's how to fix it:
 
 ### In Xcode:
-1. Click on **"Cryptatext"** project (blue icon at top of left sidebar)
-2. Select **"Cryptatext"** target (under TARGETS section)
+1. Click on **"Ciphio"** project (blue icon at top of left sidebar)
+2. Select **"Ciphio"** target (under TARGETS section)
 3. Click **"General"** tab
 4. Scroll to **"Deployment Info"** section
 5. Set **iOS** to **13.0** (or higher)

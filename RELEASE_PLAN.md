@@ -1,6 +1,6 @@
-# Release Plan for Cryptatext
+# Release Plan for Ciphio
 
-This document outlines the steps required to prepare and release Cryptatext for Android and iOS.
+This document outlines the steps required to prepare and release Ciphio for Android and iOS.
 
 ## 1. Pre-Release Checklist
 
@@ -19,7 +19,7 @@ This document outlines the steps required to prepare and release Cryptatext for 
 - [ ] **Play Store**: Create a Google Play Developer account and set up the app listing.
 
 ### iOS
-- [ ] **App Store ID**: Replace placeholder `YOUR_APP_STORE_ID` in `CryptatextApp.swift` (if used for "Rate Us") or `Info.plist`.
+- [ ] **App Store ID**: Replace placeholder `YOUR_APP_STORE_ID` in `CiphioApp.swift` (if used for "Rate Us") or `Info.plist`.
 - [ ] **Signing**: Configure "Signing & Capabilities" in Xcode with a valid Apple Developer Team.
 - [ ] **Icons**: Ensure all App Icon sizes are populated in `Assets.xcassets`.
 
@@ -34,7 +34,7 @@ cd android
 Output: `android/app/build/outputs/bundle/release/app-release.aab`
 
 ### iOS (IPA)
-1. Open `ios/Cryptatext/Cryptatext.xcodeproj` in Xcode.
+1. Open `ios/Ciphio/Ciphio.xcodeproj` in Xcode.
 2. Select "Any iOS Device (arm64)".
 3. Go to **Product > Archive**.
 4. Once archived, use the **Distribute App** flow to upload to App Store Connect or export an IPA.
@@ -42,10 +42,10 @@ Output: `android/app/build/outputs/bundle/release/app-release.aab`
 ## 3. Monetization Setup (Implemented)
 The app now uses **Real In-App Purchases**:
 1. **Android**: Google Play Billing Library is integrated (`RealPremiumManager.kt`).
-   - **Action**: Ensure Product ID `com.cryptatext.premium` is created in Google Play Console.
+   - **Action**: Ensure Product ID `com.ciphio.premium` is created in Google Play Console.
    - **Action**: Add license testers in Play Console to test without being charged.
 2. **iOS**: StoreKit 2 is integrated (`PremiumManager.swift`).
-   - **Action**: Ensure Product ID `com.cryptatext.premium` is created in App Store Connect.
+   - **Action**: Ensure Product ID `com.ciphio.premium` is created in App Store Connect.
    - **Action**: Use a StoreKit Configuration File for local testing or TestFlight for beta testing.
 
 ## 4. Post-Release

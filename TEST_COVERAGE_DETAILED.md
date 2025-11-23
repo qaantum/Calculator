@@ -7,7 +7,7 @@ This document lists all test methods implemented for the Password Manager featur
 ## 📱 Android Tests
 
 ### Unit Tests Location
-`android/app/src/test/java/com/cryptatext/passwordmanager/`
+`android/app/src/test/java/com/ciphio/passwordmanager/`
 
 ---
 
@@ -132,7 +132,7 @@ This document lists all test methods implemented for the Password Manager featur
 ---
 
 ### UI Tests Location
-`android/app/src/androidTest/java/com/cryptatext/passwordmanager/`
+`android/app/src/androidTest/java/com/ciphio/passwordmanager/`
 
 ---
 
@@ -171,7 +171,7 @@ This document lists all test methods implemented for the Password Manager featur
 ## 🍎 iOS Tests
 
 ### Unit Tests Location
-`ios/Cryptatext/CryptatextTests/`
+`ios/Ciphio/CiphioTests/`
 
 ---
 
@@ -258,11 +258,11 @@ This document lists all test methods implemented for the Password Manager featur
 ---
 
 ### UI Tests Location
-`ios/Cryptatext/CryptatextUITests/`
+`ios/Ciphio/CiphioUITests/`
 
 ---
 
-### 3. CryptatextUITests.swift
+### 3. CiphioUITests.swift
 **Purpose:** UI test structure for user flows
 
 #### Test Methods (Templates):
@@ -368,23 +368,23 @@ This document lists all test methods implemented for the Password Manager featur
 
 ### Android
 ```
-android/app/src/test/java/com/cryptatext/passwordmanager/
+android/app/src/test/java/com/ciphio/passwordmanager/
 ├── PasswordVaultRepositoryTest.kt      (14 tests)
 ├── CsvImportTest.kt                     (8 tests)
 └── PasswordVaultSecurityTest.kt         (10 tests)
 
-android/app/src/androidTest/java/com/cryptatext/passwordmanager/
+android/app/src/androidTest/java/com/ciphio/passwordmanager/
 └── PasswordManagerUITest.kt             (8 templates)
 ```
 
 ### iOS
 ```
-ios/Cryptatext/CryptatextTests/
+ios/Ciphio/CiphioTests/
 ├── PasswordVaultStoreTests.swift        (13 tests)
 └── PasswordVaultSecurityTests.swift     (9 tests)
 
-ios/Cryptatext/CryptatextUITests/
-└── CryptatextUITests.swift              (11 templates)
+ios/Ciphio/CiphioUITests/
+└── CiphioUITests.swift              (11 templates)
 ```
 
 ---
@@ -406,7 +406,7 @@ cd android
 # In Xcode: Press ⌘ + U
 # Or command line:
 cd ios
-xcodebuild test -scheme Cryptatext
+xcodebuild test -scheme Ciphio
 ```
 
 ---

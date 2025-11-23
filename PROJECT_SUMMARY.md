@@ -1,8 +1,8 @@
-# Cryptatext Mobile Apps — Summary
+# Ciphio Mobile Apps — Summary
 
 ## Project overview
 
-Native Android (Kotlin/Jetpack Compose) and iOS (Swift/SwiftUI) implementations of Cryptatext, a client-side encryption and password generation tool. Both apps match the Firebase Studio web app design and run entirely offline.
+Native Android (Kotlin/Jetpack Compose) and iOS (Swift/SwiftUI) implementations of Ciphio, a client-side encryption and password generation tool. Both apps match the Firebase Studio web app design and run entirely offline.
 
 ---
 
@@ -96,7 +96,7 @@ android/
 │   ├── build.gradle.kts          # Dependencies (Compose, DataStore, BouncyCastle)
 │   ├── src/main/
 │   │   ├── AndroidManifest.xml
-│   │   ├── java/com/cryptatext/
+│   │   ├── java/com/ciphio/
 │   │   │   ├── crypto/
 │   │   │   │   └── CryptoService.kt        # AES-GCM/CBC/CTR encryption logic
 │   │   │   ├── password/
@@ -107,14 +107,14 @@ android/
 │   │   │   │   ├── UserPreferencesRepository.kt  # Theme + password prefs
 │   │   │   │   └── DataStoreExt.kt         # DataStore extension
 │   │   │   ├── ui/
-│   │   │   │   ├── CryptatextApp.kt        # Main app + navigation setup
+│   │   │   │   ├── CiphioApp.kt        # Main app + navigation setup
 │   │   │   │   ├── HomeScreen.kt           # All UI screens (encryption, password, history, settings)
 │   │   │   │   ├── HomeViewModel.kt        # Business logic + state management
 │   │   │   │   ├── HomeUiState.kt          # State data classes
 │   │   │   │   ├── HomeViewModelFactory.kt
 │   │   │   │   └── theme/
 │   │   │   │       ├── Theme.kt            # Theme composable
-│   │   │   │       ├── Color.kt            # Cryptatext color palette
+│   │   │   │       ├── Color.kt            # Ciphio color palette
 │   │   │   │       ├── Typography.kt        # Custom typography
 │   │   │   │       └── Shape.kt            # Corner radius definitions
 │   │   │   └── navigation/
@@ -128,13 +128,13 @@ android/
 
 ```
 ios/
-├── CryptatextApp.swift            # @main entry point
+├── CiphioApp.swift            # @main entry point
 ├── ContentView.swift              # Main UI (tabs, navigation, all screens)
 ├── HomeViewModel.swift            # ObservableObject with business logic
 ├── CryptoService.swift            # AES-GCM/CBC/CTR encryption logic
 ├── PasswordGenerator.swift        # CSPRNG password generation + entropy
 ├── HistoryStore.swift             # UserDefaults-backed history storage
-└── ThemeOption.swift              # Theme enum + CryptatextPalette + Environment
+└── ThemeOption.swift              # Theme enum + CiphioPalette + Environment
 ```
 
 ---
@@ -231,11 +231,11 @@ ios/
 
 ## Key files to know
 
-- Android entry: `android/app/src/main/java/com/cryptatext/MainActivity.kt`
-- iOS entry: `ios/CryptatextApp.swift`
-- Android UI: `android/app/src/main/java/com/cryptatext/ui/HomeScreen.kt`
+- Android entry: `android/app/src/main/java/com/ciphio/MainActivity.kt`
+- iOS entry: `ios/CiphioApp.swift`
+- Android UI: `android/app/src/main/java/com/ciphio/ui/HomeScreen.kt`
 - iOS UI: `ios/ContentView.swift`
-- Android crypto: `android/app/src/main/java/com/cryptatext/crypto/CryptoService.kt`
+- Android crypto: `android/app/src/main/java/com/ciphio/crypto/CryptoService.kt`
 - iOS crypto: `ios/CryptoService.swift`
 
 ---

@@ -10,9 +10,9 @@
 1. In Xcode: **File** → **New** → **Project**
 2. Choose **iOS** → **App** (or **Multiplatform** → **App** if you want iOS + macOS)
 3. Fill in:
-   - **Product Name**: `Cryptatext`
+   - **Product Name**: `Ciphio`
    - **Team**: Your Apple ID (or "None" for simulator only)
-   - **Organization Identifier**: `com.cryptatext`
+   - **Organization Identifier**: `com.ciphio`
    - **Interface**: **SwiftUI**
    - **Language**: **Swift**
    - **Storage**: **None** (we're using UserDefaults)
@@ -29,10 +29,10 @@
 
 ### Step 3: Add Existing Swift Files
 1. In Xcode, right-click on the project name in the left sidebar
-2. Select **Add Files to "Cryptatext"...**
+2. Select **Add Files to "Ciphio"...**
 3. Navigate to the `ios` folder
 4. Select all Swift files:
-   - `CryptatextApp.swift`
+   - `CiphioApp.swift`
    - `ContentView.swift`
    - `CryptoService.swift`
    - `PasswordGenerator.swift`
@@ -40,18 +40,18 @@
    - `HomeViewModel.swift`
    - `ThemeOption.swift`
 5. Make sure **"Copy items if needed"** is **unchecked**
-6. Make sure **"Add to targets: Cryptatext"** is **checked**
+6. Make sure **"Add to targets: Ciphio"** is **checked**
 7. Click **Add**
 
 ### Step 4: Replace Default App File
 1. Delete the default `ContentView.swift` that Xcode created (if it exists)
-2. Make sure `CryptatextApp.swift` is set as the entry point:
-   - Check that `CryptatextApp.swift` has `@main` attribute
-   - If not, add it: `@main` before `struct CryptatextApp: App`
+2. Make sure `CiphioApp.swift` is set as the entry point:
+   - Check that `CiphioApp.swift` has `@main` attribute
+   - If not, add it: `@main` before `struct CiphioApp: App`
 
 ### Step 5: Set Deployment Target
 1. Click on the project name in left sidebar
-2. Select the **Cryptatext** target
+2. Select the **Ciphio** target
 3. Go to **General** tab
 4. Under **Deployment Info**:
    - **iOS**: Set to **13.0** or higher (required for CryptoKit)
@@ -82,7 +82,7 @@ This opens the folder in Xcode. Then follow **Option 1** to create the project.
 
 Once the app is running:
 
-- [ ] **App launches** - You should see the Cryptatext home screen
+- [ ] **App launches** - You should see the Ciphio home screen
 - [ ] **Text Encryption tab**:
   - [ ] Type text in "Input Text" field
   - [ ] Enter a password in "Secret Key"
@@ -115,13 +115,13 @@ Once the app is running:
 - **Fix**: Set deployment target to iOS 13.0+ (CryptoKit requires iOS 13+)
 - Project → Target → General → Deployment Info → iOS 13.0
 
-### "Cannot find 'CryptatextPalette' in scope"
+### "Cannot find 'CiphioPalette' in scope"
 - **Fix**: Make sure `ThemeOption.swift` is added to the target
 - Check Target Membership in File Inspector
 
 ### Build errors about missing files
 - **Fix**: Make sure all Swift files are added to the target
-- Select file → File Inspector → Target Membership → Check "Cryptatext"
+- Select file → File Inspector → Target Membership → Check "Ciphio"
 
 ### Simulator won't launch
 - **Fix**: Xcode → Settings → Platforms → Download iOS Simulator runtime

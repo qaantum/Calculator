@@ -1,8 +1,8 @@
-# Cryptatext: Launch Milestones & Goals
+# Ciphio: Launch Milestones & Goals
 
 **Project Start:** November 2024  
 **Target Launch:** Week 3  
-**Mission:** Successfully launch and scale Cryptatext to 10K+ users and profitability
+**Mission:** Successfully launch and scale Ciphio to 10K+ users and profitability
 
 ---
 
@@ -97,7 +97,7 @@
 #### Week 2: Website & Submission
 
 **Day 6-8: Product Website** 🌐
-- [ ] Register domain (cryptatext.app or .io)
+- [ ] Register domain (ciphio.com) ✅
 - [ ] Set up hosting (Netlify/Vercel)
 - [ ] Build landing page:
   - Hero section with demo video
@@ -158,8 +158,8 @@
 
 **Day 11-14: Launch Preparation** 🚀
 - [ ] Create social media accounts:
-  - [ ] Twitter/X (@CryptatextApp)
-  - [ ] Reddit (u/CryptatextApp)
+  - [ ] Twitter/X (@CiphioApp)
+  - [ ] Reddit (u/CiphioApp)
   - [ ] Optional: Discord server
 - [ ] Write launch content:
   - [ ] Product Hunt launch post
@@ -173,7 +173,7 @@
   - [ ] Press kit with assets
   - [ ] Outreach email template
 - [ ] Set up support:
-  - [ ] Support email (support@cryptatext.app)
+  - [ ] Support email (support@ciphio.com)
   - [ ] FAQ document
   - [ ] Refund policy
 
@@ -242,7 +242,7 @@
 ---
 
 **12:00 PM EST: HackerNews Launch** 💻
-- [ ] Post "Show HN: Cryptatext – Offline-first text encryption + password manager"
+- [ ] Post "Show HN: Ciphio – Offline-first text encryption + password manager"
 - [ ] Respond to every question within 1 hour
 - [ ] Be technical, honest, and humble
 - [ ] Share technical details if asked
@@ -258,7 +258,7 @@
 - [ ] Post to r/selfhosted (3:00 PM)
   - Title: "Offline-first password manager with text encryption"
 - [ ] Post to r/androidapps (4:00 PM)
-  - Title: "New app: Cryptatext (encryption + passwords)"
+  - Title: "New app: Ciphio (encryption + passwords)"
 - [ ] Post to r/cryptocurrency (5:00 PM)
   - Title: "Secure seed phrase storage + password manager"
 
@@ -327,7 +327,7 @@
 
 **Weekly Tasks:**
 - [ ] Publish 2 blog posts:
-  1. "Why I Built Cryptatext" (founder story)
+  1. "Why I Built Ciphio" (founder story)
   2. "How to Encrypt Your Crypto Seed Phrases"
 - [ ] Engage in 5 relevant Reddit threads
 - [ ] Tweet 3x per week (tips, updates, behind-scenes)
@@ -352,7 +352,7 @@
 **Content Marketing:**
 - [ ] Blog post: "AES Encryption Explained"
 - [ ] Blog post: "5 Reasons for Offline Password Managers"
-- [ ] Create Twitter thread: "How Cryptatext Works"
+- [ ] Create Twitter thread: "How Ciphio Works"
 - [ ] Guest post on privacy blog (reach out)
 
 **Community Engagement:**
@@ -381,7 +381,7 @@
 - [ ] Reach out to privacy YouTubers (5 channels)
 - [ ] Sponsor privacy podcast ($100-200)
 - [ ] Submit to app review sites (10 sites)
-- [ ] Create comparison content: "Cryptatext vs 1Password"
+- [ ] Create comparison content: "Ciphio vs 1Password"
 
 **User Research:**
 - [ ] Email 10 power users for interviews
@@ -418,8 +418,8 @@
 - [ ] Set Month 2 goals
 
 **Marketing:**
-- [ ] Case study: "How [User] uses Cryptatext"
-- [ ] Infographic: "Cryptatext by the numbers"
+- [ ] Case study: "How [User] uses Ciphio"
+- [ ] Infographic: "Ciphio by the numbers"
 - [ ] Month 1 retrospective blog post
 - [ ] Thank all early supporters publicly
 
@@ -610,7 +610,7 @@
 
 ## 🌟 M6: Scale & Expand (Month 7-12)
 
-**Goal:** Establish Cryptatext as a recognized brand and scale to 25K+ users
+**Goal:** Establish Ciphio as a recognized brand and scale to 25K+ users
 
 **Duration:** 24 weeks (Month 7-12)  
 **Downloads Target:** 25,000 cumulative (15,000 new)  

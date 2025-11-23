@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Cryptatext Setup Verification Script
+# Ciphio Setup Verification Script
 # This script helps verify that your development environment is set up correctly.
 
-echo "🔍 Cryptatext Setup Verification"
+echo "🔍 Ciphio Setup Verification"
 echo "================================"
 echo ""
 
@@ -70,7 +70,7 @@ if [ -d "ios" ]; then
     echo -e "${GREEN}✓${NC} iOS folder found"
     
     # Check if Swift files exist
-    SWIFT_FILES=$(find ios -name "*.swift" -not -path "*/CryptatextTests/*" | wc -l)
+    SWIFT_FILES=$(find ios -name "*.swift" -not -path "*/CiphioTests/*" | wc -l)
     if [ "$SWIFT_FILES" -gt 0 ]; then
         echo -e "${GREEN}✓${NC} Found $SWIFT_FILES Swift source files"
     else

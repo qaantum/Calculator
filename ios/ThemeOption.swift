@@ -32,7 +32,7 @@ enum ThemeOption: String, CaseIterable, Identifiable {
     }
 }
 
-struct CryptatextPalette {
+struct CiphioPalette {
     let background: Color
     let foreground: Color
     let card: Color
@@ -49,7 +49,7 @@ struct CryptatextPalette {
     let muted: Color
     let mutedForeground: Color
 
-    static let light = CryptatextPalette(
+    static let light = CiphioPalette(
         background = Color(hex: 0xF5F7F8),
         foreground = Color(hex: 0x2D3A47),
         card = Color.white,
@@ -67,7 +67,7 @@ struct CryptatextPalette {
         mutedForeground = Color(hex: 0x596677)
     )
 
-    static let dark = CryptatextPalette(
+    static let dark = CiphioPalette(
         background = Color(hex: 0x111820),
         foreground = Color(hex: 0xDDE1E6),
         card = Color(hex: 0x1A242E),
@@ -85,19 +85,19 @@ struct CryptatextPalette {
         mutedForeground = Color(hex: 0x9BA7B4)
     )
 
-    static func palette(for colorScheme: ColorScheme) -> CryptatextPalette {
+    static func palette(for colorScheme: ColorScheme) -> CiphioPalette {
         colorScheme == .dark ? .dark : .light
     }
 }
 
-private struct CryptatextPaletteKey: EnvironmentKey {
-    static let defaultValue: CryptatextPalette = .light
+private struct CiphioPaletteKey: EnvironmentKey {
+    static let defaultValue: CiphioPalette = .light
 }
 
 extension EnvironmentValues {
-    var cryptatextPalette: CryptatextPalette {
-        get { self[CryptatextPaletteKey.self] }
-        set { self[CryptatextPaletteKey.self] = newValue }
+    var ciphioPalette: CiphioPalette {
+        get { self[CiphioPaletteKey.self] }
+        set { self[CiphioPaletteKey.self] = newValue }
     }
 }
 

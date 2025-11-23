@@ -1,4 +1,4 @@
-# Cryptatext Launch Plan
+# Ciphio Launch Plan
 
 **Decision Date:** November 2024  
 **Recommendation:** 🚀 **Launch NOW (Option A)**
@@ -32,7 +32,7 @@
 #### App Store Optimization (ASO)
 **iOS App Store:**
 ```
-App Name: Cryptatext: Encryption & Passwords
+App Name: Ciphio: Encryption & Passwords
 Subtitle: Secure Text Encryption & Password Manager
 Keywords: encryption, password manager, secure notes, privacy, 
          offline password, text encryption, AES encryption, 
@@ -83,7 +83,7 @@ Free tier includes:
 
 **Android Google Play:**
 ```
-Title: Cryptatext - Encryption & Passwords
+Title: Ciphio - Encryption & Passwords
 Short Description: 
 Secure text encryption + password manager. Privacy-first, 
 offline-capable. No cloud required.
@@ -105,7 +105,7 @@ Content Rating: Everyone
 
 **Demo Video Script (30 seconds):**
 ```
-[0-5s] "Introducing Cryptatext - the only app with encryption + passwords"
+[0-5s] "Introducing Ciphio - the only app with encryption + passwords"
 [5-10s] Show text encryption in action
 [10-15s] Show password manager with biometric unlock
 [15-20s] Show password generator
@@ -114,7 +114,7 @@ Content Rating: Everyone
 ```
 
 #### Product Website (Essential)
-**Domain:** cryptatext.app or cryptatext.io
+**Domain:** ciphio.com
 **Pages:**
 - Home (features, download buttons, video)
 - Features (detailed breakdown)
@@ -148,8 +148,8 @@ Content Rating: Everyone
 
 #### Tuesday-Wednesday: Community Preparation
 - [ ] Set up social media accounts
-  - Twitter/X: @CryptatextApp
-  - Reddit: u/CryptatextApp
+  - Twitter/X: @CiphioApp
+  - Reddit: u/CiphioApp
   - Discord/Telegram community server (optional)
 - [ ] Write launch blog post on website
 - [ ] Prepare Product Hunt launch (schedule for Friday)
@@ -167,7 +167,7 @@ Content Rating: Everyone
 
 **Morning (9-10 AM EST):**
 1. ✅ Product Hunt launch
-   - Title: "Cryptatext - Text Encryption + Password Manager"
+   - Title: "Ciphio - Text Encryption + Password Manager"
    - Tagline: "The only app that combines AES encryption with password management"
    - First comment: Explain the unique value prop
    - Respond to all comments within 1 hour
@@ -175,7 +175,7 @@ Content Rating: Everyone
 
 **Midday (12-2 PM EST):**
 2. ✅ HackerNews "Show HN"
-   - Title: "Show HN: Cryptatext – Offline-first text encryption + password manager"
+   - Title: "Show HN: Ciphio – Offline-first text encryption + password manager"
    - Post: Honest, technical, explain why you built it
    - Respond to all questions personally
    - Be humble, receptive to feedback
@@ -184,8 +184,8 @@ Content Rating: Everyone
 3. ✅ Reddit Posts (spaced 1 hour apart):
    - r/privacy: "Built a privacy-first encryption + password app (no cloud)"
    - r/selfhosted: "Offline-first password manager + text encryption"
-   - r/androidapps: "New app: Cryptatext (encryption + passwords)"
-   - r/iOSthemes: "Cryptatext launched: Secure text encryption + passwords"
+   - r/androidapps: "New app: Ciphio (encryption + passwords)"
+   - r/iOSthemes: "Ciphio launched: Secure text encryption + passwords"
    - r/cryptocurrency: "Encrypted seed phrase storage + password manager"
 
 **Evening:**
@@ -217,7 +217,7 @@ Content Rating: Everyone
 
 #### Content Marketing (Ongoing)
 **Week 1 Blog Posts:**
-1. "Why I Built Cryptatext: Privacy-First Encryption + Passwords"
+1. "Why I Built Ciphio: Privacy-First Encryption + Passwords"
 2. "How to Encrypt Your Cryptocurrency Seed Phrases Securely"
 3. "5 Reasons to Use an Offline Password Manager"
 

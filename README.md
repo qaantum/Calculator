@@ -1,4 +1,4 @@
-# Cryptatext
+# Ciphio
 
 **The only app that combines professional-grade text encryption with a full-featured password manager.**
 
@@ -38,9 +38,9 @@
 ```
 Project/
 ├── android/                 # Android app (Kotlin + Jetpack Compose)
-│   └── app/src/main/java/com/cryptatext/
+│   └── app/src/main/java/com/ciphio/
 ├── ios/                     # iOS app (Swift + SwiftUI)
-│   └── Cryptatext/Cryptatext/
+│   └── Ciphio/Ciphio/
 ├── BUSINESS_STRATEGY.md     # Market analysis & monetization
 ├── FEATURE_PARITY.md        # Platform feature comparison
 ├── LAUNCH_PLAN.md           # Detailed launch strategy
@@ -196,10 +196,10 @@ This is proprietary software. Unauthorized copying, modification, or distributio
 
 ## 📞 Contact
 
-- **Website:** [Coming Soon]
-- **Support:** support@cryptatext.app (coming soon)
-- **Twitter:** [@CryptatextApp](https://twitter.com/CryptatextApp) (coming soon)
-- **Reddit:** [u/CryptatextApp](https://reddit.com/u/CryptatextApp) (coming soon)
+- **Website:** https://ciphio.com
+- **Support:** support@ciphio.com (coming soon)
+- **Twitter:** [@CiphioApp](https://twitter.com/CiphioApp) (coming soon)
+- **Reddit:** [u/CiphioApp](https://reddit.com/u/CiphioApp) (coming soon)
 
 ---
 

@@ -605,7 +605,7 @@ if let error = errorMessage {
 ## 🎨 Visual Design Consistency
 
 ### Color System
-- ✅ **Both use custom palette** - `CryptatextPalette` / `LocalCryptatextColors`
+- ✅ **Both use custom palette** - `CiphioPalette` / `LocalCiphioColors`
 - ✅ **Consistent color names** - `primary`, `background`, `foreground`, etc.
 - ✅ **Theme support** - Both support light/dark mode
 

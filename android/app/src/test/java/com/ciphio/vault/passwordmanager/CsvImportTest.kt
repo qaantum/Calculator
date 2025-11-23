@@ -1,9 +1,9 @@
-package com.ciphio.passwordmanager
+package com.ciphio.vault.passwordmanager
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
-import com.ciphio.crypto.CryptoService
+import com.ciphio.vault.crypto.CryptoService
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first

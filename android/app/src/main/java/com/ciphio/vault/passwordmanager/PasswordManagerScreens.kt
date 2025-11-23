@@ -4,8 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -27,6 +29,11 @@ import androidx.compose.material.icons.filled.Fingerprint
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Sort
+import androidx.compose.material.icons.filled.SortByAlpha
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.ArrowUpward
+import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material3.*
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
@@ -54,6 +61,9 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import com.ciphio.vault.ui.theme.LocalCiphioColors
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
+import androidx.compose.ui.platform.AndroidUiDispatcher
+import kotlinx.coroutines.withContext
 import android.net.Uri
 import android.content.ContentResolver
 import java.io.InputStream
@@ -1030,11 +1040,11 @@ fun PasswordManagerListScreen(
                 }
             }
             
-            // Entry count indicator
+            // Entry count and sort options
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 4.dp),
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -1047,6 +1057,86 @@ fun PasswordManagerListScreen(
                     style = MaterialTheme.typography.bodySmall,
                     color = palette.mutedForeground
                 )
+                
+                // Sort buttons
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // Alphabetical sort button (cycles: Off -> A-Z -> Z-A -> Off)
+                    val isAlphabeticalActive = state.sortOption == com.ciphio.vault.passwordmanager.PasswordSortOption.ALPHABETICAL_ASC ||
+                                              state.sortOption == com.ciphio.vault.passwordmanager.PasswordSortOption.ALPHABETICAL_DESC
+                    val isAlphabeticalDesc = state.sortOption == com.ciphio.vault.passwordmanager.PasswordSortOption.ALPHABETICAL_DESC
+                    
+                    FilterChip(
+                        selected = isAlphabeticalActive,
+                        onClick = { viewModel.cycleAlphabeticalSort() },
+                        label = {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.SortByAlpha,
+                                    contentDescription = "Alphabetical",
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                if (isAlphabeticalActive) {
+                                    Icon(
+                                        imageVector = if (isAlphabeticalDesc) Icons.Filled.ArrowDownward else Icons.Filled.ArrowUpward,
+                                        contentDescription = if (isAlphabeticalDesc) "Z-A" else "A-Z",
+                                        modifier = Modifier.size(12.dp)
+                                    )
+                                } else {
+                                    Text("A-Z", style = MaterialTheme.typography.labelSmall)
+                                }
+                            }
+                        },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = palette.primary,
+                            selectedLabelColor = palette.onPrimary,
+                            containerColor = palette.card,
+                            labelColor = palette.foreground
+                        )
+                    )
+                    
+                    // Date sort button (cycles: Off -> Newest -> Oldest -> Off)
+                    val isDateActive = state.sortOption == com.ciphio.vault.passwordmanager.PasswordSortOption.DATE_DESC ||
+                                      state.sortOption == com.ciphio.vault.passwordmanager.PasswordSortOption.DATE_ASC
+                    val isDateAsc = state.sortOption == com.ciphio.vault.passwordmanager.PasswordSortOption.DATE_ASC
+                    
+                    FilterChip(
+                        selected = isDateActive,
+                        onClick = { viewModel.cycleDateSort() },
+                        label = {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.DateRange,
+                                    contentDescription = "Date",
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                if (isDateActive) {
+                                    Icon(
+                                        imageVector = if (isDateAsc) Icons.Filled.ArrowUpward else Icons.Filled.ArrowDownward,
+                                        contentDescription = if (isDateAsc) "Oldest first" else "Newest first",
+                                        modifier = Modifier.size(12.dp)
+                                    )
+                                } else {
+                                    Text("Date", style = MaterialTheme.typography.labelSmall)
+                                }
+                            }
+                        },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = palette.primary,
+                            selectedLabelColor = palette.onPrimary,
+                            containerColor = palette.card,
+                            labelColor = palette.foreground
+                        )
+                    )
+                }
             }
             
             // Password entries list
@@ -1107,14 +1197,17 @@ fun PasswordManagerListScreen(
                 // Use a single state for swipe-to-delete (outside LazyColumn for performance)
                 var swipedEntryForDelete by remember { mutableStateOf<PasswordEntry?>(null) }
                 
+                val listState = rememberLazyListState()
+                
                 LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(12.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
+                    state = listState,
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(12.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
                     items(
                         items = state.entries,
-                        key = { it.id }, // Stable keys for better performance
+                        key = { "${it.id}-${state.activeSortOption}" }, // Include activeSortOption to force scroll reset ONLY when sorted data updates
                         contentType = { "password_entry" } // Content type for better recomposition
                     ) { entry ->
                         // Stable callbacks - only recreate if entry changes
@@ -1171,6 +1264,7 @@ fun PasswordManagerListScreen(
                         )
                     }
                 }
+                
                 
                 // Single delete dialog outside LazyColumn (better performance)
                 swipedEntryForDelete?.let { entryToDelete ->

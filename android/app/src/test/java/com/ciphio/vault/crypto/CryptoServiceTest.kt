@@ -1,4 +1,7 @@
-package com.ciphio.crypto
+package com.ciphio.vault.crypto
+
+import com.ciphio.vault.crypto.CryptoService
+import com.ciphio.vault.crypto.AesMode
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test

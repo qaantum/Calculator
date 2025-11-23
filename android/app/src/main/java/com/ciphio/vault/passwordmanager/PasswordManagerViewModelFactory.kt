@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ciphio.vault.crypto.CryptoService
 import com.ciphio.vault.data.ciphioDataStore
+import com.ciphio.vault.data.UserPreferencesRepository
 
 /**
  * Factory for creating PasswordManagerViewModel.
@@ -12,12 +13,13 @@ import com.ciphio.vault.data.ciphioDataStore
  */
 class PasswordManagerViewModelFactory(
     private val vaultRepository: PasswordVaultRepository,
+    private val userPreferencesRepository: UserPreferencesRepository? = null,
     private val isPremium: Boolean = false
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(PasswordManagerViewModel::class.java)) {
-            return PasswordManagerViewModel(vaultRepository, isPremium) as T
+            return PasswordManagerViewModel(vaultRepository, userPreferencesRepository, isPremium) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

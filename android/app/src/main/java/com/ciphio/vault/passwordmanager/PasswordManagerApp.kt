@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.Context
 import com.ciphio.vault.crypto.CryptoService
 import com.ciphio.vault.data.ciphioDataStore
+import com.ciphio.vault.data.UserPreferencesRepository
 import com.ciphio.vault.navigation.AppDestination
 import com.ciphio.vault.password.PasswordGenerator
 import kotlinx.coroutines.launch
@@ -39,10 +40,11 @@ fun PasswordManagerApp(
     val dataStore = remember { context.ciphioDataStore }
     val cryptoService = remember { CryptoService() }
     val keystoreHelper = remember { KeystoreHelper(context) }
+    val userPreferencesRepository = remember { UserPreferencesRepository(dataStore) }
     val vaultRepository = remember { PasswordVaultRepository(dataStore, cryptoService, keystoreHelper) }
     
     val viewModel: PasswordManagerViewModel = viewModel(
-        factory = PasswordManagerViewModelFactory(vaultRepository, isPremium)
+        factory = PasswordManagerViewModelFactory(vaultRepository, userPreferencesRepository, isPremium)
     )
     
     val state by viewModel.uiState.collectAsState()

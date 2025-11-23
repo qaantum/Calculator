@@ -15,6 +15,19 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
+import com.ciphio.vault.data.UserPreferencesRepository
+
+/**
+ * Sort option for password entries.
+ * Supports 3 states: NONE (no sort), ASCENDING, DESCENDING
+ */
+enum class PasswordSortOption {
+    NONE,                    // No sorting (default order)
+    ALPHABETICAL_ASC,        // A-Z (ascending)
+    ALPHABETICAL_DESC,       // Z-A (descending)
+    DATE_DESC,               // Newest first (descending)
+    DATE_ASC                 // Oldest first (ascending)
+}
 
 /**
  * ViewModel for Password Manager feature.
@@ -24,6 +37,7 @@ import kotlinx.coroutines.Dispatchers
  */
 class PasswordManagerViewModel(
     private val vaultRepository: PasswordVaultRepository,
+    private val userPreferencesRepository: UserPreferencesRepository? = null,
     private val isPremium: Boolean = false
 ) : ViewModel() {
 
@@ -44,6 +58,25 @@ class PasswordManagerViewModel(
 
     init {
         checkMasterPasswordStatus()
+        loadSortPreference()
+    }
+    
+    /**
+     * Load sort preference from user preferences.
+     */
+    private fun loadSortPreference() {
+        viewModelScope.launch {
+            userPreferencesRepository?.passwordManagerSortOption?.collectLatest { sortOption ->
+                _uiState.update { it.copy(sortOption = sortOption) }
+                // Reload entries to apply sort if vault is unlocked
+                if (_uiState.value.isUnlocked) {
+                    reloadEntries()
+                }
+            } ?: run {
+                // If no repository, use default (NONE)
+                _uiState.update { it.copy(sortOption = PasswordSortOption.NONE) }
+            }
+        }
     }
 
     /**
@@ -314,16 +347,16 @@ class PasswordManagerViewModel(
         
         entriesJob = viewModelScope.launch {
             try {
-                // Combine entries flow with search query and category filter state
+                // Combine entries flow with search query, category filter, and sort option
                 // Use map to extract only the filter values to avoid infinite loops
                 val filterFlow = _uiState.map { state ->
-                    Pair(state.searchQuery, state.categoryFilter)
+                    Triple(state.searchQuery, state.categoryFilter, state.sortOption)
                 }.distinctUntilChanged()
                 
                 combine(
                     vaultRepository.getAllEntries(masterPassword),
                     filterFlow
-                ) { entries, (query, categoryFilter) ->
+                ) { entries, (query, categoryFilter, sortOption) ->
                     // Update category cache for all entries (do this once, not per filter)
                     entries.forEach { entry ->
                         if (entry.id !in categoryCache) {
@@ -389,15 +422,25 @@ class PasswordManagerViewModel(
                     // Get available categories from cache (much faster than calling getAllCategories on each entry)
                     val categories = categoryCache.values.flatten().distinct().sorted()
                     
-                    // Return filtered entries and categories
-                    Pair(filtered, categories)
+                    // Apply sorting based on current sort option
+                    val sorted = when (sortOption) {
+                        PasswordSortOption.ALPHABETICAL_ASC -> filtered.sortedBy { it.service.lowercase() }
+                        PasswordSortOption.ALPHABETICAL_DESC -> filtered.sortedByDescending { it.service.lowercase() }
+                        PasswordSortOption.DATE_DESC -> filtered.sortedByDescending { it.updatedAt }
+                        PasswordSortOption.DATE_ASC -> filtered.sortedBy { it.updatedAt }
+                        PasswordSortOption.NONE -> filtered // No sorting, keep original order
+                    }
+                    
+                    // Return filtered and sorted entries, categories, and the sort option used
+                    Triple(sorted, categories, sortOption)
                 }
                 .flowOn(Dispatchers.Default) // Move filtering off main thread
-                .collectLatest { (filtered, categories) ->
+                .collectLatest { (filtered, categories, appliedSortOption) ->
                     _uiState.update { 
                         it.copy(
                             entries = filtered,
-                            availableCategories = categories
+                            availableCategories = categories,
+                            activeSortOption = appliedSortOption
                         )
                     }
                 }
@@ -438,7 +481,13 @@ class PasswordManagerViewModel(
                 // Use cached entries from state to avoid decrypting all entries again (HUGE performance boost!)
                 val currentEntries = _uiState.value.entries
                 // OPTIMISTIC UPDATE: Show entry in UI immediately (before encryption completes)
-                val updatedEntries = (currentEntries + entry).distinctBy { it.id }.sortedByDescending { it.updatedAt }
+                val updatedEntries = when (_uiState.value.sortOption) {
+                    PasswordSortOption.ALPHABETICAL_ASC -> (currentEntries + entry).distinctBy { it.id }.sortedBy { it.service.lowercase() }
+                    PasswordSortOption.ALPHABETICAL_DESC -> (currentEntries + entry).distinctBy { it.id }.sortedByDescending { it.service.lowercase() }
+                    PasswordSortOption.DATE_DESC -> (currentEntries + entry).distinctBy { it.id }.sortedByDescending { it.updatedAt }
+                    PasswordSortOption.DATE_ASC -> (currentEntries + entry).distinctBy { it.id }.sortedBy { it.updatedAt }
+                    PasswordSortOption.NONE -> (currentEntries + entry).distinctBy { it.id }
+                }
                 categoryCache[entry.id] = entry.getAllCategories()
                 // Clear lowercase cache for this entry (will be regenerated on next filter)
                 lowercaseCache.keys.removeAll { it.startsWith("service:${entry.id}") || 
@@ -558,8 +607,17 @@ class PasswordManagerViewModel(
             
             try {
                 // OPTIMISTIC UPDATE: Show updated entry in UI immediately
-                val updatedEntries = originalEntries.map { if (it.id == entry.id) entry else it }
-                    .sortedByDescending { it.updatedAt }
+                val updatedEntries = when (_uiState.value.sortOption) {
+                    PasswordSortOption.ALPHABETICAL_ASC -> originalEntries.map { if (it.id == entry.id) entry else it }
+                        .sortedBy { it.service.lowercase() }
+                    PasswordSortOption.ALPHABETICAL_DESC -> originalEntries.map { if (it.id == entry.id) entry else it }
+                        .sortedByDescending { it.service.lowercase() }
+                    PasswordSortOption.DATE_DESC -> originalEntries.map { if (it.id == entry.id) entry else it }
+                        .sortedByDescending { it.updatedAt }
+                    PasswordSortOption.DATE_ASC -> originalEntries.map { if (it.id == entry.id) entry else it }
+                        .sortedBy { it.updatedAt }
+                    PasswordSortOption.NONE -> originalEntries.map { if (it.id == entry.id) entry else it }
+                }
                 categoryCache[entry.id] = entry.getAllCategories()
                 // Clear lowercase cache for this entry (will be regenerated on next filter)
                 lowercaseCache.keys.removeAll { it.startsWith("service:${entry.id}") || 
@@ -629,7 +687,13 @@ class PasswordManagerViewModel(
             } catch (e: Exception) {
                 // Rollback on error - restore the entry
                 if (deletedEntry != null) {
-                    val rollbackEntries = (originalEntries + deletedEntry).sortedByDescending { it.updatedAt }
+                    val rollbackEntries = when (_uiState.value.sortOption) {
+                        PasswordSortOption.ALPHABETICAL_ASC -> (originalEntries + deletedEntry).sortedBy { it.service.lowercase() }
+                        PasswordSortOption.ALPHABETICAL_DESC -> (originalEntries + deletedEntry).sortedByDescending { it.service.lowercase() }
+                        PasswordSortOption.DATE_DESC -> (originalEntries + deletedEntry).sortedByDescending { it.updatedAt }
+                        PasswordSortOption.DATE_ASC -> (originalEntries + deletedEntry).sortedBy { it.updatedAt }
+                        PasswordSortOption.NONE -> (originalEntries + deletedEntry)
+                    }
                     _uiState.update { 
                         it.copy(
                             entries = rollbackEntries,
@@ -744,6 +808,48 @@ class PasswordManagerViewModel(
     }
 
     /**
+     * Cycle through alphabetical sort states: NONE -> ASC -> DESC -> NONE
+     * When activating alphabetical sort, resets date sort to NONE.
+     */
+    fun cycleAlphabeticalSort() {
+        val current = _uiState.value.sortOption
+        val next = when (current) {
+            PasswordSortOption.ALPHABETICAL_ASC -> PasswordSortOption.ALPHABETICAL_DESC
+            PasswordSortOption.ALPHABETICAL_DESC -> PasswordSortOption.NONE
+            else -> PasswordSortOption.ALPHABETICAL_ASC
+        }
+        setSortOption(next)
+    }
+    
+    /**
+     * Cycle through date sort states: NONE -> DESC (newest) -> ASC (oldest) -> NONE
+     * When activating date sort, resets alphabetical sort to NONE.
+     */
+    fun cycleDateSort() {
+        val current = _uiState.value.sortOption
+        val next = when (current) {
+            PasswordSortOption.DATE_DESC -> PasswordSortOption.DATE_ASC
+            PasswordSortOption.DATE_ASC -> PasswordSortOption.NONE
+            else -> PasswordSortOption.DATE_DESC
+        }
+        setSortOption(next)
+    }
+    
+    /**
+     * Set sort option and save preference.
+     */
+    private fun setSortOption(option: PasswordSortOption) {
+        _uiState.update { it.copy(sortOption = option) }
+        viewModelScope.launch {
+            userPreferencesRepository?.setPasswordManagerSortOption(option)
+        }
+        // Reload entries to apply new sort
+        if (_uiState.value.isUnlocked) {
+            reloadEntries()
+        }
+    }
+    
+    /**
      * Get entry count for free tier limit display.
      */
     fun getEntryCount(): Int {
@@ -764,6 +870,8 @@ data class PasswordManagerUiState(
     val errorMessage: String? = null,
     val successMessage: String? = null,
     val biometricEnabled: Boolean = false,
-    val biometricAvailable: Boolean = false
+    val biometricAvailable: Boolean = false,
+    val sortOption: PasswordSortOption = PasswordSortOption.NONE,
+    val activeSortOption: PasswordSortOption = PasswordSortOption.NONE
 )
 

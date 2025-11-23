@@ -1,4 +1,4 @@
-package com.ciphio.passwordmanager
+package com.ciphio.vault.passwordmanager
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule

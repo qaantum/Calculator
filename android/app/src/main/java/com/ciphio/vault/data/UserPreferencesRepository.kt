@@ -70,6 +70,32 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
         }
     }
 
+    val passwordManagerSortOption: Flow<com.ciphio.vault.passwordmanager.PasswordSortOption> = dataStore.data
+        .catch { exception ->
+            if (exception is IOException) emit(emptyPreferences()) else throw exception
+        }
+        .map { prefs ->
+            when (prefs[PASSWORD_MANAGER_SORT_KEY] ?: SORT_NONE) {
+                SORT_ALPHABETICAL_ASC -> com.ciphio.vault.passwordmanager.PasswordSortOption.ALPHABETICAL_ASC
+                SORT_ALPHABETICAL_DESC -> com.ciphio.vault.passwordmanager.PasswordSortOption.ALPHABETICAL_DESC
+                SORT_DATE_DESC -> com.ciphio.vault.passwordmanager.PasswordSortOption.DATE_DESC
+                SORT_DATE_ASC -> com.ciphio.vault.passwordmanager.PasswordSortOption.DATE_ASC
+                else -> com.ciphio.vault.passwordmanager.PasswordSortOption.NONE
+            }
+        }
+
+    suspend fun setPasswordManagerSortOption(option: com.ciphio.vault.passwordmanager.PasswordSortOption) {
+        dataStore.edit { prefs ->
+            prefs[PASSWORD_MANAGER_SORT_KEY] = when (option) {
+                com.ciphio.vault.passwordmanager.PasswordSortOption.ALPHABETICAL_ASC -> SORT_ALPHABETICAL_ASC
+                com.ciphio.vault.passwordmanager.PasswordSortOption.ALPHABETICAL_DESC -> SORT_ALPHABETICAL_DESC
+                com.ciphio.vault.passwordmanager.PasswordSortOption.DATE_DESC -> SORT_DATE_DESC
+                com.ciphio.vault.passwordmanager.PasswordSortOption.DATE_ASC -> SORT_DATE_ASC
+                com.ciphio.vault.passwordmanager.PasswordSortOption.NONE -> SORT_NONE
+            }
+        }
+    }
+
     companion object {
         private const val THEME_LIGHT = "light"
         private const val THEME_DARK = "dark"
@@ -81,6 +107,13 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
         private val DIGITS_KEY = booleanPreferencesKey("password_digits")
         private val SYMBOLS_KEY = booleanPreferencesKey("password_symbols")
         private val THEME_KEY = stringPreferencesKey("theme_option_v2")
+        private val PASSWORD_MANAGER_SORT_KEY = stringPreferencesKey("password_manager_sort_option")
+        
+        private const val SORT_NONE = "none"
+        private const val SORT_ALPHABETICAL_ASC = "alphabetical_asc"
+        private const val SORT_ALPHABETICAL_DESC = "alphabetical_desc"
+        private const val SORT_DATE_DESC = "date_desc"
+        private const val SORT_DATE_ASC = "date_asc"
     }
 }
 

@@ -1,4 +1,4 @@
-package com.ciphio.password
+package com.ciphio.vault.password
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test

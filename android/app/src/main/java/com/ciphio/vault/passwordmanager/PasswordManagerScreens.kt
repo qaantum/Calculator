@@ -55,6 +55,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
+import android.view.View
+import android.view.autofill.AutofillManager
 import androidx.fragment.app.FragmentActivity
 import android.content.ContextWrapper
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -68,6 +73,25 @@ import android.net.Uri
 import android.content.ContentResolver
 import java.io.InputStream
 import java.io.OutputStream
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.geometry.Offset
+
+/**
+ * Composable modifier to add autofill hints to a TextField.
+ * This helps autofill services (like Google Autofill) recognize and fill username/password fields.
+ * Note: This uses semantics to hint autofill services. For full autofill support, consider
+ * implementing a custom AutofillService or using a library like accompanist-autofill.
+ */
+@Composable
+fun Modifier.autofillHint(vararg hints: String): Modifier {
+    return this.then(
+        Modifier.semantics {
+            // Set content description with autofill hints for autofill services to recognize
+            contentDescription = hints.joinToString(",")
+        }
+    )
+}
 
 /**
  * Helper function to get FragmentActivity from Context.
@@ -2137,7 +2161,9 @@ fun AddEditPasswordEntryScreen(
                 onValueChange = { username = it },
                 label = { Text("Username/Email", color = palette.foreground) },
                 placeholder = { Text("Enter username", color = palette.mutedForeground) },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .autofillHint(View.AUTOFILL_HINT_USERNAME),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = palette.foreground,
                     unfocusedTextColor = palette.foreground,
@@ -2162,7 +2188,9 @@ fun AddEditPasswordEntryScreen(
                     placeholder = { Text("Enter password", color = palette.mutedForeground) },
                     visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .weight(1f)
+                        .autofillHint(View.AUTOFILL_HINT_PASSWORD),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = palette.foreground,
                         unfocusedTextColor = palette.foreground,

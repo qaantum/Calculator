@@ -33,6 +33,44 @@
                 <data android:scheme="ciphiovault" />
             </intent-filter>
         </activity>
+        
+        <!-- Autofill Service -->
+        <service
+            android:name="com.ciphio.vault.autofill.CiphioAutofillService"
+            android:permission="android.permission.BIND_AUTOFILL_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.autofill.AutofillService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.autofill"
+                android:resource="@xml/autofill_service" />
+        </service>
+        
+        <!-- Autofill Authentication Activity -->
+        <activity
+            android:name="com.ciphio.vault.autofill.AutofillAuthActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Ciphio"
+            android:taskAffinity=""
+            android:excludeFromRecents="true" />
+        
+        <!-- Autofill Selection Activity -->
+        <activity
+            android:name="com.ciphio.vault.autofill.AutofillSelectionActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Ciphio"
+            android:taskAffinity=""
+            android:excludeFromRecents="true" />
+        
+        <!-- Autofill Broadcast Receiver -->
+        <receiver
+            android:name="com.ciphio.vault.autofill.AutofillBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.ciphio.vault.autofill.CREDENTIALS_READY" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

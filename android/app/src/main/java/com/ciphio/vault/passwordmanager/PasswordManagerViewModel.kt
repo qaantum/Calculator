@@ -184,7 +184,15 @@ class PasswordManagerViewModel(
                 val masterPassword = vaultRepository.retrieveMasterPasswordFromKeystore(cryptoObject)
                 if (masterPassword != null) {
                     android.util.Log.d("PasswordManagerViewModel", "unlockWithBiometric: master password retrieved successfully, length=${masterPassword.length}")
-                    unlockVault(masterPassword)
+                    // Skip verification since biometric already verified the user
+                    currentMasterPassword = masterPassword
+                    _uiState.update { 
+                        it.copy(
+                            isUnlocked = true,
+                            errorMessage = null
+                        )
+                    }
+                    loadEntries()
                 } else {
                     android.util.Log.e("PasswordManagerViewModel", "unlockWithBiometric: failed to retrieve master password from Keystore")
                     _uiState.update { it.copy(errorMessage = "Failed to retrieve master password from secure storage. Please unlock with password.") }
@@ -468,7 +476,7 @@ class PasswordManagerViewModel(
             try {
                 // Check free tier limit: 10 passwords max for non-premium users
                 val currentCount = getEntryCount()
-                if (!isPremium && currentCount >= 10) {
+                if (!isPremium && currentCount >= 20) {
                     android.util.Log.w("PasswordManager", "Free tier limit reached: $currentCount/10")
                     _uiState.update { 
                         it.copy(

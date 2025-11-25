@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Password
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,6 +54,7 @@ fun SettingsScreen(
     onOpenTerms: () -> Unit,
     onOpenPasswordManager: () -> Unit,
     onOpenPremium: () -> Unit,
+    onOpenAutofillSettings: () -> Unit = {},
     onRateUs: () -> Unit,
     onBack: () -> Unit
 ) {
@@ -200,6 +202,13 @@ fun SettingsScreen(
                 title = "Password Manager",
                 subtitle = "Manage your passwords securely",
                 onClick = onOpenPasswordManager
+            )
+
+            SettingsLinkItem(
+                icon = Icons.Default.PhoneAndroid,
+                title = "Autofill Settings",
+                subtitle = "Set Ciphio as your password manager",
+                onClick = onOpenAutofillSettings
             )
 
             HorizontalDivider()

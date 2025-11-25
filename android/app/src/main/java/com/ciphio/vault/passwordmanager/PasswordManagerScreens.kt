@@ -979,7 +979,7 @@ fun PasswordManagerListScreen(
                             text = if (isPremium) {
                                 "${state.entries.size} passwords"
                             } else {
-                                "${state.entries.size} of 10 passwords"
+                                "${state.entries.size} of 20 passwords"
                             },
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.SemiBold
@@ -1076,7 +1076,7 @@ fun PasswordManagerListScreen(
                     text = if (isPremium) {
                         "${state.entries.size} passwords"
                     } else {
-                        "${state.entries.size} of 10 passwords"
+                        "${state.entries.size} of 20 passwords"
                     },
                     style = MaterialTheme.typography.bodySmall,
                     color = palette.mutedForeground

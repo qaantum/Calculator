@@ -232,7 +232,7 @@ final class PasswordVaultStore: ObservableObject {
         // Check free tier limit: 10 passwords max for non-premium users
         let currentEntries = try getAllEntries(masterPassword: masterPassword)
         let isPremium = PremiumManager.shared.isPremium
-        if !isPremium && currentEntries.count >= 10 {
+        if !isPremium && currentEntries.count >= 20 {
             throw PasswordVaultError.freeTierLimitReached
         }
         
@@ -306,6 +306,11 @@ final class PasswordVaultStore: ObservableObject {
         cachedEntries = updatedEntries
         cachePassword = masterPassword
         entries = updatedEntries
+        
+        // Register with iOS Autofill system
+        if let updatedEntry = updatedEntries.first(where: { $0.id == entry.id }) {
+            registerCredentialWithAutofill(updatedEntry)
+        }
     }
     
     /// Delete a password entry.
@@ -594,6 +599,93 @@ extension PasswordVaultStore {
         fields.append(currentField.trimmingCharacters(in: .whitespaces))
         
         return fields
+    }
+    
+    // MARK: - Autofill Integration
+    
+    /// Register a credential with iOS Autofill system
+    private func registerCredentialWithAutofill(_ entry: PasswordEntry) {
+        #if canImport(AuthenticationServices)
+        let store = ASCredentialIdentityStore.shared
+        let serviceIdentifier = ASCredentialServiceIdentifier(
+            identifier: entry.service,
+            type: .URL
+        )
+        
+        let credentialIdentity = ASPasswordCredentialIdentity(
+            serviceIdentifier: serviceIdentifier,
+            user: entry.username,
+            recordIdentifier: entry.id
+        )
+        
+        store.saveCredentialIdentities([credentialIdentity]) { success, error in
+            if let error = error {
+                print("PasswordVaultStore: Error registering credential with Autofill: \(error.localizedDescription)")
+            } else {
+                print("PasswordVaultStore: Successfully registered credential for \(entry.service)")
+            }
+        }
+        #endif
+    }
+    
+    /// Remove a credential from iOS Autofill system
+    private func removeCredentialFromAutofill(_ entry: PasswordEntry) {
+        #if canImport(AuthenticationServices)
+        let store = ASCredentialIdentityStore.shared
+        let serviceIdentifier = ASCredentialServiceIdentifier(
+            identifier: entry.service,
+            type: .URL
+        )
+        
+        let credentialIdentity = ASPasswordCredentialIdentity(
+            serviceIdentifier: serviceIdentifier,
+            user: entry.username,
+            recordIdentifier: entry.id
+        )
+        
+        store.removeCredentialIdentities([credentialIdentity]) { success, error in
+            if let error = error {
+                print("PasswordVaultStore: Error removing credential from Autofill: \(error.localizedDescription)")
+            } else {
+                print("PasswordVaultStore: Successfully removed credential for \(entry.service)")
+            }
+        }
+        #endif
+    }
+    
+    /// Register all credentials with iOS Autofill system
+    func registerAllCredentialsWithAutofill() {
+        guard let masterPassword = currentMasterPassword else {
+            return
+        }
+        
+        do {
+            let allEntries = try getAllEntries(masterPassword: masterPassword)
+            #if canImport(AuthenticationServices)
+            let store = ASCredentialIdentityStore.shared
+            let credentialIdentities = allEntries.map { entry -> ASPasswordCredentialIdentity in
+                let serviceIdentifier = ASCredentialServiceIdentifier(
+                    identifier: entry.service,
+                    type: .URL
+                )
+                return ASPasswordCredentialIdentity(
+                    serviceIdentifier: serviceIdentifier,
+                    user: entry.username,
+                    recordIdentifier: entry.id
+                )
+            }
+            
+            store.replaceCredentialIdentities(with: credentialIdentities) { success, error in
+                if let error = error {
+                    print("PasswordVaultStore: Error registering all credentials: \(error.localizedDescription)")
+                } else {
+                    print("PasswordVaultStore: Successfully registered \(credentialIdentities.count) credentials")
+                }
+            }
+            #endif
+        } catch {
+            print("PasswordVaultStore: Error loading entries for Autofill registration: \(error.localizedDescription)")
+        }
     }
 }
 

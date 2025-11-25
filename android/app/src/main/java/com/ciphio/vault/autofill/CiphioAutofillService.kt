@@ -55,17 +55,30 @@ class CiphioAutofillService : AutofillService() {
     }
 
     private val serviceScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    private lateinit var vaultRepository: PasswordVaultRepository
-    private lateinit var cryptoService: CryptoService
-    private lateinit var keystoreHelper: KeystoreHelper
+    private var vaultRepository: PasswordVaultRepository? = null
+    private var cryptoService: CryptoService? = null
+    private var keystoreHelper: KeystoreHelper? = null
+    private var isInitialized = false
 
     override fun onCreate() {
         super.onCreate()
         Companion.instance = this
-        val dataStore = applicationContext.ciphioDataStore
-        cryptoService = CryptoService()
-        keystoreHelper = KeystoreHelper(applicationContext)
-        vaultRepository = PasswordVaultRepository(dataStore, cryptoService, keystoreHelper)
+        initializeIfNeeded()
+    }
+    
+    private fun initializeIfNeeded() {
+        if (!isInitialized) {
+            try {
+                val dataStore = applicationContext.ciphioDataStore
+                cryptoService = CryptoService()
+                keystoreHelper = KeystoreHelper(applicationContext)
+                vaultRepository = PasswordVaultRepository(dataStore, cryptoService!!, keystoreHelper!!)
+                isInitialized = true
+                android.util.Log.d("CiphioAutofill", "Service initialized successfully")
+            } catch (e: Exception) {
+                android.util.Log.e("CiphioAutofill", "Failed to initialize service: ${e.message}", e)
+            }
+        }
     }
     
     override fun onDestroy() {
@@ -82,8 +95,14 @@ class CiphioAutofillService : AutofillService() {
     ) {
         android.util.Log.d("CiphioAutofill", "onFillRequest called, requestId=${request.id}, flags=${request.flags}")
         
-        // Check if this is a follow-up request after authentication
-        // Android should automatically call this again after authentication completes
+        // Ensure service is initialized
+        initializeIfNeeded()
+        
+        if (!isInitialized || vaultRepository == null) {
+            android.util.Log.e("CiphioAutofill", "Service not initialized, cannot process request")
+            callback.onFailure("Service not initialized")
+            return
+        }
         
         serviceScope.launch {
             try {
@@ -99,9 +118,11 @@ class CiphioAutofillService : AutofillService() {
                 android.util.Log.d("CiphioAutofill", "Found fields - usernameId: ${autofillFields.usernameId}, passwordId: ${autofillFields.passwordId}")
                 
                 if (autofillFields.usernameId == null && autofillFields.passwordId == null) {
-                    android.util.Log.w("CiphioAutofill", "No autofill fields detected")
-                    // Don't fail - return empty response so system doesn't show error
-                    callback.onSuccess(FillResponse.Builder().build())
+                    android.util.Log.w("CiphioAutofill", "No autofill fields detected - not a login form")
+                    // We can't return an empty FillResponse as it causes IllegalStateException
+                    // Call onFailure to properly signal that we can't handle this request
+                    // The system will handle this gracefully without showing an error to the user
+                    callback.onFailure("No autofill fields detected")
                     return@launch
                 }
                 
@@ -110,6 +131,11 @@ class CiphioAutofillService : AutofillService() {
                     fieldsCache.put(request.id, autofillFields)
                 }
                 
+                // Get package and domain FIRST before checking cache
+                val packageName = structure.activityComponent.packageName
+                val currentDomain = extractDomainFromPackage(packageName, structure)
+                android.util.Log.d("CiphioAutofill", "Package: $packageName, Domain: $currentDomain")
+                
                 // PRIORITY 1: Check if we have a recently selected credential (within last 60 seconds)
                 // This handles the case where user authenticated and selected a credential
                 // After authentication, Android should automatically call onFillRequest again
@@ -117,19 +143,20 @@ class CiphioAutofillService : AutofillService() {
                 val storedTimestamp = sharedPrefs.getLong("timestamp", 0)
                 val storedUsername = sharedPrefs.getString("username", null)
                 val storedPassword = sharedPrefs.getString("password", null)
+                val storedDomain = sharedPrefs.getString("domain", null)
                 val storedRequestId = sharedPrefs.getInt("request_id", -1)
                 val timeSinceSelection = System.currentTimeMillis() - storedTimestamp
                 
                 // Check if this is a follow-up request after authentication
-                // Android automatically calls onFillRequest again after authentication completes
-                // We extend the window to 5 minutes to give user time to tap fields
-                val isAfterAuth = storedUsername != null && storedPassword != null && timeSinceSelection < 300000 // 5 minutes
+                // AND the domain matches (don't use YouTube credentials for GitHub!)
+                val isAfterAuth = storedUsername != null && 
+                                  storedPassword != null && 
+                                  timeSinceSelection < 60000 && // Reduced to 60 seconds (was 5 min)
+                                  (storedDomain == null || domainMatches(storedDomain, currentDomain))
                 
                 if (isAfterAuth) {
-                    // We have recently authenticated credentials
-                    // Instead of filling immediately, return a Dataset so user can tap any field
-                    // and see "Ciphio Vault" in the dropdown
-                    android.util.Log.d("CiphioAutofill", "✅ RETURNING DATASET: Using stored credential (${timeSinceSelection}ms ago, storedRequestId=$storedRequestId, currentRequestId=${request.id})")
+                    // We have recently authenticated credentials for THIS domain
+                    android.util.Log.d("CiphioAutofill", "✅ RETURNING DATASET: Using stored credential (${timeSinceSelection}ms ago, storedDomain=$storedDomain, currentDomain=$currentDomain)")
                     
                     // Determine which fields to use
                     var targetFields = autofillFields
@@ -145,25 +172,42 @@ class CiphioAutofillService : AutofillService() {
                         }
                     }
                     
-                    // Return a Dataset with the credentials (don't fill immediately)
-                    // This allows user to tap any field and see "Ciphio Vault" in dropdown
+                    // Clear the cached credentials after use (one-time use)
+                    sharedPrefs.edit().apply {
+                        remove("username")
+                        remove("password")
+                        remove("domain")
+                        remove("timestamp")
+                        remove("request_id")
+                        apply()
+                    }
+                    android.util.Log.d("CiphioAutofill", "Cleared cached credentials after use")
+                    
+                    // Return a Dataset with the credentials
                     fillCredentialsDirectly(callback, targetFields, storedUsername, storedPassword)
                     return@launch
+                } else if (storedUsername != null && storedDomain != null && !domainMatches(storedDomain, currentDomain)) {
+                    // Domain mismatch - clear stale credentials
+                    android.util.Log.d("CiphioAutofill", "Domain mismatch (stored=$storedDomain, current=$currentDomain), clearing stale cache")
+                    sharedPrefs.edit().apply {
+                        remove("username")
+                        remove("password")
+                        remove("domain")
+                        remove("timestamp")
+                        remove("request_id")
+                        apply()
+                    }
                 }
                 
                 // Check if vault has master password
-                if (!vaultRepository.hasMasterPassword()) {
+                if (!vaultRepository!!.hasMasterPassword()) {
                     android.util.Log.w("CiphioAutofill", "No master password set")
                     callback.onFailure("No passwords saved in Ciphio Vault")
                     return@launch
                 }
 
-                val packageName = structure.activityComponent.packageName
-                android.util.Log.d("CiphioAutofill", "Package: $packageName")
-
-                // Extract domain
-                val domain = extractDomainFromPackage(packageName, structure)
-                android.util.Log.d("CiphioAutofill", "Domain: $domain")
+                // Use the domain we already extracted above
+                val domain = currentDomain
 
                 // Get all entries - we'll use authentication intent for secure access
                 // For now, try to get entries without password (will fail, but we'll handle it)
@@ -257,20 +301,34 @@ class CiphioAutofillService : AutofillService() {
                     android.util.Log.d("CiphioAutofill", "Returning fill response with AUTHENTICATION and SaveInfo (FLAG_SAVE_ON_ALL_VIEWS_INVISIBLE)")
                     callback.onSuccess(response)
                 } else {
-                    android.util.Log.w("CiphioAutofill", "No fields to fill, returning empty response")
-                    callback.onSuccess(FillResponse.Builder().build())
+                    android.util.Log.w("CiphioAutofill", "No fields to fill")
+                    // Don't return empty response - it causes IllegalStateException
+                    // Instead, return null (by not calling callback) or return a response with SaveInfo
+                    // Since we have no fields, we can't provide SaveInfo either
+                    // The safest approach is to not respond at all
+                    return@launch
                 }
 
             } catch (e: Exception) {
                 android.util.Log.e("CiphioAutofill", "Error in onFillRequest: ${e.message}", e)
                 e.printStackTrace()
-                // Return empty response instead of failure to avoid system errors
-                callback.onSuccess(FillResponse.Builder().build())
+                // Don't return empty response - it causes IllegalStateException
+                // Call onFailure instead to properly signal the error
+                callback.onFailure("Error processing autofill request: ${e.message}")
             }
         }
     }
 
     override fun onSaveRequest(request: SaveRequest, callback: SaveCallback) {
+        // Ensure service is initialized
+        initializeIfNeeded()
+        
+        if (!isInitialized || vaultRepository == null) {
+            android.util.Log.e("CiphioAutofill", "Service not initialized, cannot process save request")
+            callback.onFailure("Service not initialized")
+            return
+        }
+        
         serviceScope.launch {
             try {
                 android.util.Log.d("CiphioAutofill", "onSaveRequest called")
@@ -318,28 +376,61 @@ class CiphioAutofillService : AutofillService() {
                     password = password
                 )
 
-                // Get master password - we need to authenticate
-                // For now, we'll save without master password check (will be encrypted when vault is next accessed)
-                // TODO: Implement proper authentication flow for save
-                
-                // Try to get the master password from keystore if available
+                // For save operations, we need master password to encrypt the credential
+                // Check if we have a recently authenticated master password (within last 5 minutes)
                 val sharedPrefs = getSharedPreferences("autofill_selected", MODE_PRIVATE)
-                val masterPassword = sharedPrefs.getString("temp_master_password", null)
+                val tempPasswordTimestamp = sharedPrefs.getLong("temp_master_password_timestamp", 0)
+                val timeSinceAuth = System.currentTimeMillis() - tempPasswordTimestamp
+                val masterPassword = if (timeSinceAuth < 300000) { // 5 minutes
+                    sharedPrefs.getString("temp_master_password", null)
+                } else {
+                    null
+                }
                 
                 if (masterPassword != null) {
-                    // Save to vault
-                    val success = vaultRepository.addEntry(entry, masterPassword)
+                    // We have a recently authenticated master password, save directly
+                    android.util.Log.d("CiphioAutofill", "Using cached master password for save (${timeSinceAuth}ms ago)")
+                    val success = vaultRepository!!.addEntry(entry, masterPassword)
                     if (success) {
-                        android.util.Log.d("CiphioAutofill", "Successfully saved credential for $domain")
+                        android.util.Log.d("CiphioAutofill", "✅ Successfully saved credential for $domain")
                         callback.onSuccess()
                     } else {
                         android.util.Log.e("CiphioAutofill", "Failed to save credential")
                         callback.onFailure("Failed to save credential")
                     }
                 } else {
-                    // No master password available - need to authenticate
-                    android.util.Log.w("CiphioAutofill", "No master password available for save")
-                    callback.onFailure("Authentication required to save")
+                    // No master password available - launch authentication activity
+                    android.util.Log.d("CiphioAutofill", "No cached master password, launching authentication for save")
+                    
+                    // Store save request info for after authentication
+                    val saveRequestId = System.currentTimeMillis().toInt() // Use timestamp as ID
+                    val saveRequestKey = "autofill_save_request_$saveRequestId"
+                    val savePrefs = getSharedPreferences("autofill_save_requests", MODE_PRIVATE)
+                    savePrefs.edit().apply {
+                        putString("${saveRequestKey}_username", username)
+                        putString("${saveRequestKey}_password", password)
+                        putString("${saveRequestKey}_domain", domain)
+                        putInt("${saveRequestKey}_request_id", saveRequestId)
+                        apply()
+                    }
+                    
+                    // Launch authentication activity for save
+                    val authIntent = Intent(this@CiphioAutofillService, AutofillAuthActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        putExtra("is_save_request", true)
+                        putExtra("save_request_id", saveRequestId)
+                        putExtra("domain", domain)
+                        putExtra("username", username)
+                        putExtra("password", password)
+                    }
+                    
+                    startActivity(authIntent)
+                    
+                    // Return success - the activity will handle the actual save
+                    // Note: This is a limitation - we can't wait for authentication
+                    // The activity will save the credential after authentication
+                    android.util.Log.d("CiphioAutofill", "Launched authentication activity for save")
+                    callback.onSuccess()
                 }
 
             } catch (e: Exception) {
@@ -611,6 +702,27 @@ class CiphioAutofillService : AutofillService() {
             }
         }
     }
+    
+    /**
+     * Check if two domains match (handles subdomains, etc.)
+     */
+    private fun domainMatches(storedDomain: String, currentDomain: String): Boolean {
+        val stored = storedDomain.lowercase().removePrefix("www.")
+        val current = currentDomain.lowercase().removePrefix("www.")
+        
+        // Exact match
+        if (stored == current) return true
+        
+        // One contains the other (handles subdomains)
+        if (stored.endsWith(".$current") || current.endsWith(".$stored")) return true
+        
+        // Extract base domain and compare
+        val storedBase = stored.split(".").takeLast(2).joinToString(".")
+        val currentBase = current.split(".").takeLast(2).joinToString(".")
+        if (storedBase == currentBase && storedBase.isNotEmpty()) return true
+        
+        return false
+    }
 
     /**
      * Find matching password entries based on domain.
@@ -637,7 +749,7 @@ class CiphioAutofillService : AutofillService() {
      */
     private suspend fun getMasterPassword(): String? {
         // Try biometric first if enabled
-        if (vaultRepository.isBiometricEnabled()) {
+        if (vaultRepository?.isBiometricEnabled() == true) {
             // Note: Biometric auth requires UI, so we'll handle it in the UI flow
             return null
         }

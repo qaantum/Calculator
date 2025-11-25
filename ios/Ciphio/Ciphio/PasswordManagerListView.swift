@@ -129,7 +129,7 @@ struct PasswordManagerListView: View {
             // Password count card
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
-                    Text(isPremium ? "\(vaultStore.entries.count) passwords" : "\(vaultStore.entries.count) of 10 passwords")
+                    Text(isPremium ? "\(vaultStore.entries.count) passwords" : "\(vaultStore.entries.count) of 20 passwords")
                         .font(.system(size: 18, weight: .semibold))
                         .foregroundColor(palette.foreground)
                     Spacer()

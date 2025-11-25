@@ -21,6 +21,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.fragment.app.FragmentActivity
 import com.ciphio.vault.data.ciphioDataStore
 import com.ciphio.vault.crypto.CryptoService
@@ -57,9 +60,14 @@ class AutofillAuthActivity : FragmentActivity() {
         vaultRepository = PasswordVaultRepository(dataStore, cryptoService, keystoreHelper)
         biometricHelper = BiometricHelper(applicationContext, keystoreHelper)
         
+        val isSaveRequest = intent.getBooleanExtra("is_save_request", false)
         val fillRequestId = intent.getIntExtra("fill_request_id", -1)
+        val saveRequestId = intent.getIntExtra("save_request_id", -1)
         val domain = intent.getStringExtra("domain") ?: ""
         val packageName = intent.getStringExtra("package_name") ?: ""
+        val saveUsername = intent.getStringExtra("username") ?: ""
+        val savePassword = intent.getStringExtra("password") ?: ""
+        
         // Safe getParcelableExtra for backward compatibility
         val usernameId = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra("username_id", AutofillId::class.java)
@@ -78,7 +86,38 @@ class AutofillAuthActivity : FragmentActivity() {
         // Store activity reference for later use
         Companion.currentActivity = this
         
-        // Try biometric first if available
+        // Handle save request differently
+        if (isSaveRequest && saveUsername.isNotEmpty() && savePassword.isNotEmpty()) {
+            lifecycleScope.launch {
+                val biometricEnabled = vaultRepository.isBiometricEnabled()
+                if (biometricEnabled && biometricHelper.isBiometricAvailable()) {
+                    biometricHelper.authenticate(
+                        activity = this@AutofillAuthActivity,
+                        forUnlock = true,
+                        onSuccess = { cryptoObject ->
+                            kotlinx.coroutines.CoroutineScope(Dispatchers.Main).launch {
+                                val masterPassword = withContext(Dispatchers.IO) {
+                                    vaultRepository.retrieveMasterPasswordFromKeystore(cryptoObject)
+                                }
+                                if (masterPassword != null) {
+                                    saveCredential(masterPassword, domain, saveUsername, savePassword)
+                                } else {
+                                    showPasswordPromptForSave(domain, saveUsername, savePassword)
+                                }
+                            }
+                        },
+                        onError = { error ->
+                            showPasswordPromptForSave(domain, saveUsername, savePassword)
+                        }
+                    )
+                } else {
+                    showPasswordPromptForSave(domain, saveUsername, savePassword)
+                }
+            }
+            return
+        }
+        
+        // Try biometric first if available (for fill requests)
         lifecycleScope.launch {
             val biometricEnabled = vaultRepository.isBiometricEnabled()
             if (biometricEnabled && biometricHelper.isBiometricAvailable()) {
@@ -294,11 +333,13 @@ class AutofillAuthActivity : FragmentActivity() {
         android.util.Log.d("AutofillAuth", "✅ Returning credentials for ${entry.service}, requestId=$fillRequestId")
         
         // 1. Store selection in SharedPreferences (Required for the re-request to work)
+        // Include domain to prevent cross-site credential leakage
         val sharedPrefs = getSharedPreferences("autofill_selected", MODE_PRIVATE)
         sharedPrefs.edit().apply {
             putString("username", entry.username)
             putString("password", entry.password)
             putString("service", entry.service)
+            putString("domain", entry.service) // Store domain to validate on next request
             putLong("timestamp", System.currentTimeMillis())
             putInt("request_id", fillRequestId)
             apply()
@@ -312,6 +353,144 @@ class AutofillAuthActivity : FragmentActivity() {
         
         runOnUiThread {
             finish()
+        }
+    }
+    
+    private fun saveCredential(masterPassword: String, domain: String, username: String, password: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val entry = PasswordEntry(
+                    service = domain,
+                    username = username,
+                    password = password
+                )
+                
+                val success = vaultRepository.addEntry(entry, masterPassword)
+                
+                withContext(Dispatchers.Main) {
+                    if (success) {
+                        android.util.Log.d("AutofillAuth", "✅ Successfully saved credential for $domain")
+                        android.widget.Toast.makeText(
+                            this@AutofillAuthActivity,
+                            "Credential saved to Ciphio Vault",
+                            android.widget.Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    } else {
+                        android.util.Log.e("AutofillAuth", "Failed to save credential")
+                        android.widget.Toast.makeText(
+                            this@AutofillAuthActivity,
+                            "Failed to save credential",
+                            android.widget.Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    }
+                }
+            } catch (e: Exception) {
+                android.util.Log.e("AutofillAuth", "Error saving credential: ${e.message}", e)
+                withContext(Dispatchers.Main) {
+                    android.widget.Toast.makeText(
+                        this@AutofillAuthActivity,
+                        "Error: ${e.message}",
+                        android.widget.Toast.LENGTH_SHORT
+                    ).show()
+                    finish()
+                }
+            }
+        }
+    }
+    
+    private fun showPasswordPromptForSave(domain: String, username: String, password: String) {
+        setContent {
+            val dataStore = remember { applicationContext.ciphioDataStore }
+            val userPreferencesRepository = remember { UserPreferencesRepository(dataStore) }
+            val themeOption by userPreferencesRepository.themeOption.collectAsState(initial = ThemeOption.SYSTEM)
+            
+            CiphioTheme(themeOption = themeOption) {
+                var masterPassword by remember { mutableStateOf("") }
+                var error by remember { mutableStateOf<String?>(null) }
+                var isLoading by remember { mutableStateOf(false) }
+                
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        "Save Credential",
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        "Enter master password to save credential for $domain",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+                    
+                    OutlinedTextField(
+                        value = masterPassword,
+                        onValueChange = { masterPassword = it; error = null },
+                        label = { Text("Master Password") },
+                        visualTransformation = PasswordVisualTransformation(),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                        modifier = Modifier.fillMaxWidth(),
+                        isError = error != null
+                    )
+                    
+                    error?.let {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            it,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                    
+                    Spacer(modifier = Modifier.height(24.dp))
+                    
+                    Button(
+                        onClick = {
+                            if (masterPassword.isEmpty()) {
+                                error = "Please enter master password"
+                                return@Button
+                            }
+                            
+                            isLoading = true
+                            lifecycleScope.launch(Dispatchers.IO) {
+                                val isValid = vaultRepository.verifyMasterPassword(masterPassword)
+                                withContext(Dispatchers.Main) {
+                                    isLoading = false
+                                    if (isValid) {
+                                        saveCredential(masterPassword, domain, username, password)
+                                    } else {
+                                        error = "Incorrect master password"
+                                    }
+                                }
+                            }
+                        },
+                        enabled = !isLoading,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        if (isLoading) {
+                            CircularProgressIndicator(modifier = Modifier.size(20.dp))
+                        } else {
+                            Text("Save")
+                        }
+                    }
+                    
+                    Spacer(modifier = Modifier.height(8.dp))
+                    
+                    TextButton(
+                        onClick = { finish() },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Cancel")
+                    }
+                }
+            }
         }
     }
     

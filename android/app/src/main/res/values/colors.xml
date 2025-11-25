@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Autofill colors - using Material Design colors that work in both light and dark themes -->
+    <color name="autofill_background">#FFFFFF</color>
+    <color name="autofill_text">#000000</color>
+</resources>
+

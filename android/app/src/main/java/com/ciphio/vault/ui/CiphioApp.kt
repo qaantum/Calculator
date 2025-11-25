@@ -21,6 +21,10 @@ import com.ciphio.vault.password.PasswordGenerator
 import com.ciphio.vault.passwordmanager.PasswordManagerApp
 import com.ciphio.vault.ui.theme.CiphioTheme
 import androidx.compose.runtime.collectAsState
+import android.content.Intent
+import android.os.Build
+import android.provider.Settings
+import android.view.autofill.AutofillManager
 
 @Composable
 fun CiphioApp(initialSharedText: String? = null) {
@@ -100,6 +104,24 @@ fun CiphioApp(initialSharedText: String? = null) {
                             val activity = context as? android.app.Activity
                             if (activity != null) {
                                 viewModel.upgradeToPremium(activity)
+                            }
+                        },
+                        onOpenAutofillSettings = {
+                            // Open Android's autofill settings
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                val intent = Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE).apply {
+                                    data = android.net.Uri.parse("package:${context.packageName}")
+                                }
+                                try {
+                                    context.startActivity(intent)
+                                } catch (e: Exception) {
+                                    // Fallback to general autofill settings
+                                    try {
+                                        context.startActivity(Intent(Settings.ACTION_SETTINGS))
+                                    } catch (e2: Exception) {
+                                        android.util.Log.e("CiphioApp", "Could not open settings: ${e2.message}")
+                                    }
+                                }
                             }
                         },
                         onRateUs = {

@@ -567,6 +567,81 @@ fun PasswordManagerListScreen(
         viewModel.setBiometricAvailable(biometricAvailable)
     }
     
+    // Check if autofill is enabled and prompt user if not
+    var showAutofillPrompt by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        val autofillManager = context.getSystemService(android.view.autofill.AutofillManager::class.java)
+        val prefs = context.getSharedPreferences("ciphio_prefs", android.content.Context.MODE_PRIVATE)
+        val hasPrompted = prefs.getBoolean("autofill_prompted", false)
+        
+        if (autofillManager != null && !autofillManager.hasEnabledAutofillServices() && !hasPrompted) {
+            showAutofillPrompt = true
+        }
+    }
+    
+    // Autofill setup prompt dialog
+    if (showAutofillPrompt) {
+        AlertDialog(
+            onDismissRequest = { 
+                showAutofillPrompt = false
+                // Mark as prompted so we don't ask again
+                context.getSharedPreferences("ciphio_prefs", android.content.Context.MODE_PRIVATE)
+                    .edit().putBoolean("autofill_prompted", true).apply()
+            },
+            icon = {
+                Icon(
+                    imageVector = Icons.Filled.Fingerprint,
+                    contentDescription = null,
+                    tint = palette.primary,
+                    modifier = Modifier.size(48.dp)
+                )
+            },
+            title = {
+                Text(
+                    "Enable Autofill?",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = palette.foreground
+                )
+            },
+            text = {
+                Text(
+                    "Set Ciphio Vault as your autofill service to automatically fill passwords in apps and browsers.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = palette.mutedForeground
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showAutofillPrompt = false
+                        context.getSharedPreferences("ciphio_prefs", android.content.Context.MODE_PRIVATE)
+                            .edit().putBoolean("autofill_prompted", true).apply()
+                        // Open autofill settings
+                        val intent = android.content.Intent(android.provider.Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
+                        intent.data = android.net.Uri.parse("package:${context.packageName}")
+                        context.startActivity(intent)
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = palette.primary)
+                ) {
+                    Text("Enable")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        showAutofillPrompt = false
+                        context.getSharedPreferences("ciphio_prefs", android.content.Context.MODE_PRIVATE)
+                            .edit().putBoolean("autofill_prompted", true).apply()
+                    }
+                ) {
+                    Text("Not Now", color = palette.mutedForeground)
+                }
+            },
+            containerColor = palette.card,
+            shape = RoundedCornerShape(16.dp)
+        )
+    }
+    
     // Ensure entries are loaded when the screen is displayed
     LaunchedEffect(Unit) {
         viewModel.reloadEntries()

@@ -214,7 +214,7 @@ private fun HomeScreen(
                         horizontalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = "Ciphio",
+                            text = "Ciphio Vault",
                             color = palette.foreground,
                             fontWeight = FontWeight.SemiBold
                         )

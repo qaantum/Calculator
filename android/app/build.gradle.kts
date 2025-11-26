@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.ciphio.vault"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.ciphio.vault"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0.0-beta.1"
         
@@ -106,7 +106,7 @@ dependencies {
     testImplementation("androidx.datastore:datastore-preferences:1.1.1")
     
     // AndroidTest dependencies
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.6.7")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 }

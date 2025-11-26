@@ -14,29 +14,36 @@ android {
         minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0-beta.1"
         
-        buildConfigField("boolean", "IS_BETA", "false")
+        buildConfigField("boolean", "IS_BETA", "true")
     }
 
     signingConfigs {
         create("release") {
-            // Load from local.properties or environment variables in a real project
-            // storeFile = file("release.keystore")
-            // storePassword = "password"
-            // keyAlias = "release"
-            // keyPassword = "password"
+            val keystorePath = System.getenv("CIPHIO_KEYSTORE_PATH") ?: project.findProperty("CIPHIO_KEYSTORE_PATH") as String?
+            val keystorePass = System.getenv("CIPHIO_KEYSTORE_PASSWORD") ?: project.findProperty("CIPHIO_KEYSTORE_PASSWORD") as String?
+            val keyAliasName = System.getenv("CIPHIO_KEY_ALIAS") ?: project.findProperty("CIPHIO_KEY_ALIAS") as String?
+            val keyPass = System.getenv("CIPHIO_KEY_PASSWORD") ?: project.findProperty("CIPHIO_KEY_PASSWORD") as String?
+            
+            if (keystorePath != null && keystorePass != null && keyAliasName != null && keyPass != null) {
+                storeFile = file(keystorePath)
+                storePassword = keystorePass
+                keyAlias = keyAliasName
+                keyPassword = keyPass
+            }
         }
     }
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            // signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 

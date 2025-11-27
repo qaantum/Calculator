@@ -16,7 +16,7 @@ class PremiumManager: ObservableObject {
     static let useMockMode = false
     #endif
     
-    private let productId = "com.ciphio.premium"
+    private let productId = "com.ciphio.vault.premium"
     private var updates: Task<Void, Never>? = nil
     
     private init() {

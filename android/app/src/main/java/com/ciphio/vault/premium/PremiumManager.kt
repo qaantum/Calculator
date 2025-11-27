@@ -47,10 +47,11 @@ class RealPremiumManager(
 
     private val billingClient = BillingClient.newBuilder(context)
         .setListener(this)
+        .enablePendingPurchases()
         .build()
 
     private var productDetails: ProductDetails? = null
-    private val premiumProductId = "com.ciphio.premium" // Must match Play Console
+    private val premiumProductId = "com.ciphio.vault.premium" // Must match Play Console
 
     init {
         startConnection()

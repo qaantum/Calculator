@@ -13,8 +13,8 @@ android {
         applicationId = "com.ciphio.vault"
         minSdk = 24
         targetSdk = 35
-        versionCode = 3
-        versionName = "1.0.0-beta.3"
+        versionCode = 6
+        versionName = "1.0.0-beta.6"
         
         buildConfigField("boolean", "IS_BETA", "true")
     }
@@ -38,7 +38,7 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
-            isShrinkResources = true
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

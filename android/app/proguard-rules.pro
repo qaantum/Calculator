@@ -17,10 +17,26 @@
     kotlinx.serialization.KSerializer serializer(...);
 }
 
+# Keep ALL app classes - be aggressive to prevent crashes
+-keep class com.ciphio.vault.** { *; }
+-keepclassmembers class com.ciphio.vault.** { *; }
+
 # Keep data classes
 -keep class com.ciphio.vault.data.** { *; }
--keep class com.ciphio.vault.passwordmanager.PasswordEntry { *; }
+-keep class com.ciphio.vault.passwordmanager.** { *; }
 -keep class com.ciphio.vault.crypto.** { *; }
+-keep class com.ciphio.vault.ui.** { *; }
+-keep class com.ciphio.vault.premium.** { *; }
+
+# Keep ViewModels and Factories
+-keep class * extends androidx.lifecycle.ViewModel { *; }
+-keep class * extends androidx.lifecycle.ViewModelFactory { *; }
+-keep class com.ciphio.vault.***Factory { *; }
+
+# Keep extension properties (like ciphioDataStore)
+-keepclassmembers class * {
+    @kotlin.jvm.JvmStatic <methods>;
+}
 
 # Keep Compose
 -keep class androidx.compose.** { *; }
@@ -54,3 +70,32 @@
 # Prevent R8 from stripping interface information
 -keepattributes Signature
 -keepattributes Exceptions
+-keepattributes EnclosingMethod
+-keepattributes InnerClasses
+-keepattributes RuntimeVisibleAnnotations
+-keepattributes RuntimeVisibleParameterAnnotations
+-keepattributes AnnotationDefault
+
+# Keep BuildConfig
+-keep class com.ciphio.vault.BuildConfig { *; }
+
+# Keep companion objects
+-keepclassmembers class * {
+    static ** Companion;
+}
+
+# Keep enum classes
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# Keep native methods
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+# Keep Parcelable implementations
+-keep class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator CREATOR;
+}

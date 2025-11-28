@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../models/custom_calculator_model.dart';
 import '../services/custom_calculator_service.dart';
 import '../services/math_engine.dart';
+import '../../../../ui/widgets/formula_graph_widget.dart';
 
 class CustomCalculatorBuilderScreen extends StatefulWidget {
   final CustomCalculator? calculator; // Optional: for editing
@@ -33,6 +35,9 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
   final Map<String, TextEditingController> _playgroundControllers = {};
   String _playgroundResult = '';
   String? _error;
+  
+  // Graph State
+  String? _graphXAxisVariable;
 
   // Icon Selection
   IconData _selectedIcon = FontAwesomeIcons.calculator;
@@ -276,7 +281,11 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
                           onChanged: (v) => setState(() => _varType = v!),
                         ),
                       ],
+
                     ),
+                    const SizedBox(height: 8),
+                    if (_varType == VariableType.date)
+                      const Text('Date variables will be treated as timestamps (seconds since epoch) in formulas.', style: TextStyle(fontSize: 12, color: Colors.grey)),
                     const SizedBox(height: 16),
                     FilledButton.icon(onPressed: _addVariable, icon: const Icon(Icons.add), label: const Text('Add Variable')),
                   ],
@@ -323,73 +332,150 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
                 ActionChip(label: const Text('d/dx'), onPressed: () => _insertText('deriv(expr, var, point)')),
                 ActionChip(label: const Text('pi'), onPressed: () => _insertText('pi')),
                 ActionChip(label: const Text('e'), onPressed: () => _insertText('e')),
+                ActionChip(label: const Text('daysBetween'), onPressed: () => _insertText('daysBetween(t1, t2)')),
+                ActionChip(label: const Text('addDays'), onPressed: () => _insertText('addDays(t, days)')),
+                ActionChip(label: const Text('age'), onPressed: () => _insertText('age(birthdate)')),
               ],
             ),
             const SizedBox(height: 24),
 
-            // 4. Playground Section
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('3. Playground', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                FilledButton.tonalIcon(
-                  onPressed: _runPlayground,
-                  icon: const Icon(Icons.play_arrow),
-                  label: const Text('Test Formula'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Card(
-              color: Theme.of(context).colorScheme.surfaceVariant,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    if (_variables.isEmpty) const Text('Add variables to test'),
-                    ..._variables.map((v) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: TextField(
-                          controller: _playgroundControllers[v.name],
-                          decoration: InputDecoration(
-                            labelText: '${v.name} ${v.unitLabel != null ? '(${v.unitLabel})' : ''}',
-                            helperText: v.description,
-                            isDense: true,
+            // 4. Playground & Graph Section
+            DefaultTabController(
+              length: 2,
+              child: Column(
+                children: [
+                  const TabBar(
+                    tabs: [
+                      Tab(text: 'Test'),
+                      Tab(text: 'Graph'),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: 500,
+                    child: TabBarView(
+                      children: [
+                        // Tab 1: Test (Existing Playground)
+                        SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text('Test Formula', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                                  FilledButton.tonalIcon(
+                                    onPressed: _runPlayground,
+                                    icon: const Icon(Icons.play_arrow),
+                                    label: const Text('Run'),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Card(
+                                color: Theme.of(context).colorScheme.surfaceVariant,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Column(
+                                    children: [
+                                      if (_variables.isEmpty) const Text('Add variables to test'),
+                                      ..._variables.map((v) {
+                                        return Padding(
+                                          padding: const EdgeInsets.only(bottom: 8.0),
+                                          child: TextField(
+                                            controller: _playgroundControllers[v.name],
+                                            decoration: InputDecoration(
+                                              labelText: '${v.name} ${v.unitLabel != null ? '(${v.unitLabel})' : ''}',
+                                              helperText: v.description,
+                                              isDense: true,
+                                            ),
+                                            keyboardType: TextInputType.numberWithOptions(decimal: v.type == VariableType.number),
+                                            readOnly: v.type == VariableType.date,
+                                            onTap: v.type == VariableType.date ? () async {
+                                              final date = await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(1900),
+                                                lastDate: DateTime(2100),
+                                              );
+                                              if (date != null) {
+                                                // Store as timestamp (seconds)
+                                                final timestamp = date.millisecondsSinceEpoch / 1000;
+                                                _playgroundControllers[v.name]!.text = timestamp.toString();
+                                              }
+                                            } : null,
+                                          ),
+                                        );
+                                      }),
+                                      const Divider(),
+                                      if (_error != null)
+                                        Container(
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context).colorScheme.errorContainer,
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.error, color: Theme.of(context).colorScheme.onErrorContainer),
+                                              const SizedBox(width: 8),
+                                              Expanded(child: Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer))),
+                                            ],
+                                          ),
+                                        )
+                                      else
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text('Result:', style: TextStyle(fontWeight: FontWeight.bold)),
+                                            Text(
+                                              _playgroundResult,
+                                              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          keyboardType: TextInputType.numberWithOptions(decimal: v.type == VariableType.number),
                         ),
-                      );
-                    }),
-                    const Divider(),
-                    if (_error != null)
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.errorContainer,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Row(
+                        
+                        // Tab 2: Graph
+                        Column(
                           children: [
-                            Icon(Icons.error, color: Theme.of(context).colorScheme.onErrorContainer),
-                            const SizedBox(width: 8),
-                            Expanded(child: Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer))),
+                            if (_variables.isEmpty)
+                              const Center(child: Text('Add variables to graph'))
+                            else ...[
+                              Row(
+                                children: [
+                                  const Text('X-Axis Variable: '),
+                                  const SizedBox(width: 8),
+                                  DropdownButton<String>(
+                                    value: _graphXAxisVariable ?? _variables.first.name,
+                                    items: _variables.map((v) => DropdownMenuItem(value: v.name, child: Text(v.name))).toList(),
+                                    onChanged: (v) => setState(() => _graphXAxisVariable = v),
+                                  ),
+                                ],
+                              ),
+                              Expanded(
+                                child: FormulaGraphWidget(
+                                  formula: _formulaController.text,
+                                  variables: _variables,
+                                  currentValues: {
+                                    for (var v in _variables)
+                                      v.name: double.tryParse(_playgroundControllers[v.name]?.text ?? '0') ?? 0.0
+                                  },
+                                  xAxisVariable: _graphXAxisVariable ?? _variables.first.name,
+                                ),
+                              ),
+                            ],
                           ],
                         ),
-                      )
-                    else
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Result:', style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(
-                            _playgroundResult,
-                            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                  ],
-                ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

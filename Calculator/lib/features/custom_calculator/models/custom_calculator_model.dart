@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum VariableType { number, integer }
+enum VariableType { number, integer, date }
 
 class CalculatorVariable {
   final String name;

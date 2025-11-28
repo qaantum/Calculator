@@ -515,6 +515,50 @@ class CalculatorTemplates {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     ),
+    // Lifestyle - Age
+    CustomCalculator(
+      id: const Uuid().v4(),
+      title: 'Age Calculator',
+      iconCode: FontAwesomeIcons.cakeCandles.codePoint,
+      iconFontFamily: FontAwesomeIcons.cakeCandles.fontFamily,
+      iconFontPackage: FontAwesomeIcons.cakeCandles.fontPackage,
+      inputs: [
+        CalculatorVariable(name: 'birthdate', unitLabel: '', type: VariableType.date, description: 'Date of Birth'),
+      ],
+      formula: 'age(birthdate)',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    ),
+    // Lifestyle - Date Difference
+    CustomCalculator(
+      id: const Uuid().v4(),
+      title: 'Date Difference',
+      iconCode: FontAwesomeIcons.calendarDays.codePoint,
+      iconFontFamily: FontAwesomeIcons.calendarDays.fontFamily,
+      iconFontPackage: FontAwesomeIcons.calendarDays.fontPackage,
+      inputs: [
+        CalculatorVariable(name: 'start_date', unitLabel: '', type: VariableType.date, description: 'Start Date'),
+        CalculatorVariable(name: 'end_date', unitLabel: '', type: VariableType.date, description: 'End Date'),
+      ],
+      formula: 'daysBetween(start_date, end_date)',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    ),
+    // Lifestyle - Days Until
+    CustomCalculator(
+      id: const Uuid().v4(),
+      title: 'Days Until Event',
+      iconCode: FontAwesomeIcons.hourglassStart.codePoint,
+      iconFontFamily: FontAwesomeIcons.hourglassStart.fontFamily,
+      iconFontPackage: FontAwesomeIcons.hourglassStart.fontPackage,
+      inputs: [
+        CalculatorVariable(name: 'event_date', unitLabel: '', type: VariableType.date, description: 'Event Date'),
+        CalculatorVariable(name: 'today', unitLabel: '', type: VariableType.date, description: 'Today (or Start Date)'),
+      ],
+      formula: 'daysBetween(today, event_date)',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    ),
   ];
 
   static final Map<String, String> _routeToTemplateTitle = {
@@ -550,6 +594,11 @@ class CalculatorTemplates {
     '/science/density': 'Density',
     '/science/acceleration': 'Acceleration',
     '/science/power': 'Power',
+    '/science/acceleration': 'Acceleration',
+    '/science/power': 'Power',
+    '/lifestyle/age': 'Age Calculator',
+    '/lifestyle/date': 'Date Difference',
+    '/lifestyle/daysuntil': 'Days Until Event',
   };
 
   static CustomCalculator? getTemplateForRoute(String route) {

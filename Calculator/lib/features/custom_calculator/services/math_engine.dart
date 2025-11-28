@@ -109,6 +109,30 @@ class MathEngine {
       return derivative.toString();
     });
 
+    // daysBetween(t1, t2) -> abs(t1 - t2) / 86400
+    final daysBetweenRegex = RegExp(r'daysBetween\(([^,]+),([^)]+)\)');
+    result = result.replaceAllMapped(daysBetweenRegex, (match) {
+      final t1 = match.group(1)!;
+      final t2 = match.group(2)!;
+      return '(abs($t1 - $t2) / 86400)';
+    });
+
+    // addDays(t, days) -> t + (days * 86400)
+    final addDaysRegex = RegExp(r'addDays\(([^,]+),([^)]+)\)');
+    result = result.replaceAllMapped(addDaysRegex, (match) {
+      final t = match.group(1)!;
+      final days = match.group(2)!;
+      return '($t + ($days * 86400))';
+    });
+
+    // age(birthdate) -> (now - birthdate) / 31557600 (approx seconds in year)
+    final ageRegex = RegExp(r'age\(([^)]+)\)');
+    result = result.replaceAllMapped(ageRegex, (match) {
+      final birthdate = match.group(1)!;
+      final now = DateTime.now().millisecondsSinceEpoch / 1000;
+      return '(($now - $birthdate) / 31557600)';
+    });
+
     return result;
   }
 

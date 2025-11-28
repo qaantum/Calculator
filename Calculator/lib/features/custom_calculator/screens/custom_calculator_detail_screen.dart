@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../models/custom_calculator_model.dart';
 import '../services/math_engine.dart';
 import '../services/custom_calculator_service.dart';
 import 'custom_calculator_builder_screen.dart';
+import '../../../../ui/widgets/formula_graph_widget.dart';
 
 class CustomCalculatorDetailScreen extends StatefulWidget {
   final CustomCalculator? calculator;
@@ -22,6 +24,9 @@ class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScr
   String _result = '';
   String? _error;
   bool _loading = true;
+  
+  // Graph State
+  String? _graphXAxisVariable;
 
   @override
   void initState() {
@@ -301,6 +306,20 @@ class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScr
                             border: const OutlineInputBorder(),
                           ),
                           keyboardType: TextInputType.numberWithOptions(decimal: v.type == VariableType.number),
+                          readOnly: v.type == VariableType.date,
+                          onTap: v.type == VariableType.date ? () async {
+                            final date = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime(2100),
+                            );
+                            if (date != null) {
+                              // Store as timestamp (seconds)
+                              final timestamp = date.millisecondsSinceEpoch / 1000;
+                              _controllers[v.name]!.text = timestamp.toString();
+                            }
+                          } : null,
                         ),
                       );
                     }),
@@ -344,6 +363,51 @@ class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScr
                       ),
                     ],
                   ),
+                ),
+              ),
+            ],
+            
+            // Graph Section
+            if (_calculator!.inputs.isNotEmpty) ...[
+              const SizedBox(height: 16),
+              Card(
+                child: ExpansionTile(
+                  title: const Text('Visualize Formula'),
+                  leading: const Icon(Icons.show_chart),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('X-Axis Variable: '),
+                              const SizedBox(width: 8),
+                              DropdownButton<String>(
+                                value: _graphXAxisVariable ?? _calculator!.inputs.first.name,
+                                items: _calculator!.inputs.map((v) => DropdownMenuItem(value: v.name, child: Text(v.name))).toList(),
+                                onChanged: (v) => setState(() => _graphXAxisVariable = v),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          SizedBox(
+                            height: 300,
+                            child: FormulaGraphWidget(
+                              formula: _calculator!.formula,
+                              variables: _calculator!.inputs,
+                              currentValues: {
+                                for (var v in _calculator!.inputs)
+                                  v.name: double.tryParse(_controllers[v.name]?.text ?? '0') ?? 0.0
+                              },
+                              xAxisVariable: _graphXAxisVariable ?? _calculator!.inputs.first.name,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

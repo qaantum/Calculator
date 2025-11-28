@@ -90,7 +90,12 @@ Some documentation files have example paths like:
 - These are documentation only, not used by code
 
 ### IDE Settings (Optional)
-- **Android Studio**: May need to re-index (automatic)
+- **Android Studio/IntelliJ**: 
+  - If you see "VCS root configuration problems" warning:
+    - Go to Settings → Version Control → Directory Mappings
+    - Remove the mapping for `CiphioVault` (it's not a separate Git repo)
+    - Keep only the parent directory (`/Users/qaantum/Desktop/Project`) mapped to Git
+    - The IDE will auto-detect the Git repo from the parent directory
 - **Xcode**: May need to re-index (automatic)
 - **VS Code/Cursor**: Should auto-detect new location
 

@@ -1,0 +1,35 @@
+name: Auto Create Issue from Commit
+
+# This workflow can be triggered manually or via API
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        description: 'Issue title'
+        required: true
+      description:
+        description: 'Issue description'
+        required: true
+      labels:
+        description: 'Comma-separated labels (e.g., bug,enhancement)'
+        required: false
+        default: 'enhancement'
+
+jobs:
+  create-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create GitHub Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = '${{ inputs.labels }}'.split(',').map(l => l.trim()).filter(l => l);
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '${{ inputs.title }}',
+              body: '${{ inputs.description }}',
+              labels: labels
+            });
+            console.log(`Created issue #${issue.data.number}: ${issue.data.html_url}`);
+

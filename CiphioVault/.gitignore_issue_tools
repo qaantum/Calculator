@@ -1,0 +1,3 @@
+# Issue creation tools (keep in repo, but ignore tokens)
+*.token
+.env.local

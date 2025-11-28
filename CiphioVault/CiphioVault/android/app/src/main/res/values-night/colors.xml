@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Autofill colors for dark theme -->
+    <color name="autofill_background">#1A242E</color>
+    <color name="autofill_text">#DDE1E6</color>
+</resources>
+

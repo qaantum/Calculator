@@ -1,6 +1,6 @@
 # Android Testing Scenarios
 
-**Date:** December 2024  
+**Date:** November 2025  
 **Purpose:** Comprehensive test plan for Ciphio Vault on Android devices
 
 ---

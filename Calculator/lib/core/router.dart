@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../ui/screens/home_screen.dart';
 import '../ui/screens/more_screen.dart';
+import '../ui/screens/settings_screen.dart';
 
 import '../ui/screens/finance_screen.dart';
 import '../features/finance/mortgage_calculator.dart';
@@ -38,7 +39,7 @@ import '../features/other/unit_converter.dart';
 
 import '../features/finance/inflation_calculator.dart';
 import '../features/finance/sales_tax_calculator.dart';
-import '../features/finance/effective_rate_calculator.dart';
+
 import '../features/finance/tip_calculator.dart';
 import '../features/finance/discount_calculator.dart';
 import '../features/finance/roi_calculator.dart';
@@ -109,12 +110,9 @@ import '../features/finance/credit_card_payoff_calculator.dart';
 
 import '../features/finance/credit_card_payoff_calculator.dart';
 
-import '../features/sports/cricket_run_rate_calculator.dart';
-import '../features/sports/tennis_score_keeper.dart';
-import '../features/math/binary_converter.dart';
-import '../features/math/hex_converter.dart';
 
-import '../features/math/hex_converter.dart';
+import '../features/math/binary_converter.dart';
+
 
 import '../features/text/word_count_calculator.dart';
 import '../features/text/case_converter.dart';
@@ -125,7 +123,7 @@ import '../ui/screens/text_tools_screen.dart';
 
 import '../features/other/flooring_calculator.dart';
 import '../features/finance/rental_property_calculator.dart';
-import '../features/text/lorem_ipsum_generator.dart';
+
 import '../features/math/roman_numeral_converter.dart';
 
 import '../features/electronics/resistor_color_code_calculator.dart';
@@ -157,8 +155,18 @@ import '../features/math/surface_area_calculator.dart';
 import '../features/math/factorial_calculator.dart';
 import '../features/science/density_calculator.dart';
 import '../features/science/acceleration_calculator.dart';
-import '../features/lifestyle/pizza_party_calculator.dart';
-import '../features/text/reverse_text_generator.dart';
+
+// NEW CALCULATORS
+import '../features/other/timestamp_converter.dart';
+import '../features/other/countdown_calculator.dart';
+import '../features/other/birthday_calculator.dart';
+import '../features/other/driving_time_calculator.dart';
+import '../features/health/pet_age_calculator.dart';
+import '../features/health/caffeine_calculator.dart';
+import '../features/other/paint_calculator.dart';
+import '../features/other/concrete_calculator.dart';
+import '../features/other/tile_calculator.dart';
+
 import '../features/custom_calculator/screens/custom_calculator_builder_screen.dart';
 import '../features/custom_calculator/screens/custom_calculator_detail_screen.dart';
 import '../features/custom_calculator/models/custom_calculator_model.dart';
@@ -183,6 +191,10 @@ final router = GoRouter(
         GoRoute(
           path: '/more',
           builder: (context, state) => const MoreScreen(),
+        ),
+        GoRoute(
+          path: '/settings',
+          builder: (context, state) => const SettingsScreen(),
         ),
         GoRoute(
           path: '/standard',
@@ -246,10 +258,7 @@ final router = GoRouter(
               path: 'salestax',
               builder: (context, state) => const SalesTaxCalculator(),
             ),
-            GoRoute(
-              path: 'effectiverate',
-              builder: (context, state) => const EffectiveRateCalculator(),
-            ),
+
             GoRoute(
               path: 'tip',
               builder: (context, state) => const TipCalculator(),
@@ -412,6 +421,14 @@ final router = GoRouter(
               path: 'protein',
               builder: (context, state) => const ProteinIntakeCalculator(),
             ),
+            GoRoute(
+              path: 'petage',
+              builder: (context, state) => const PetAgeCalculator(),
+            ),
+            GoRoute(
+              path: 'caffeine',
+              builder: (context, state) => const CaffeineCalculator(),
+            ),
           ],
         ),
         GoRoute(
@@ -462,10 +479,7 @@ final router = GoRouter(
               path: 'binary',
               builder: (context, state) => const BinaryConverter(),
             ),
-            GoRoute(
-              path: 'hex',
-              builder: (context, state) => const HexConverter(),
-            ),
+
             GoRoute(
               path: 'roman',
               builder: (context, state) => const RomanNumeralConverter(),
@@ -638,14 +652,7 @@ final router = GoRouter(
               path: 'soil',
               builder: (context, state) => const SoilMulchCalculator(),
             ),
-            GoRoute(
-              path: 'cricket',
-              builder: (context, state) => const CricketRunRateCalculator(),
-            ),
-            GoRoute(
-              path: 'tennis',
-              builder: (context, state) => const TennisScoreKeeper(),
-            ),
+
             GoRoute(
               path: 'dof',
               builder: (context, state) => const DofCalculator(),
@@ -654,10 +661,7 @@ final router = GoRouter(
               path: 'ev',
               builder: (context, state) => const EvCalculator(),
             ),
-            GoRoute(
-              path: 'pizza',
-              builder: (context, state) => const PizzaPartyCalculator(),
-            ),
+
           ],
         ),
         GoRoute(
@@ -672,10 +676,7 @@ final router = GoRouter(
               path: 'case',
               builder: (context, state) => const CaseConverter(),
             ),
-            GoRoute(
-              path: 'lorem',
-              builder: (context, state) => const LoremIpsumGenerator(),
-            ),
+
             GoRoute(
               path: 'base64',
               builder: (context, state) => const Base64Converter(),
@@ -684,10 +685,7 @@ final router = GoRouter(
               path: 'json',
               builder: (context, state) => const JsonFormatter(),
             ),
-            GoRoute(
-              path: 'reverse',
-              builder: (context, state) => const ReverseTextGenerator(),
-            ),
+
           ],
         ),
         GoRoute(
@@ -756,6 +754,35 @@ final router = GoRouter(
             GoRoute(
               path: 'flooring',
               builder: (context, state) => const FlooringCalculator(),
+            ),
+            // NEW CALCULATORS
+            GoRoute(
+              path: 'timestamp',
+              builder: (context, state) => const TimestampConverter(),
+            ),
+            GoRoute(
+              path: 'countdown',
+              builder: (context, state) => const CountdownCalculator(),
+            ),
+            GoRoute(
+              path: 'birthday',
+              builder: (context, state) => const BirthdayCalculator(),
+            ),
+            GoRoute(
+              path: 'drivingtime',
+              builder: (context, state) => const DrivingTimeCalculator(),
+            ),
+            GoRoute(
+              path: 'paint',
+              builder: (context, state) => const PaintCalculator(),
+            ),
+            GoRoute(
+              path: 'concrete',
+              builder: (context, state) => const ConcreteCalculator(),
+            ),
+            GoRoute(
+              path: 'tile',
+              builder: (context, state) => const TileCalculator(),
             ),
           ],
         ),

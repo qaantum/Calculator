@@ -6,8 +6,11 @@ struct BMICalculatorView: View {
     @State private var weight = ""
     @State private var inches = ""
     @State private var bmiResult: BMIResult?
+    @State private var showCustomizeAlert = false
+    @State private var showCustomizeSheet = false
     
     private let calculator = BMICalculator()
+    private let service = CustomCalculatorService()
     
     var body: some View {
         Form {
@@ -64,6 +67,29 @@ struct BMICalculatorView: View {
         }
         .navigationTitle("BMI Calculator")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    showCustomizeAlert = true
+                } label: {
+                    Image(systemName: "wrench.and.screwdriver")
+                }
+            }
+        }
+        .alert("Customize This Calculator", isPresented: $showCustomizeAlert) {
+            Button("Create My Version") {
+                if let forked = ForkCalculator.createFork("/health/bmi") {
+                    service.saveCalculator(forked)
+                    showCustomizeSheet = true
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Create your own version of the BMI Calculator with custom variables and formulas.")
+        }
+        .sheet(isPresented: $showCustomizeSheet) {
+            CustomCalculatorListView()
+        }
     }
     
     private func calculate() {

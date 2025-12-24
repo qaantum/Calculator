@@ -2,21 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/providers/currency_provider.dart';
 import '../models/custom_calculator_model.dart';
 import '../services/custom_calculator_service.dart';
 import '../services/math_engine.dart';
 import '../../../../ui/widgets/formula_graph_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class CustomCalculatorBuilderScreen extends StatefulWidget {
+class CustomCalculatorBuilderScreen extends ConsumerStatefulWidget {
   final CustomCalculator? calculator; // Optional: for editing
 
   const CustomCalculatorBuilderScreen({super.key, this.calculator});
 
   @override
-  State<CustomCalculatorBuilderScreen> createState() => _CustomCalculatorBuilderScreenState();
+  ConsumerState<CustomCalculatorBuilderScreen> createState() => _CustomCalculatorBuilderScreenState();
 }
 
-class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderScreen> {
+class _CustomCalculatorBuilderScreenState extends ConsumerState<CustomCalculatorBuilderScreen> {
   final _titleController = TextEditingController();
   final _formulaController = TextEditingController();
   
@@ -54,6 +57,21 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
     FontAwesomeIcons.music,
     FontAwesomeIcons.code,
     FontAwesomeIcons.gamepad,
+    // New Icons
+    FontAwesomeIcons.temperatureHalf,
+    FontAwesomeIcons.droplet,
+    FontAwesomeIcons.bolt,
+    FontAwesomeIcons.moneyBill,
+    FontAwesomeIcons.piggyBank,
+    FontAwesomeIcons.percent,
+    FontAwesomeIcons.scaleBalanced,
+    FontAwesomeIcons.atom,
+    FontAwesomeIcons.dna,
+    FontAwesomeIcons.microscope,
+    FontAwesomeIcons.weightScale,
+    FontAwesomeIcons.personRunning,
+    FontAwesomeIcons.clock,
+    FontAwesomeIcons.calendar,
   ];
 
   @override
@@ -82,13 +100,13 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
     // Validate reserved words
     final reserved = ['pi', 'e', 'log', 'root', 'deriv', 'integrate'];
     if (reserved.contains(name.toLowerCase())) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('"$name" is a reserved word')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.reservedWord(name))));
       return;
     }
     
     if (name.isEmpty) return;
     if (_variables.any((v) => v.name == name)) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Variable name already exists')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.variableExists)));
       return;
     }
 
@@ -125,7 +143,7 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
     // UX Improvement: Check if user forgot to click "Add Variable"
     if (_variables.isEmpty && _varNameController.text.isNotEmpty) {
       setState(() {
-        _error = 'Please click "+ Add Variable" to use "${_varNameController.text}"';
+        _error = AppLocalizations.of(context)!.clickToAdd(_varNameController.text);
       });
       return;
     }
@@ -139,22 +157,22 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
     for (var v in _variables) {
       final text = _playgroundControllers[v.name]?.text.trim() ?? '';
       if (text.isEmpty) {
-        setState(() => _error = 'Please enter a value for ${v.name}');
+        setState(() => _error = AppLocalizations.of(context)!.enterValue(v.name));
         return;
       }
       final val = double.tryParse(text);
       if (val == null) {
-        setState(() => _error = 'Invalid number format for ${v.name}');
+        setState(() => _error = AppLocalizations.of(context)!.invalidNumber(v.name));
         return;
       }
       
       // Validate Min/Max
       if (v.min != null && val < v.min!) {
-        setState(() => _error = '${v.name} must be >= ${v.min}');
+        setState(() => _error = AppLocalizations.of(context)!.mustBeGreater(v.name, v.min!));
         return;
       }
       if (v.max != null && val > v.max!) {
-        setState(() => _error = '${v.name} must be <= ${v.max}');
+        setState(() => _error = AppLocalizations.of(context)!.mustBeLess(v.name, v.max!));
         return;
       }
 
@@ -167,18 +185,18 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
       if (result.isSuccess) {
         _playgroundResult = result.value!.toStringAsFixed(4);
       } else {
-        _error = result.error?.message ?? 'Unknown Error';
+        _error = result.error?.message ?? AppLocalizations.of(context)!.error;
       }
     });
   }
 
   Future<void> _saveCalculator() async {
     if (_titleController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter a title')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.enterTitle)));
       return;
     }
     if (_formulaController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter a formula')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.enterFormula)));
       return;
     }
 
@@ -205,7 +223,7 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.calculator == null ? 'Build Calculator' : 'Edit Calculator'),
+        title: Text(widget.calculator == null ? AppLocalizations.of(context)!.buildCalculator : AppLocalizations.of(context)!.editCalculator),
         actions: [
           IconButton(
             icon: const Icon(Icons.save),
@@ -239,9 +257,9 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
                     Expanded(
                       child: TextField(
                         controller: _titleController,
-                        decoration: const InputDecoration(
-                          labelText: 'Calculator Name',
-                          border: OutlineInputBorder(),
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!.calculatorName,
+                          border: const OutlineInputBorder(),
                         ),
                       ),
                     ),
@@ -252,7 +270,7 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
             const SizedBox(height: 24),
 
             // 2. Variables Section
-            const Text('1. Define Variables', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(AppLocalizations.of(context)!.defineVariables, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Card(
               child: Padding(
@@ -261,19 +279,19 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
                   children: [
                     Row(
                       children: [
-                        Expanded(child: TextField(controller: _varNameController, decoration: const InputDecoration(labelText: 'Name (e.g. x)', isDense: true))),
+                        Expanded(child: TextField(controller: _varNameController, decoration: InputDecoration(labelText: '${AppLocalizations.of(context)!.name} (e.g. x)', isDense: true))),
                         const SizedBox(width: 8),
-                        Expanded(child: TextField(controller: _varUnitController, decoration: const InputDecoration(labelText: 'Unit (e.g. kg)', isDense: true))),
+                        Expanded(child: TextField(controller: _varUnitController, decoration: InputDecoration(labelText: '${AppLocalizations.of(context)!.unit} (e.g. kg)', isDense: true))),
                       ],
                     ),
                     const SizedBox(height: 8),
-                    TextField(controller: _varDescController, decoration: const InputDecoration(labelText: 'Description (optional)', isDense: true)),
+                    TextField(controller: _varDescController, decoration: InputDecoration(labelText: '${AppLocalizations.of(context)!.description} (optional)', isDense: true)),
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        Expanded(child: TextField(controller: _varMinController, decoration: const InputDecoration(labelText: 'Min', isDense: true), keyboardType: TextInputType.number)),
+                        Expanded(child: TextField(controller: _varMinController, decoration: InputDecoration(labelText: AppLocalizations.of(context)!.min, isDense: true), keyboardType: TextInputType.number)),
                         const SizedBox(width: 8),
-                        Expanded(child: TextField(controller: _varMaxController, decoration: const InputDecoration(labelText: 'Max', isDense: true), keyboardType: TextInputType.number)),
+                        Expanded(child: TextField(controller: _varMaxController, decoration: InputDecoration(labelText: AppLocalizations.of(context)!.max, isDense: true), keyboardType: TextInputType.number)),
                         const SizedBox(width: 8),
                         DropdownButton<VariableType>(
                           value: _varType,
@@ -285,9 +303,9 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
                     ),
                     const SizedBox(height: 8),
                     if (_varType == VariableType.date)
-                      const Text('Date variables will be treated as timestamps (seconds since epoch) in formulas.', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                      Text(AppLocalizations.of(context)!.dateWarning, style: const TextStyle(fontSize: 12, color: Colors.grey)),
                     const SizedBox(height: 16),
-                    FilledButton.icon(onPressed: _addVariable, icon: const Icon(Icons.add), label: const Text('Add Variable')),
+                    FilledButton.icon(onPressed: _addVariable, icon: const Icon(Icons.add), label: Text(AppLocalizations.of(context)!.addVariable)),
                   ],
                 ),
               ),
@@ -305,14 +323,14 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
             const SizedBox(height: 24),
 
             // 3. Formula Section
-            const Text('2. Write Formula', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(AppLocalizations.of(context)!.writeFormula, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             TextField(
               controller: _formulaController,
-              decoration: const InputDecoration(
-                labelText: 'Formula',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.formula,
                 hintText: 'e.g. x^2 + y or integrate(x^2, x, 0, 5)',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
               maxLines: 3,
             ),
@@ -362,11 +380,11 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text('Test Formula', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                                  Text(AppLocalizations.of(context)!.testFormula, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                                   FilledButton.tonalIcon(
                                     onPressed: _runPlayground,
                                     icon: const Icon(Icons.play_arrow),
-                                    label: const Text('Run'),
+                                    label: Text(AppLocalizations.of(context)!.run),
                                   ),
                                 ],
                               ),
@@ -377,14 +395,14 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
                                   padding: const EdgeInsets.all(16.0),
                                   child: Column(
                                     children: [
-                                      if (_variables.isEmpty) const Text('Add variables to test'),
+                                      if (_variables.isEmpty) Text(AppLocalizations.of(context)!.addVariablesToTest),
                                       ..._variables.map((v) {
                                         return Padding(
                                           padding: const EdgeInsets.only(bottom: 8.0),
                                           child: TextField(
                                             controller: _playgroundControllers[v.name],
                                             decoration: InputDecoration(
-                                              labelText: '${v.name} ${v.unitLabel != null ? '(${v.unitLabel})' : ''}',
+                                              labelText: '${v.name} ${v.unitLabel != null ? '(${v.unitLabel!.replaceAll('\$', ref.watch(currencyProvider))})' : ''}',
                                               helperText: v.description,
                                               isDense: true,
                                             ),
@@ -426,7 +444,7 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Text('Result:', style: TextStyle(fontWeight: FontWeight.bold)),
+                                            Text('${AppLocalizations.of(context)!.result}:', style: const TextStyle(fontWeight: FontWeight.bold)),
                                             Text(
                                               _playgroundResult,
                                               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -445,11 +463,11 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
                         Column(
                           children: [
                             if (_variables.isEmpty)
-                              const Center(child: Text('Add variables to graph'))
+                              Center(child: Text(AppLocalizations.of(context)!.addVariablesToGraph))
                             else ...[
                               Row(
                                 children: [
-                                  const Text('X-Axis Variable: '),
+                                  Text('${AppLocalizations.of(context)!.xAxisVariable}: '),
                                   const SizedBox(width: 8),
                                   DropdownButton<String>(
                                     value: _graphXAxisVariable ?? _variables.first.name,
@@ -499,7 +517,7 @@ class _CustomCalculatorBuilderScreenState extends State<CustomCalculatorBuilderS
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Select Icon'),
+        title: Text(AppLocalizations.of(context)!.selectIcon),
         content: SizedBox(
           width: double.maxFinite,
           child: GridView.builder(

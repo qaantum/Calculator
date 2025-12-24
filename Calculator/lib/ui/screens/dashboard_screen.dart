@@ -9,6 +9,7 @@ import '../widgets/calculator_card.dart';
 import '../../features/custom_calculator/models/custom_calculator_model.dart';
 import '../../features/custom_calculator/services/custom_calculator_service.dart';
 import '../../features/custom_calculator/data/calculator_templates.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -54,7 +55,15 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     final pinnedCalculators = [...pinnedStandard, ...pinnedCustom];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard')),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.dashboard),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => context.push('/settings'),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -65,20 +74,23 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('My Calculators', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text(AppLocalizations.of(context)!.myCalculators, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   FilledButton.icon(
                     onPressed: () => _showCreateOptions(context),
                     icon: const Icon(Icons.add),
-                    label: const Text('Create New'),
+                    label: Text(AppLocalizations.of(context)!.createNew),
                   ),
                 ],
               ),
               const SizedBox(height: 16),
               if (_customCalculators.isEmpty)
-                const Card(
+                Card(
                   child: Padding(
                     padding: EdgeInsets.all(16.0),
-                    child: Center(child: Text('You haven\'t created any calculators yet.')),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(child: Text(AppLocalizations.of(context)!.noCalculators)),
+                  ),
                   ),
                 )
               else
@@ -109,7 +121,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               const SizedBox(height: 32),
 
               if (pinnedCalculators.isNotEmpty) ...[
-                const Text('Pinned Tools', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Text(AppLocalizations.of(context)!.pinnedTools, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 16),
                 GridView.builder(
                   shrinkWrap: true,
@@ -135,7 +147,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 const SizedBox(height: 32),
               ],
 
-              const Text('Quick Access', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              Text(AppLocalizations.of(context)!.quickAccess, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               const SizedBox(height: 16),
               GridView(
                 shrinkWrap: true,
@@ -148,14 +160,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 ),
                 children: [
                   CalculatorCard(
-                    title: 'Standard',
+                    title: AppLocalizations.of(context)!.standard,
                     icon: FontAwesomeIcons.calculator,
                     color: Colors.blue,
                     route: '/standard',
                     onTap: () => context.go('/standard'),
                   ),
                   CalculatorCard(
-                    title: 'Scientific',
+                    title: AppLocalizations.of(context)!.scientific,
                     icon: FontAwesomeIcons.flask,
                     color: Colors.purple,
                     route: '/scientific',
@@ -179,7 +191,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         children: [
           ListTile(
             leading: const Icon(Icons.note_add),
-            title: const Text('Start from Scratch'),
+            title: Text(AppLocalizations.of(context)!.startFromScratch),
             onTap: () {
               Navigator.pop(context);
               context.push('/custom/builder').then((_) => _loadCustomCalculators());
@@ -187,7 +199,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.copy),
-            title: const Text('Use a Template'),
+            title: Text(AppLocalizations.of(context)!.useTemplate),
             subtitle: const Text('Start with a pre-made calculator'),
             onTap: () {
               Navigator.pop(context);
@@ -212,7 +224,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text('Select a Template', style: Theme.of(context).textTheme.titleLarge),
+              child: Text(AppLocalizations.of(context)!.selectTemplate, style: Theme.of(context).textTheme.titleLarge),
             ),
             Expanded(
               child: ListView.builder(

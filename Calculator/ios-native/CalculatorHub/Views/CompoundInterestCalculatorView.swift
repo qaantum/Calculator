@@ -7,8 +7,11 @@ struct CompoundInterestCalculatorView: View {
     @State private var contribution = "0"
     @State private var frequency = "12"
     @State private var result: CompoundInterestResult?
+    @State private var showCustomizeAlert = false
+    @State private var showCustomizeSheet = false
     
     private let calculator = CompoundInterestCalculator()
+    private let service = CustomCalculatorService()
     private let currencyFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
@@ -50,6 +53,29 @@ struct CompoundInterestCalculatorView: View {
         }
         .navigationTitle("Compound Interest")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    showCustomizeAlert = true
+                } label: {
+                    Image(systemName: "wrench.and.screwdriver")
+                }
+            }
+        }
+        .alert("Customize This Calculator", isPresented: $showCustomizeAlert) {
+            Button("Create My Version") {
+                if let forked = ForkCalculator.createFork("/finance/interest/compound") {
+                    service.saveCalculator(forked)
+                    showCustomizeSheet = true
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Create your own version with custom variables and formulas.")
+        }
+        .sheet(isPresented: $showCustomizeSheet) {
+            CustomCalculatorListView()
+        }
     }
     
     private func calculate() {

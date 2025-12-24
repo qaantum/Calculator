@@ -6,6 +6,7 @@ sealed class AppDestination(val route: String) {
     data object Settings : AppDestination("settings")
     data object Algorithms : AppDestination("algorithms")
     data object Terms : AppDestination("terms")
+    data object Privacy : AppDestination("privacy")
     
     // Password Manager routes (modular - can be removed)
     data object PasswordManager : AppDestination("password_manager")

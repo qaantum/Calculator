@@ -52,10 +52,10 @@ fun SettingsScreen(
     onSelectTheme: (ThemeOption) -> Unit,
     onOpenAlgorithms: () -> Unit,
     onOpenTerms: () -> Unit,
+    onOpenPrivacy: () -> Unit,
     onOpenPasswordManager: () -> Unit,
     onOpenPremium: () -> Unit,
     onOpenAutofillSettings: () -> Unit = {},
-    onRateUs: () -> Unit,
     onBack: () -> Unit
 ) {
     Scaffold(
@@ -235,10 +235,10 @@ fun SettingsScreen(
             )
 
             SettingsLinkItem(
-                icon = Icons.Default.Star,
-                title = "Rate Us",
-                subtitle = "Support us on the Play Store",
-                onClick = onRateUs
+                icon = Icons.Default.Lock,
+                title = "Privacy Policy",
+                subtitle = "How we protect your data",
+                onClick = onOpenPrivacy
             )
             
             Spacer(modifier = Modifier.height(16.dp))

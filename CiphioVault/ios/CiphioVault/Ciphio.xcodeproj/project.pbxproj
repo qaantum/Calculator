@@ -1,0 +1,761 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8C0B826A2EDB923D003C8611 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C0B82692EDB923C003C8611 /* AuthenticationServices.framework */; };
+		8C0B82752EDB923D003C8611 /* AutoFillExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8C0B82672EDB923C003C8611 /* AutoFillExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8C0B82732EDB923D003C8611 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8C934DF52EC0D3B800C003A6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8C0B82662EDB923C003C8611;
+			remoteInfo = AutoFillExtension;
+		};
+		8C934E0B2EC0D3BB00C003A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8C934DF52EC0D3B800C003A6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8C934DFC2EC0D3B800C003A6;
+			remoteInfo = CiphioVault;
+		};
+		8C934E152EC0D3BB00C003A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8C934DF52EC0D3B800C003A6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8C934DFC2EC0D3B800C003A6;
+			remoteInfo = CiphioVault;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8C0B82762EDB923D003C8611 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8C0B82752EDB923D003C8611 /* AutoFillExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		8C0B82672EDB923C003C8611 /* AutoFillExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AutoFillExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C0B82692EDB923C003C8611 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
+		8C934DFD2EC0D3B800C003A6 /* CiphioVault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CiphioVault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C934E0A2EC0D3BB00C003A6 /* CiphioVaultTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CiphioVaultTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C934E142EC0D3BB00C003A6 /* CiphioVaultUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CiphioVaultUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		8C0B82792EDB923D003C8611 /* Exceptions for "AutoFillExtension" folder in "AutoFillExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 8C0B82662EDB923C003C8611 /* AutoFillExtension */;
+		};
+		8C0B827E2EDB94DA003C8611 /* Exceptions for "CiphioVault" folder in "AutoFillExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				KeychainHelper.swift,
+				PasswordEntry.swift,
+				Shared/SharedConstants.swift,
+				Shared/VaultDataManager.swift,
+			);
+			target = 8C0B82662EDB923C003C8611 /* AutoFillExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		8C0B826B2EDB923D003C8611 /* AutoFillExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8C0B82792EDB923D003C8611 /* Exceptions for "AutoFillExtension" folder in "AutoFillExtension" target */,
+			);
+			path = AutoFillExtension;
+			sourceTree = "<group>";
+		};
+		8C934DFF2EC0D3B800C003A6 /* CiphioVault */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8C0B827E2EDB94DA003C8611 /* Exceptions for "CiphioVault" folder in "AutoFillExtension" target */,
+			);
+			path = CiphioVault;
+			sourceTree = "<group>";
+		};
+		8C934E0D2EC0D3BB00C003A6 /* CiphioVaultTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CiphioVaultTests;
+			sourceTree = "<group>";
+		};
+		8C934E172EC0D3BB00C003A6 /* CiphioVaultUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CiphioVaultUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8C0B82642EDB923C003C8611 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C0B826A2EDB923D003C8611 /* AuthenticationServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C934DFA2EC0D3B800C003A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C934E072EC0D3BB00C003A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C934E112EC0D3BB00C003A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8C0B82682EDB923C003C8611 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8C0B82692EDB923C003C8611 /* AuthenticationServices.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8C934DF42EC0D3B800C003A6 = {
+			isa = PBXGroup;
+			children = (
+				8C934DFF2EC0D3B800C003A6 /* CiphioVault */,
+				8C934E0D2EC0D3BB00C003A6 /* CiphioVaultTests */,
+				8C934E172EC0D3BB00C003A6 /* CiphioVaultUITests */,
+				8C0B826B2EDB923D003C8611 /* AutoFillExtension */,
+				8C0B82682EDB923C003C8611 /* Frameworks */,
+				8C934DFE2EC0D3B800C003A6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8C934DFE2EC0D3B800C003A6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8C934DFD2EC0D3B800C003A6 /* CiphioVault.app */,
+				8C934E0A2EC0D3BB00C003A6 /* CiphioVaultTests.xctest */,
+				8C934E142EC0D3BB00C003A6 /* CiphioVaultUITests.xctest */,
+				8C0B82672EDB923C003C8611 /* AutoFillExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8C0B82662EDB923C003C8611 /* AutoFillExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8C0B827A2EDB923D003C8611 /* Build configuration list for PBXNativeTarget "AutoFillExtension" */;
+			buildPhases = (
+				8C0B82632EDB923C003C8611 /* Sources */,
+				8C0B82642EDB923C003C8611 /* Frameworks */,
+				8C0B82652EDB923C003C8611 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				8C0B826B2EDB923D003C8611 /* AutoFillExtension */,
+			);
+			name = AutoFillExtension;
+			packageProductDependencies = (
+			);
+			productName = AutoFillExtension;
+			productReference = 8C0B82672EDB923C003C8611 /* AutoFillExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		8C934DFC2EC0D3B800C003A6 /* CiphioVault */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8C934E1E2EC0D3BB00C003A6 /* Build configuration list for PBXNativeTarget "CiphioVault" */;
+			buildPhases = (
+				8C934DF92EC0D3B800C003A6 /* Sources */,
+				8C934DFA2EC0D3B800C003A6 /* Frameworks */,
+				8C934DFB2EC0D3B800C003A6 /* Resources */,
+				8C0B82762EDB923D003C8611 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8C0B82742EDB923D003C8611 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				8C934DFF2EC0D3B800C003A6 /* CiphioVault */,
+			);
+			name = CiphioVault;
+			packageProductDependencies = (
+			);
+			productName = CiphioVault;
+			productReference = 8C934DFD2EC0D3B800C003A6 /* CiphioVault.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8C934E092EC0D3BB00C003A6 /* CiphioVaultTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8C934E212EC0D3BB00C003A6 /* Build configuration list for PBXNativeTarget "CiphioVaultTests" */;
+			buildPhases = (
+				8C934E062EC0D3BB00C003A6 /* Sources */,
+				8C934E072EC0D3BB00C003A6 /* Frameworks */,
+				8C934E082EC0D3BB00C003A6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8C934E0C2EC0D3BB00C003A6 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				8C934E0D2EC0D3BB00C003A6 /* CiphioVaultTests */,
+			);
+			name = CiphioVaultTests;
+			packageProductDependencies = (
+			);
+			productName = CiphioVaultTests;
+			productReference = 8C934E0A2EC0D3BB00C003A6 /* CiphioVaultTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8C934E132EC0D3BB00C003A6 /* CiphioVaultUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8C934E242EC0D3BB00C003A6 /* Build configuration list for PBXNativeTarget "CiphioVaultUITests" */;
+			buildPhases = (
+				8C934E102EC0D3BB00C003A6 /* Sources */,
+				8C934E112EC0D3BB00C003A6 /* Frameworks */,
+				8C934E122EC0D3BB00C003A6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8C934E162EC0D3BB00C003A6 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				8C934E172EC0D3BB00C003A6 /* CiphioVaultUITests */,
+			);
+			name = CiphioVaultUITests;
+			packageProductDependencies = (
+			);
+			productName = CiphioVaultUITests;
+			productReference = 8C934E142EC0D3BB00C003A6 /* CiphioVaultUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8C934DF52EC0D3B800C003A6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					8C0B82662EDB923C003C8611 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					8C934DFC2EC0D3B800C003A6 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					8C934E092EC0D3BB00C003A6 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 8C934DFC2EC0D3B800C003A6;
+					};
+					8C934E132EC0D3BB00C003A6 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 8C934DFC2EC0D3B800C003A6;
+					};
+				};
+			};
+			buildConfigurationList = 8C934DF82EC0D3B800C003A6 /* Build configuration list for PBXProject "Ciphio" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8C934DF42EC0D3B800C003A6;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 8C934DFE2EC0D3B800C003A6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8C934DFC2EC0D3B800C003A6 /* CiphioVault */,
+				8C934E092EC0D3BB00C003A6 /* CiphioVaultTests */,
+				8C934E132EC0D3BB00C003A6 /* CiphioVaultUITests */,
+				8C0B82662EDB923C003C8611 /* AutoFillExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8C0B82652EDB923C003C8611 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C934DFB2EC0D3B800C003A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C934E082EC0D3BB00C003A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C934E122EC0D3BB00C003A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8C0B82632EDB923C003C8611 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C934DF92EC0D3B800C003A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C934E062EC0D3BB00C003A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C934E102EC0D3BB00C003A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8C0B82742EDB923D003C8611 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8C0B82662EDB923C003C8611 /* AutoFillExtension */;
+			targetProxy = 8C0B82732EDB923D003C8611 /* PBXContainerItemProxy */;
+		};
+		8C934E0C2EC0D3BB00C003A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8C934DFC2EC0D3B800C003A6 /* CiphioVault */;
+			targetProxy = 8C934E0B2EC0D3BB00C003A6 /* PBXContainerItemProxy */;
+		};
+		8C934E162EC0D3BB00C003A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8C934DFC2EC0D3B800C003A6 /* CiphioVault */;
+			targetProxy = 8C934E152EC0D3BB00C003A6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		8C0B82772EDB923D003C8611 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = AutoFillExtension/AutoFillExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 45K7S9XMQ7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AutoFillExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AutoFillExtension;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ciphio.vault.AutoFillExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8C0B82782EDB923D003C8611 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = AutoFillExtension/AutoFillExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 45K7S9XMQ7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AutoFillExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AutoFillExtension;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ciphio.vault.AutoFillExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		8C934E1C2EC0D3BB00C003A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8C934E1D2EC0D3BB00C003A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8C934E1F2EC0D3BB00C003A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CiphioVault/CiphioVault.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 45K7S9XMQ7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Ciphio Vault";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ciphio.vault;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8C934E202EC0D3BB00C003A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CiphioVault/CiphioVault.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 45K7S9XMQ7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Ciphio Vault";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ciphio.vault;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		8C934E222EC0D3BB00C003A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ciphio.vault.CiphioVaultTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CiphioVault.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CiphioVault";
+			};
+			name = Debug;
+		};
+		8C934E232EC0D3BB00C003A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ciphio.vault.CiphioVaultTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CiphioVault.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CiphioVault";
+			};
+			name = Release;
+		};
+		8C934E252EC0D3BB00C003A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ciphio.vault.CiphioVaultUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CiphioVault;
+			};
+			name = Debug;
+		};
+		8C934E262EC0D3BB00C003A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ciphio.vault.CiphioVaultUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CiphioVault;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8C0B827A2EDB923D003C8611 /* Build configuration list for PBXNativeTarget "AutoFillExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C0B82772EDB923D003C8611 /* Debug */,
+				8C0B82782EDB923D003C8611 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8C934DF82EC0D3B800C003A6 /* Build configuration list for PBXProject "Ciphio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C934E1C2EC0D3BB00C003A6 /* Debug */,
+				8C934E1D2EC0D3BB00C003A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8C934E1E2EC0D3BB00C003A6 /* Build configuration list for PBXNativeTarget "CiphioVault" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C934E1F2EC0D3BB00C003A6 /* Debug */,
+				8C934E202EC0D3BB00C003A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8C934E212EC0D3BB00C003A6 /* Build configuration list for PBXNativeTarget "CiphioVaultTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C934E222EC0D3BB00C003A6 /* Debug */,
+				8C934E232EC0D3BB00C003A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8C934E242EC0D3BB00C003A6 /* Build configuration list for PBXNativeTarget "CiphioVaultUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C934E252EC0D3BB00C003A6 /* Debug */,
+				8C934E262EC0D3BB00C003A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8C934DF52EC0D3B800C003A6 /* Project object */;
+}

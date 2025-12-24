@@ -27,7 +27,7 @@ final List<CalculatorItem> allCalculators = [
   const CalculatorItem(title: 'CAGR', icon: FontAwesomeIcons.arrowTrendUp, route: '/finance/cagr', category: 'Finance'),
   const CalculatorItem(title: 'Currency', icon: FontAwesomeIcons.arrowRightArrowLeft, route: '/finance/currency', category: 'Finance'),
   const CalculatorItem(title: 'Discount', icon: FontAwesomeIcons.tags, route: '/finance/discount', category: 'Finance'),
-  const CalculatorItem(title: 'Effective Rate', icon: FontAwesomeIcons.chartLine, route: '/finance/effectiverate', category: 'Finance'),
+
   const CalculatorItem(title: 'Electricity', icon: FontAwesomeIcons.bolt, route: '/finance/electricity', category: 'Finance'),
   const CalculatorItem(title: 'Inflation', icon: FontAwesomeIcons.arrowTrendUp, route: '/finance/inflation', category: 'Finance'),
   const CalculatorItem(title: 'Compound Interest', icon: FontAwesomeIcons.chartLine, route: '/finance/interest/compound', category: 'Finance'),
@@ -69,12 +69,12 @@ final List<CalculatorItem> allCalculators = [
 
   // Math
   const CalculatorItem(title: 'Aspect Ratio', icon: FontAwesomeIcons.expand, route: '/math/aspectratio', category: 'Math'),
-  const CalculatorItem(title: 'Binary Converter', icon: FontAwesomeIcons.zero, route: '/math/binary', category: 'Math'),
+  const CalculatorItem(title: 'Number Base', icon: FontAwesomeIcons.zero, route: '/math/binary', category: 'Math'),
   const CalculatorItem(title: 'Factorial', icon: FontAwesomeIcons.exclamation, route: '/math/factorial', category: 'Math'),
   const CalculatorItem(title: 'Fibonacci', icon: FontAwesomeIcons.arrowUpRightDots, route: '/math/fibonacci', category: 'Math'),
   const CalculatorItem(title: 'GCD / LCM', icon: FontAwesomeIcons.calculator, route: '/math/gcdlcm', category: 'Math'),
   const CalculatorItem(title: 'Geometry', icon: FontAwesomeIcons.shapes, route: '/math/geometry', category: 'Math'),
-  const CalculatorItem(title: 'Hex Converter', icon: FontAwesomeIcons.f, route: '/math/hex', category: 'Math'),
+
   const CalculatorItem(title: 'Matrix Determinant', icon: FontAwesomeIcons.tableCells, route: '/math/matrix', category: 'Math'),
   const CalculatorItem(title: 'Percentage', icon: FontAwesomeIcons.percent, route: '/math/percentage', category: 'Math'),
   const CalculatorItem(title: 'Permutation & Comb', icon: FontAwesomeIcons.arrowDownUpAcrossLine, route: '/math/permcomb', category: 'Math'),
@@ -124,16 +124,12 @@ final List<CalculatorItem> allCalculators = [
   const CalculatorItem(title: 'Plant Spacing', icon: FontAwesomeIcons.rulerHorizontal, route: '/lifestyle/spacing', category: 'Lifestyle'),
   const CalculatorItem(title: 'Soil / Mulch', icon: FontAwesomeIcons.trowel, route: '/lifestyle/soil', category: 'Lifestyle'),
 
-  // Sports / Lifestyle
-  const CalculatorItem(title: 'Pizza Party', icon: FontAwesomeIcons.pizzaSlice, route: '/lifestyle/pizza', category: 'Lifestyle'),
-  const CalculatorItem(title: 'Cricket Run Rate', icon: FontAwesomeIcons.baseballBatBall, route: '/lifestyle/cricket', category: 'Lifestyle'),
-  const CalculatorItem(title: 'Tennis Score', icon: FontAwesomeIcons.tableTennisPaddleBall, route: '/lifestyle/tennis', category: 'Lifestyle'),
+
 
   // Text Tools
   const CalculatorItem(title: 'Base64 Converter', icon: FontAwesomeIcons.code, route: '/text/base64', category: 'Text Tools'),
   const CalculatorItem(title: 'Case Converter', icon: FontAwesomeIcons.font, route: '/text/case', category: 'Text Tools'),
-  const CalculatorItem(title: 'Lorem Ipsum', icon: FontAwesomeIcons.paragraph, route: '/text/lorem', category: 'Text Tools'),
-  const CalculatorItem(title: 'Reverse Text', icon: FontAwesomeIcons.leftRight, route: '/text/reverse', category: 'Text Tools'),
+
   const CalculatorItem(title: 'Word Count', icon: FontAwesomeIcons.alignLeft, route: '/text/wordcount', category: 'Text Tools'),
 
   // Other
@@ -172,4 +168,22 @@ final List<CalculatorItem> allCalculators = [
 
   // Converters
   const CalculatorItem(title: 'Shoe Size', icon: FontAwesomeIcons.shoePrints, route: '/converters/shoesize', category: 'Converters'),
+
+  // NEW CALCULATORS
+  // Date & Time
+  const CalculatorItem(title: 'Timestamp', icon: FontAwesomeIcons.clock, route: '/other/timestamp', category: 'Other'),
+  const CalculatorItem(title: 'Countdown', icon: FontAwesomeIcons.hourglassHalf, route: '/other/countdown', category: 'Other'),
+  const CalculatorItem(title: 'Birthday', icon: FontAwesomeIcons.cakeCandles, route: '/other/birthday', category: 'Other'),
+  
+  // Travel & Lifestyle
+  const CalculatorItem(title: 'Driving Time', icon: FontAwesomeIcons.car, route: '/other/drivingtime', category: 'Other'),
+  
+  // Health
+  const CalculatorItem(title: 'Pet Age', icon: FontAwesomeIcons.paw, route: '/health/petage', category: 'Health'),
+  const CalculatorItem(title: 'Caffeine', icon: FontAwesomeIcons.mugHot, route: '/health/caffeine', category: 'Health'),
+  
+  // Home & Construction
+  const CalculatorItem(title: 'Paint', icon: FontAwesomeIcons.paintRoller, route: '/other/paint', category: 'Other'),
+  const CalculatorItem(title: 'Concrete', icon: FontAwesomeIcons.cubesStacked, route: '/other/concrete', category: 'Other'),
+  const CalculatorItem(title: 'Tile', icon: FontAwesomeIcons.tableCells, route: '/other/tile', category: 'Other'),
 ];

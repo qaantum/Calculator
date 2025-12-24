@@ -2,44 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import '../widgets/calculator_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FinanceScreen extends StatelessWidget {
   const FinanceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final calculators = [
-      {'title': 'Amortization', 'icon': FontAwesomeIcons.tableList, 'route': '/finance/amortization'},
-      {'title': 'Auto Loan', 'icon': FontAwesomeIcons.car, 'route': '/finance/car'},
-      {'title': 'Break-Even', 'icon': FontAwesomeIcons.scaleBalanced, 'route': '/finance/breakeven'},
-      {'title': 'CAGR', 'icon': FontAwesomeIcons.arrowTrendUp, 'route': '/finance/cagr'},
-      {'title': 'Commission', 'icon': FontAwesomeIcons.handHoldingDollar, 'route': '/finance/commission'},
-      {'title': 'Currency', 'icon': FontAwesomeIcons.arrowRightArrowLeft, 'route': '/finance/currency'},
-      {'title': 'Debt Snowball', 'icon': FontAwesomeIcons.snowflake, 'route': '/finance/debtsnowball'},
-      {'title': 'Discount', 'icon': FontAwesomeIcons.tags, 'route': '/finance/discount'},
-      {'title': 'Effective Rate', 'icon': FontAwesomeIcons.chartLine, 'route': '/finance/effectiverate'},
-      {'title': 'Electricity', 'icon': FontAwesomeIcons.bolt, 'route': '/finance/electricity'},
-      {'title': 'Inflation', 'icon': FontAwesomeIcons.arrowTrendUp, 'route': '/finance/inflation'},
-      {'title': 'Compound Interest', 'icon': FontAwesomeIcons.chartLine, 'route': '/finance/interest/compound'},
-      {'title': 'Credit Card Payoff', 'icon': FontAwesomeIcons.creditCard, 'route': '/finance/creditcard'},
-      {'title': 'Investment', 'icon': FontAwesomeIcons.moneyBillTrendUp, 'route': '/finance/investment'},
-      {'title': 'Loan', 'icon': FontAwesomeIcons.moneyBillWave, 'route': '/finance/loan'},
-      {'title': 'Loan Affordability', 'icon': FontAwesomeIcons.handHoldingDollar, 'route': '/finance/affordability'},
-      {'title': 'Margin', 'icon': FontAwesomeIcons.shop, 'route': '/finance/margin'},
-      {'title': 'Mortgage', 'icon': FontAwesomeIcons.house, 'route': '/finance/mortgage'},
-      {'title': 'Refinance', 'icon': FontAwesomeIcons.rotate, 'route': '/finance/refinance'},
-      {'title': 'Rental Property', 'icon': FontAwesomeIcons.houseUser, 'route': '/finance/rental'},
-      {'title': 'Retirement', 'icon': FontAwesomeIcons.umbrellaBeach, 'route': '/finance/retirement'},
-      {'title': 'ROI', 'icon': FontAwesomeIcons.chartPie, 'route': '/finance/roi'},
-      {'title': 'Rule of 72', 'icon': FontAwesomeIcons.hourglassHalf, 'route': '/finance/rule72'},
-      {'title': 'Salary', 'icon': FontAwesomeIcons.briefcase, 'route': '/finance/salary'},
-      {'title': 'Savings Goal', 'icon': FontAwesomeIcons.piggyBank, 'route': '/finance/savings'},
-      {'title': 'Sales Tax', 'icon': FontAwesomeIcons.receipt, 'route': '/finance/salestax'},
-      {'title': 'Simple Interest', 'icon': FontAwesomeIcons.percent, 'route': '/finance/interest'},
-      {'title': 'Stock Profit', 'icon': FontAwesomeIcons.arrowTrendUp, 'route': '/finance/stock'},
-      {'title': 'Tax', 'icon': FontAwesomeIcons.calculator, 'route': '/finance/tax'},
-      {'title': 'TVM Calculator', 'icon': FontAwesomeIcons.moneyBillTrendUp, 'route': '/finance/tvm'},
-      {'title': 'Unit Price', 'icon': FontAwesomeIcons.tag, 'route': '/finance/unitprice'},
+      {'title': l10n.calcAmortization, 'icon': FontAwesomeIcons.tableList, 'route': '/finance/amortization'},
+      {'title': l10n.calcAutoLoan, 'icon': FontAwesomeIcons.car, 'route': '/finance/car'},
+      {'title': l10n.calcBreakEven, 'icon': FontAwesomeIcons.scaleBalanced, 'route': '/finance/breakeven'},
+      {'title': l10n.calcCAGR, 'icon': FontAwesomeIcons.arrowTrendUp, 'route': '/finance/cagr'},
+      {'title': l10n.calcCommission, 'icon': FontAwesomeIcons.handHoldingDollar, 'route': '/finance/commission'},
+      {'title': l10n.calcCurrency, 'icon': FontAwesomeIcons.arrowRightArrowLeft, 'route': '/finance/currency'},
+      {'title': l10n.calcDebtSnowball, 'icon': FontAwesomeIcons.snowflake, 'route': '/finance/debtsnowball'},
+      {'title': l10n.calcDiscount, 'icon': FontAwesomeIcons.tags, 'route': '/finance/discount'},
+      {'title': l10n.calcEffectiveRate, 'icon': FontAwesomeIcons.chartLine, 'route': '/finance/effectiverate'},
+      {'title': l10n.calcElectricity, 'icon': FontAwesomeIcons.bolt, 'route': '/finance/electricity'},
+      {'title': l10n.calcInflation, 'icon': FontAwesomeIcons.arrowTrendUp, 'route': '/finance/inflation'},
+      {'title': l10n.calcCompoundInterest, 'icon': FontAwesomeIcons.chartLine, 'route': '/finance/interest/compound'},
+      {'title': l10n.calcCreditCardPayoff, 'icon': FontAwesomeIcons.creditCard, 'route': '/finance/creditcard'},
+      {'title': l10n.calcInvestment, 'icon': FontAwesomeIcons.moneyBillTrendUp, 'route': '/finance/investment'},
+      {'title': l10n.calcLoan, 'icon': FontAwesomeIcons.moneyBillWave, 'route': '/finance/loan'},
+      {'title': l10n.calcLoanAffordability, 'icon': FontAwesomeIcons.handHoldingDollar, 'route': '/finance/affordability'},
+      {'title': l10n.calcMargin, 'icon': FontAwesomeIcons.shop, 'route': '/finance/margin'},
+      {'title': l10n.calcMortgage, 'icon': FontAwesomeIcons.house, 'route': '/finance/mortgage'},
+      {'title': l10n.calcRefinance, 'icon': FontAwesomeIcons.rotate, 'route': '/finance/refinance'},
+      {'title': l10n.calcRentalProperty, 'icon': FontAwesomeIcons.houseUser, 'route': '/finance/rental'},
+      {'title': l10n.calcRetirement, 'icon': FontAwesomeIcons.umbrellaBeach, 'route': '/finance/retirement'},
+      {'title': l10n.calcROI, 'icon': FontAwesomeIcons.chartPie, 'route': '/finance/roi'},
+      {'title': l10n.calcRule72, 'icon': FontAwesomeIcons.hourglassHalf, 'route': '/finance/rule72'},
+      {'title': l10n.calcSalary, 'icon': FontAwesomeIcons.briefcase, 'route': '/finance/salary'},
+      {'title': l10n.calcSavingsGoal, 'icon': FontAwesomeIcons.piggyBank, 'route': '/finance/savings'},
+      {'title': l10n.calcSalesTax, 'icon': FontAwesomeIcons.receipt, 'route': '/finance/salestax'},
+      {'title': l10n.calcSimpleInterest, 'icon': FontAwesomeIcons.percent, 'route': '/finance/interest'},
+      {'title': l10n.calcStockProfit, 'icon': FontAwesomeIcons.arrowTrendUp, 'route': '/finance/stock'},
+      {'title': l10n.calcTax, 'icon': FontAwesomeIcons.calculator, 'route': '/finance/tax'},
+      {'title': l10n.calcTVM, 'icon': FontAwesomeIcons.moneyBillTrendUp, 'route': '/finance/tvm'},
+      {'title': l10n.calcUnitPrice, 'icon': FontAwesomeIcons.tag, 'route': '/finance/unitprice'},
     ];
 
     return Scaffold(
@@ -47,7 +49,7 @@ class FinanceScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(
-            title: const Text('Financial Calculators'),
+            title: Text(l10n.financialCalculators),
             centerTitle: false,
             floating: true,
             pinned: true,

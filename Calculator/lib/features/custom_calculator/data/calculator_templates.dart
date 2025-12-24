@@ -559,6 +559,67 @@ class CalculatorTemplates {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     ),
+    // Conversion - Celsius to Fahrenheit
+    CustomCalculator(
+      id: const Uuid().v4(),
+      title: 'Celsius to Fahrenheit',
+      iconCode: FontAwesomeIcons.temperatureHalf.codePoint,
+      iconFontFamily: FontAwesomeIcons.temperatureHalf.fontFamily,
+      iconFontPackage: FontAwesomeIcons.temperatureHalf.fontPackage,
+      inputs: [
+        CalculatorVariable(name: 'celsius', unitLabel: '°C', description: 'Temperature in Celsius'),
+      ],
+      formula: '(celsius * 9/5) + 32',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    ),
+    // Conversion - Fahrenheit to Celsius
+    CustomCalculator(
+      id: const Uuid().v4(),
+      title: 'Fahrenheit to Celsius',
+      iconCode: FontAwesomeIcons.temperatureHalf.codePoint,
+      iconFontFamily: FontAwesomeIcons.temperatureHalf.fontFamily,
+      iconFontPackage: FontAwesomeIcons.temperatureHalf.fontPackage,
+      inputs: [
+        CalculatorVariable(name: 'fahrenheit', unitLabel: '°F', description: 'Temperature in Fahrenheit'),
+      ],
+      formula: '(fahrenheit - 32) * 5/9',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    ),
+    // Conversion - Fuel Efficiency (L/100km to MPG)
+    CustomCalculator(
+      id: const Uuid().v4(),
+      title: 'L/100km to MPG',
+      iconCode: FontAwesomeIcons.gasPump.codePoint,
+      iconFontFamily: FontAwesomeIcons.gasPump.fontFamily,
+      iconFontPackage: FontAwesomeIcons.gasPump.fontPackage,
+      inputs: [
+        CalculatorVariable(name: 'l_per_100km', unitLabel: 'L/100km', min: 0, description: 'Litres per 100km'),
+      ],
+      formula: '235.215 / l_per_100km',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    ),
+    // Finance - Monthly Savings
+    CustomCalculator(
+      id: const Uuid().v4(),
+      title: 'Monthly Savings',
+      iconCode: FontAwesomeIcons.piggyBank.codePoint,
+      iconFontFamily: FontAwesomeIcons.piggyBank.fontFamily,
+      iconFontPackage: FontAwesomeIcons.piggyBank.fontPackage,
+      inputs: [
+        CalculatorVariable(name: 'initial', unitLabel: '\$', min: 0, description: 'Initial Balance'),
+        CalculatorVariable(name: 'monthly', unitLabel: '\$', min: 0, description: 'Monthly Contribution'),
+        CalculatorVariable(name: 'rate', unitLabel: '%', min: 0, description: 'Annual Interest Rate'),
+        CalculatorVariable(name: 'years', unitLabel: 'yr', min: 0, description: 'Duration'),
+      ],
+      // FV = P(1+r)^t + PMT * (((1+r)^t - 1) / r)
+      // r = rate/100/12, t = years*12
+      formula: '(initial * (1 + rate/1200)^(years*12)) + (monthly * (((1 + rate/1200)^(years*12) - 1) / (rate/1200)))',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    ),
   ];
 
   static final Map<String, String> _routeToTemplateTitle = {
@@ -598,7 +659,12 @@ class CalculatorTemplates {
     '/science/power': 'Power',
     '/lifestyle/age': 'Age Calculator',
     '/lifestyle/date': 'Date Difference',
+    '/lifestyle/date': 'Date Difference',
     '/lifestyle/daysuntil': 'Days Until Event',
+    '/conversion/c2f': 'Celsius to Fahrenheit',
+    '/conversion/f2c': 'Fahrenheit to Celsius',
+    '/conversion/fuel': 'L/100km to MPG',
+    '/finance/savings': 'Monthly Savings',
   };
 
   static CustomCalculator? getTemplateForRoute(String route) {

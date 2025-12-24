@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   final Widget child;
@@ -71,54 +72,54 @@ class _HomeScreenState extends State<HomeScreen> {
                     selectedIndex: _selectedIndex,
                     onDestinationSelected: (index) => _onItemTapped(index, context),
                     labelType: NavigationRailLabelType.all,
-                    destinations: const [
+                    destinations: [
                       NavigationRailDestination(
-                        icon: Icon(FontAwesomeIcons.house),
-                        label: Text('Home'),
+                        icon: const Icon(FontAwesomeIcons.house),
+                        label: Text(AppLocalizations.of(context)!.home),
                       ),
                       NavigationRailDestination(
-                        icon: Icon(FontAwesomeIcons.calculator),
-                        label: Text('Standard'),
+                        icon: const Icon(FontAwesomeIcons.calculator),
+                        label: Text(AppLocalizations.of(context)!.standard),
                       ),
                       NavigationRailDestination(
-                        icon: Icon(FontAwesomeIcons.flask),
-                        label: Text('Scientific'),
+                        icon: const Icon(FontAwesomeIcons.flask),
+                        label: Text(AppLocalizations.of(context)!.scientific),
                       ),
                       NavigationRailDestination(
-                        icon: Icon(FontAwesomeIcons.coins),
-                        label: Text('Finance'),
+                        icon: const Icon(FontAwesomeIcons.coins),
+                        label: Text(AppLocalizations.of(context)!.catFinance),
                       ),
                       NavigationRailDestination(
-                        icon: Icon(FontAwesomeIcons.heartPulse),
-                        label: Text('Health'),
+                        icon: const Icon(FontAwesomeIcons.heartPulse),
+                        label: Text(AppLocalizations.of(context)!.catHealth),
                       ),
                       NavigationRailDestination(
-                        icon: Icon(FontAwesomeIcons.squareRootVariable),
-                        label: Text('Math'),
+                        icon: const Icon(FontAwesomeIcons.squareRootVariable),
+                        label: Text(AppLocalizations.of(context)!.catMath),
                       ),
                       NavigationRailDestination(
-                        icon: Icon(FontAwesomeIcons.microchip),
-                        label: Text('Electronics'),
+                        icon: const Icon(FontAwesomeIcons.microchip),
+                        label: Text(AppLocalizations.of(context)!.catElectronics),
                       ),
                       NavigationRailDestination(
-                        icon: Icon(FontAwesomeIcons.arrowRightArrowLeft),
-                        label: Text('Converters'),
+                        icon: const Icon(FontAwesomeIcons.arrowRightArrowLeft),
+                        label: Text(AppLocalizations.of(context)!.catConverters),
                       ),
                       NavigationRailDestination(
-                        icon: Icon(FontAwesomeIcons.atom),
-                        label: Text('Science'),
+                        icon: const Icon(FontAwesomeIcons.atom),
+                        label: Text(AppLocalizations.of(context)!.catScience),
                       ),
                       NavigationRailDestination(
-                        icon: Icon(FontAwesomeIcons.seedling),
-                        label: Text('Lifestyle'),
+                        icon: const Icon(FontAwesomeIcons.seedling),
+                        label: Text(AppLocalizations.of(context)!.catLifestyle),
                       ),
                       NavigationRailDestination(
-                        icon: Icon(FontAwesomeIcons.font),
-                        label: Text('Text'),
+                        icon: const Icon(FontAwesomeIcons.font),
+                        label: Text(AppLocalizations.of(context)!.catText),
                       ),
                       NavigationRailDestination(
-                        icon: Icon(FontAwesomeIcons.layerGroup),
-                        label: Text('Other'),
+                        icon: const Icon(FontAwesomeIcons.layerGroup),
+                        label: Text(AppLocalizations.of(context)!.catOther),
                       ),
                     ],
                   ),
@@ -146,23 +147,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  _buildDrawerItem(context, 'Home', FontAwesomeIcons.house, '/dashboard', 0),
-                  _buildDrawerItem(context, 'Standard', FontAwesomeIcons.calculator, '/standard', 1),
-                  _buildDrawerItem(context, 'Scientific', FontAwesomeIcons.flask, '/scientific', 2),
+                  _buildDrawerItem(context, AppLocalizations.of(context)!.home, FontAwesomeIcons.house, '/dashboard', 0),
+                  _buildDrawerItem(context, AppLocalizations.of(context)!.standard, FontAwesomeIcons.calculator, '/standard', 1),
+                  _buildDrawerItem(context, AppLocalizations.of(context)!.scientific, FontAwesomeIcons.flask, '/scientific', 2),
                   const Divider(),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
-                    child: Text('Categories', style: TextStyle(color: Colors.grey)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16, top: 8, bottom: 8),
+                    child: Text(AppLocalizations.of(context)!.categories, style: const TextStyle(color: Colors.grey)),
                   ),
-                  _buildDrawerItem(context, 'Finance', FontAwesomeIcons.coins, '/finance', 3),
-                  _buildDrawerItem(context, 'Health', FontAwesomeIcons.heartPulse, '/health', 4),
-                  _buildDrawerItem(context, 'Math', FontAwesomeIcons.squareRootVariable, '/math', 5),
-                  _buildDrawerItem(context, 'Electronics', FontAwesomeIcons.microchip, '/electronics', 6),
-                  _buildDrawerItem(context, 'Converters', FontAwesomeIcons.arrowRightArrowLeft, '/converters', 7),
-                  _buildDrawerItem(context, 'Science', FontAwesomeIcons.atom, '/science', 8),
-                  _buildDrawerItem(context, 'Lifestyle', FontAwesomeIcons.seedling, '/lifestyle', 9),
-                  _buildDrawerItem(context, 'Text Tools', FontAwesomeIcons.font, '/text', 10),
-                  _buildDrawerItem(context, 'Other', FontAwesomeIcons.layerGroup, '/other', 11),
+                  _buildDrawerItem(context, AppLocalizations.of(context)!.catFinance, FontAwesomeIcons.coins, '/finance', 3),
+                  _buildDrawerItem(context, AppLocalizations.of(context)!.catHealth, FontAwesomeIcons.heartPulse, '/health', 4),
+                  _buildDrawerItem(context, AppLocalizations.of(context)!.catMath, FontAwesomeIcons.squareRootVariable, '/math', 5),
+                  _buildDrawerItem(context, AppLocalizations.of(context)!.catElectronics, FontAwesomeIcons.microchip, '/electronics', 6),
+                  _buildDrawerItem(context, AppLocalizations.of(context)!.catConverters, FontAwesomeIcons.arrowRightArrowLeft, '/converters', 7),
+                  _buildDrawerItem(context, AppLocalizations.of(context)!.catScience, FontAwesomeIcons.atom, '/science', 8),
+                  _buildDrawerItem(context, AppLocalizations.of(context)!.catLifestyle, FontAwesomeIcons.seedling, '/lifestyle', 9),
+                  _buildDrawerItem(context, AppLocalizations.of(context)!.catText, FontAwesomeIcons.font, '/text', 10),
+                  _buildDrawerItem(context, AppLocalizations.of(context)!.catOther, FontAwesomeIcons.layerGroup, '/other', 11),
                 ],
               ),
             )

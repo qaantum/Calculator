@@ -1,14 +1,20 @@
 package com.qaantum.calculatorhub.ui.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.qaantum.calculatorhub.calculators.BMICalculator
 import com.qaantum.calculatorhub.calculators.BMIResult
+import com.qaantum.calculatorhub.customcalculator.ForkCalculator
+import com.qaantum.calculatorhub.customcalculator.CustomCalculatorService
+import com.qaantum.calculatorhub.customcalculator.screens.CustomCalculatorBuilderScreen
 import java.text.NumberFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -19,12 +25,54 @@ fun BMICalculatorScreen() {
     var weight by remember { mutableStateOf("") }
     var inches by remember { mutableStateOf("") }
     var bmiResult by remember { mutableStateOf<BMIResult?>(null) }
+    var showCustomizeSheet by remember { mutableStateOf(false) }
     
     val calculator = remember { BMICalculator() }
+    val context = LocalContext.current
+
+    // Customize Sheet
+    if (showCustomizeSheet) {
+        val forkedCalc = remember { ForkCalculator.createFork("/health/bmi") }
+        forkedCalc?.let { calc ->
+            AlertDialog(
+                onDismissRequest = { showCustomizeSheet = false },
+                title = { Text("Customize This Calculator") },
+                text = { 
+                    Column {
+                        Text("Create your own version of the BMI Calculator with custom variables and formulas.")
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text("Formula: ${calc.formula}", style = MaterialTheme.typography.bodySmall)
+                    }
+                },
+                confirmButton = {
+                    Button(onClick = {
+                        // Save the forked calculator
+                        val service = CustomCalculatorService(context)
+                        service.saveCalculator(calc)
+                        showCustomizeSheet = false
+                    }) {
+                        Text("Create My Version")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showCustomizeSheet = false }) {
+                        Text("Cancel")
+                    }
+                }
+            )
+        }
+    }
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("BMI Calculator") })
+            TopAppBar(
+                title = { Text("BMI Calculator") },
+                actions = {
+                    IconButton(onClick = { showCustomizeSheet = true }) {
+                        Icon(Icons.Default.Build, contentDescription = "Customize")
+                    }
+                }
+            )
         }
     ) { padding ->
         Column(

@@ -13,13 +13,12 @@ import com.ciphio.vault.data.UserPreferencesRepository
  */
 class PasswordManagerViewModelFactory(
     private val vaultRepository: PasswordVaultRepository,
-    private val userPreferencesRepository: UserPreferencesRepository? = null,
-    private val isPremium: Boolean = false
+    private val userPreferencesRepository: UserPreferencesRepository? = null
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(PasswordManagerViewModel::class.java)) {
-            return PasswordManagerViewModel(vaultRepository, userPreferencesRepository, isPremium) as T
+            return PasswordManagerViewModel(vaultRepository, userPreferencesRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

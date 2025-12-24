@@ -99,6 +99,7 @@ fun CiphioApp(initialSharedText: String? = null) {
                         onSelectTheme = viewModel::setTheme,
                         onOpenAlgorithms = { navController.navigate(AppDestination.Algorithms.route) },
                         onOpenTerms = { navController.navigate(AppDestination.Terms.route) },
+                        onOpenPrivacy = { navController.navigate(AppDestination.Privacy.route) },
                         onOpenPasswordManager = { navController.navigate(AppDestination.PasswordManager.route) },
                         onOpenPremium = { 
                             val activity = context as? android.app.Activity
@@ -124,9 +125,6 @@ fun CiphioApp(initialSharedText: String? = null) {
                                 }
                             }
                         },
-                        onRateUs = {
-                            (context as? com.ciphio.vault.MainActivity)?.launchPlayStore()
-                        },
                         onBack = { navController.popBackStack() }
                     )
                 }
@@ -144,13 +142,19 @@ fun CiphioApp(initialSharedText: String? = null) {
                         onBack = { navController.popBackStack() }
                     )
                 }
+                composable(AppDestination.Privacy.route) {
+                    InfoScreen(
+                        title = "Privacy Policy",
+                        content = PrivacyContent,
+                        onBack = { navController.popBackStack() }
+                    )
+                }
                 
                 // Password Manager route (modular - can be removed)
                 composable(AppDestination.PasswordManager.route) {
                     PasswordManagerApp(
                         navController = navController,
                         onBack = { navController.popBackStack() },
-                        isPremium = isPremium,
                         passwordGenerator = passwordGenerator
                     )
                 }

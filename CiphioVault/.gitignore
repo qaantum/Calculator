@@ -11,6 +11,7 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+.cursor/
 *.swp
 *.swo
 *~
@@ -36,6 +37,8 @@ ios/Pods/
 ios/*.xcworkspace
 ios/*.xcuserdata
 ios/*.xcuserdatad
+ios/**/xcuserdata/
+ios/**/UserInterfaceState.xcuserstate
 ios/Podfile.lock
 ios/DerivedData/
 ios/build/

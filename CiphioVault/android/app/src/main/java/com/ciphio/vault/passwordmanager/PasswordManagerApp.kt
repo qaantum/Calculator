@@ -32,7 +32,6 @@ import androidx.datastore.preferences.core.Preferences
 fun PasswordManagerApp(
     navController: NavHostController,
     onBack: () -> Unit,
-    isPremium: Boolean = false,
     passwordGenerator: PasswordGenerator? = null
 ) {
     val context = LocalContext.current
@@ -44,7 +43,7 @@ fun PasswordManagerApp(
     val vaultRepository = remember { PasswordVaultRepository(dataStore, cryptoService, keystoreHelper) }
     
     val viewModel: PasswordManagerViewModel = viewModel(
-        factory = PasswordManagerViewModelFactory(vaultRepository, userPreferencesRepository, isPremium)
+        factory = PasswordManagerViewModelFactory(vaultRepository, userPreferencesRepository)
     )
     
     val state by viewModel.uiState.collectAsState()
@@ -90,8 +89,7 @@ fun PasswordManagerApp(
                 viewModel = viewModel,
                 onUnlockComplete = {
                     // After unlock, show list screen
-                },
-                isPremium = isPremium
+                }
             )
         }
         showChangePasswordScreen -> {
@@ -139,10 +137,6 @@ fun PasswordManagerApp(
                     showAddScreen = false
                     viewModel.clearSuccess()
                     viewModel.reloadEntries()
-                },
-                isPremium = isPremium,
-                onPremiumPurchase = {
-                    navController.navigate(AppDestination.Premium.route)
                 }
             )
         }
@@ -171,9 +165,6 @@ fun PasswordManagerApp(
                 onChangePassword = {
                     showChangePasswordScreen = true
                 },
-                onPremiumPurchase = {
-                    navController.navigate(AppDestination.Premium.route)
-                },
                 onExport = {
                     scope.launch {
                         val exported = viewModel.exportEntries()
@@ -189,8 +180,7 @@ fun PasswordManagerApp(
                 },
                 onLock = {
                     viewModel.lockVault()
-                },
-                isPremium = isPremium
+                }
             )
         }
     }

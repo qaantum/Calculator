@@ -1,13 +1,18 @@
 package com.qaantum.calculatorhub.ui.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.qaantum.calculatorhub.calculators.CompoundInterestCalculator
 import com.qaantum.calculatorhub.calculators.CompoundInterestResult
+import com.qaantum.calculatorhub.customcalculator.ForkCalculator
+import com.qaantum.calculatorhub.customcalculator.CustomCalculatorService
 import java.text.NumberFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -19,13 +24,54 @@ fun CompoundInterestCalculatorScreen() {
     var contribution by remember { mutableStateOf("0") }
     var frequency by remember { mutableStateOf("12") }
     var result by remember { mutableStateOf<CompoundInterestResult?>(null) }
+    var showCustomizeSheet by remember { mutableStateOf(false) }
     
     val calculator = remember { CompoundInterestCalculator() }
     val currencyFormat = remember { NumberFormat.getCurrencyInstance() }
+    val context = LocalContext.current
+
+    // Customize Dialog
+    if (showCustomizeSheet) {
+        val forkedCalc = remember { ForkCalculator.createFork("/finance/interest/compound") }
+        forkedCalc?.let { calc ->
+            AlertDialog(
+                onDismissRequest = { showCustomizeSheet = false },
+                title = { Text("Customize This Calculator") },
+                text = { 
+                    Column {
+                        Text("Create your own version of the Compound Interest Calculator.")
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text("Formula: ${calc.formula}", style = MaterialTheme.typography.bodySmall)
+                    }
+                },
+                confirmButton = {
+                    Button(onClick = {
+                        val service = CustomCalculatorService(context)
+                        service.saveCalculator(calc)
+                        showCustomizeSheet = false
+                    }) {
+                        Text("Create My Version")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showCustomizeSheet = false }) {
+                        Text("Cancel")
+                    }
+                }
+            )
+        }
+    }
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Compound Interest") })
+            TopAppBar(
+                title = { Text("Compound Interest") },
+                actions = {
+                    IconButton(onClick = { showCustomizeSheet = true }) {
+                        Icon(Icons.Default.Build, contentDescription = "Customize")
+                    }
+                }
+            )
         }
     ) { padding ->
         Column(

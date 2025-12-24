@@ -2,23 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/providers/currency_provider.dart';
 import '../models/custom_calculator_model.dart';
 import '../services/math_engine.dart';
 import '../services/custom_calculator_service.dart';
 import 'custom_calculator_builder_screen.dart';
 import '../../../../ui/widgets/formula_graph_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class CustomCalculatorDetailScreen extends StatefulWidget {
+class CustomCalculatorDetailScreen extends ConsumerStatefulWidget {
   final CustomCalculator? calculator;
   final String? calculatorId;
 
   const CustomCalculatorDetailScreen({super.key, this.calculator, this.calculatorId});
 
   @override
-  State<CustomCalculatorDetailScreen> createState() => _CustomCalculatorDetailScreenState();
+  ConsumerState<CustomCalculatorDetailScreen> createState() => _CustomCalculatorDetailScreenState();
 }
 
-class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScreen> {
+class _CustomCalculatorDetailScreenState extends ConsumerState<CustomCalculatorDetailScreen> {
   CustomCalculator? _calculator;
   Map<String, TextEditingController> _controllers = {};
   String _result = '';
@@ -46,7 +49,7 @@ class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScr
     } else if (widget.calculatorId != null) {
       loaded = await CustomCalculatorService().getById(widget.calculatorId!);
       if (loaded == null) {
-        _error = 'Calculator not found';
+        _error = AppLocalizations.of(context)!.error;
       }
     }
 
@@ -106,17 +109,17 @@ class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScr
       final text = _controllers[v.name]?.text ?? '';
       final val = double.tryParse(text);
       if (val == null) {
-        setState(() => _error = 'Invalid value for ${v.name}');
+        setState(() => _error = AppLocalizations.of(context)!.invalidNumber(v.name));
         return;
       }
 
       // Validation
       if (v.min != null && val < v.min!) {
-        setState(() => _error = '${v.name} must be >= ${v.min}');
+        setState(() => _error = AppLocalizations.of(context)!.mustBeGreater(v.name, v.min!));
         return;
       }
       if (v.max != null && val > v.max!) {
-        setState(() => _error = '${v.name} must be <= ${v.max}');
+        setState(() => _error = AppLocalizations.of(context)!.mustBeLess(v.name, v.max!));
         return;
       }
 
@@ -132,7 +135,7 @@ class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScr
       if (result.isSuccess) {
         _result = result.value!.toStringAsFixed(4);
       } else {
-        _error = result.error?.message ?? 'Unknown Error';
+        _error = result.error?.message ?? AppLocalizations.of(context)!.error;
       }
     });
   }
@@ -182,11 +185,11 @@ class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScr
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Calculator?'),
+        title: Text('${AppLocalizations.of(context)!.delete}?'),
         content: const Text('This cannot be undone.'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
-          TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('Delete')),
+          TextButton(onPressed: () => Navigator.pop(context, false), child: Text(AppLocalizations.of(context)!.cancel)),
+          TextButton(onPressed: () => Navigator.pop(context, true), child: Text(AppLocalizations.of(context)!.delete)),
         ],
       ),
     );
@@ -207,8 +210,8 @@ class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScr
     
     if (_calculator == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Error')),
-        body: Center(child: Text(_error ?? 'Calculator not found')),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.error)),
+        body: Center(child: Text(_error ?? AppLocalizations.of(context)!.error)),
       );
     }
 
@@ -219,17 +222,17 @@ class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScr
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: _edit,
-            tooltip: 'Edit Calculator',
+            tooltip: AppLocalizations.of(context)!.editCalculator,
           ),
           IconButton(
             icon: const Icon(Icons.copy),
             onPressed: _duplicate,
-            tooltip: 'Duplicate Calculator',
+            tooltip: AppLocalizations.of(context)!.copy,
           ),
           IconButton(
             icon: const Icon(Icons.delete),
             onPressed: _delete,
-            tooltip: 'Delete Calculator',
+            tooltip: AppLocalizations.of(context)!.delete,
           ),
         ],
       ),
@@ -247,7 +250,7 @@ class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScr
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Formula',
+                      AppLocalizations.of(context)!.formula,
                       style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
@@ -273,9 +276,9 @@ class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScr
                 child: Column(
                   children: [
                     if (_calculator!.inputs.isEmpty)
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text('No variables defined.'),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(AppLocalizations.of(context)!.noVariables),
                       ),
                     ..._calculator!.inputs.map((v) {
                       String helper = v.description ?? '';
@@ -301,7 +304,7 @@ class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScr
                         child: TextField(
                           controller: _controllers[v.name],
                           decoration: InputDecoration(
-                            labelText: '${v.name} ${v.unitLabel != null ? '(${v.unitLabel})' : ''}',
+                            labelText: '${v.name} ${v.unitLabel != null ? '(${v.unitLabel!.replaceAll('\$', ref.watch(currencyProvider))})' : ''}',
                             helperText: helper.isNotEmpty ? helper : null,
                             border: const OutlineInputBorder(),
                           ),
@@ -329,7 +332,7 @@ class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScr
                       child: FilledButton.icon(
                         onPressed: _calculate,
                         icon: const Icon(FontAwesomeIcons.calculator),
-                        label: const Text('Calculate'),
+                        label: Text(AppLocalizations.of(context)!.calculate),
                       ),
                     ),
                   ],
@@ -347,7 +350,7 @@ class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScr
                   child: Column(
                     children: [
                       Text(
-                        _error != null ? 'Error' : 'Result',
+                        _error != null ? AppLocalizations.of(context)!.error : AppLocalizations.of(context)!.result,
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           color: _error != null ? Theme.of(context).colorScheme.onErrorContainer : Theme.of(context).colorScheme.onPrimaryContainer,
                         ),
@@ -372,7 +375,7 @@ class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScr
               const SizedBox(height: 16),
               Card(
                 child: ExpansionTile(
-                  title: const Text('Visualize Formula'),
+                  title: Text(AppLocalizations.of(context)!.visualize),
                   leading: const Icon(Icons.show_chart),
                   children: [
                     Padding(
@@ -382,7 +385,7 @@ class _CustomCalculatorDetailScreenState extends State<CustomCalculatorDetailScr
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text('X-Axis Variable: '),
+                              Text('${AppLocalizations.of(context)!.xAxisVariable}: '),
                               const SizedBox(width: 8),
                               DropdownButton<String>(
                                 value: _graphXAxisVariable ?? _calculator!.inputs.first.name,

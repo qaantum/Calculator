@@ -37,8 +37,7 @@ enum class PasswordSortOption {
  */
 class PasswordManagerViewModel(
     private val vaultRepository: PasswordVaultRepository,
-    private val userPreferencesRepository: UserPreferencesRepository? = null,
-    private val isPremium: Boolean = false
+    private val userPreferencesRepository: UserPreferencesRepository? = null
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PasswordManagerUiState())
@@ -474,18 +473,6 @@ class PasswordManagerViewModel(
         
         viewModelScope.launch {
             try {
-                // Check free tier limit: 10 passwords max for non-premium users
-                val currentCount = getEntryCount()
-                if (!isPremium && currentCount >= 20) {
-                    android.util.Log.w("PasswordManager", "Free tier limit reached: $currentCount/10")
-                    _uiState.update { 
-                        it.copy(
-                            errorMessage = "Free tier limit reached (10 passwords). Upgrade to Premium for unlimited passwords."
-                        )
-                    }
-                    return@launch
-                }
-                
                 // Use cached entries from state to avoid decrypting all entries again (HUGE performance boost!)
                 val currentEntries = _uiState.value.entries
                 // OPTIMISTIC UPDATE: Show entry in UI immediately (before encryption completes)

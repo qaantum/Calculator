@@ -16,6 +16,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -270,7 +271,6 @@ fun MasterPasswordSetupScreen(
 fun MasterPasswordUnlockScreen(
     viewModel: PasswordManagerViewModel = viewModel(),
     onUnlockComplete: () -> Unit,
-    @Suppress("UNUSED_PARAMETER") isPremium: Boolean = false // Reserved for future use
 ) {
     val palette = LocalCiphioColors.current
     val state by viewModel.uiState.collectAsState()
@@ -478,10 +478,8 @@ fun PasswordManagerListScreen(
     onEditEntry: (PasswordEntry) -> Unit,
     onChangePassword: () -> Unit,
     onLock: () -> Unit,
-    onPremiumPurchase: () -> Unit = { /* Premium upgrade */ },
     onExport: () -> Unit = { /* Export is handled directly in the function */ },
     @Suppress("UNUSED_PARAMETER") onImport: () -> Unit = { /* Import is handled directly in the function */ },
-    isPremium: Boolean = false
 ) {
     val palette = LocalCiphioColors.current
     val state by viewModel.uiState.collectAsState()
@@ -1051,24 +1049,11 @@ fun PasswordManagerListScreen(
                 ) {
                     Column {
                         Text(
-                            text = if (isPremium) {
-                                "${state.entries.size} passwords"
-                            } else {
-                                "${state.entries.size} of 20 passwords"
-                            },
+                            text = "${state.entries.size} passwords",
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.SemiBold
                             ),
                             color = palette.foreground
-                        )
-                        Text(
-                            text = if (isPremium) {
-                                "Premium • Unlimited"
-                            } else {
-                                "Free"
-                            },
-                            style = MaterialTheme.typography.bodySmall,
-                            color = if (isPremium) palette.primary else palette.mutedForeground
                         )
                     }
                 }
@@ -1148,11 +1133,7 @@ fun PasswordManagerListScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = if (isPremium) {
-                        "${state.entries.size} passwords"
-                    } else {
-                        "${state.entries.size} of 20 passwords"
-                    },
+                    text = "${state.entries.size} passwords",
                     style = MaterialTheme.typography.bodySmall,
                     color = palette.mutedForeground
                 )
@@ -2132,9 +2113,7 @@ fun AddEditPasswordEntryScreen(
     entry: PasswordEntry? = null, // null = add, non-null = edit
     viewModel: PasswordManagerViewModel = viewModel(),
     onGeneratePassword: (() -> String)? = null, // Callback to generate password
-    onBack: () -> Unit,
-    isPremium: Boolean = false,
-    onPremiumPurchase: () -> Unit = { /* Premium upgrade */ }
+    onBack: () -> Unit
 ) {
     val palette = LocalCiphioColors.current
     val state by viewModel.uiState.collectAsState()
@@ -2311,98 +2290,138 @@ fun AddEditPasswordEntryScreen(
                     color = palette.foreground
                 )
                 
-                // Display selected categories as chips
+                // Display selected categories as chips with X button (matching iOS)
                 if (categories.isNotEmpty()) {
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         items(categories) { cat ->
-                            InputChip(
-                                selected = true,
-                                onClick = {
-                                    categories = categories.filter { it != cat }
-                                },
-                                label = { Text(cat, style = MaterialTheme.typography.bodySmall) },
-                                trailingIcon = {
-                                    Icon(
-                                        imageVector = Icons.Filled.Delete,
-                                        contentDescription = "Remove",
-                                        modifier = Modifier.size(16.dp)
+                            Row(
+                                modifier = Modifier
+                                    .background(
+                                        color = palette.primary,
+                                        shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp)
                                     )
-                                },
-                                colors = InputChipDefaults.inputChipColors(
-                                    selectedContainerColor = palette.primary,
-                                    selectedLabelColor = palette.onPrimary,
-                                    selectedTrailingIconColor = palette.onPrimary
+                                    .padding(horizontal = 12.dp, vertical = 6.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Text(
+                                    text = cat,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = palette.onPrimary
                                 )
-                            )
+                                IconButton(
+                                    onClick = {
+                                        categories = categories.filter { it != cat }
+                                    },
+                                    modifier = Modifier.size(16.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Close,
+                                        contentDescription = "Remove category",
+                                        tint = palette.onPrimary,
+                                        modifier = Modifier.size(14.dp)
+                                    )
+                                }
+                            }
                         }
                     }
                 }
                 
-                // Category input with autocomplete dropdown
-                ExposedDropdownMenuBox(
-                    expanded = categoryExpanded && categorySuggestions.isNotEmpty(),
-                    onExpandedChange = { categoryExpanded = it }
+                // Category input with plus button (matching iOS)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    OutlinedTextField(
-                        value = categoryInput,
-                        onValueChange = { 
-                            categoryInput = it
-                            categoryExpanded = true
-                        },
-                        label = { Text("Add category", color = palette.foreground) },
-                        placeholder = { Text("Type or select a category", color = palette.mutedForeground) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .menuAnchor(),
-                        trailingIcon = { 
-                            if (categorySuggestions.isNotEmpty()) {
-                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = categoryExpanded)
-                            }
-                        },
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedTextColor = palette.foreground,
-                            unfocusedTextColor = palette.foreground,
-                            focusedLabelColor = palette.foreground,
-                            unfocusedLabelColor = palette.mutedForeground,
-                            focusedContainerColor = palette.input,
-                            unfocusedContainerColor = palette.input,
-                            focusedBorderColor = palette.primary,
-                            unfocusedBorderColor = palette.border
-                        ),
-                        keyboardOptions = KeyboardOptions(
-                            imeAction = androidx.compose.ui.text.input.ImeAction.Done
-                        ),
-                        keyboardActions = androidx.compose.foundation.text.KeyboardActions(
-                            onDone = {
-                                if (categoryInput.isNotBlank() && categoryInput !in categories) {
-                                    categories = categories + categoryInput.trim()
-                                    categoryInput = ""
+                    ExposedDropdownMenuBox(
+                        expanded = categoryExpanded && categorySuggestions.isNotEmpty(),
+                        onExpandedChange = { categoryExpanded = it },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        OutlinedTextField(
+                            value = categoryInput,
+                            onValueChange = { 
+                                categoryInput = it
+                                categoryExpanded = true
+                            },
+                            label = { Text("Add category", color = palette.foreground) },
+                            placeholder = { Text("Add category", color = palette.mutedForeground) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .menuAnchor(),
+                            trailingIcon = { 
+                                if (categorySuggestions.isNotEmpty()) {
+                                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = categoryExpanded)
+                                }
+                            },
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedTextColor = palette.foreground,
+                                unfocusedTextColor = palette.foreground,
+                                focusedLabelColor = palette.foreground,
+                                unfocusedLabelColor = palette.mutedForeground,
+                                focusedContainerColor = palette.input,
+                                unfocusedContainerColor = palette.input,
+                                focusedBorderColor = palette.primary,
+                                unfocusedBorderColor = palette.border
+                            ),
+                            keyboardOptions = KeyboardOptions(
+                                imeAction = androidx.compose.ui.text.input.ImeAction.Done
+                            ),
+                            keyboardActions = androidx.compose.foundation.text.KeyboardActions(
+                                onDone = {
+                                    if (categoryInput.isNotBlank() && categoryInput.trim() !in categories) {
+                                        categories = categories + categoryInput.trim()
+                                        categoryInput = ""
+                                    }
+                                }
+                            )
+                        )
+                        if (categorySuggestions.isNotEmpty()) {
+                            DropdownMenu(
+                                expanded = categoryExpanded,
+                                onDismissRequest = { categoryExpanded = false },
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                categorySuggestions.forEach { suggestion ->
+                                    DropdownMenuItem(
+                                        text = { Text(suggestion, color = palette.foreground) },
+                                        onClick = {
+                                            if (suggestion !in categories) {
+                                                categories = categories + suggestion
+                                            }
+                                            categoryInput = ""
+                                            categoryExpanded = false
+                                        }
+                                    )
                                 }
                             }
-                        )
-                    )
-                    if (categorySuggestions.isNotEmpty()) {
-                        DropdownMenu(
-                            expanded = categoryExpanded,
-                            onDismissRequest = { categoryExpanded = false },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            categorySuggestions.forEach { suggestion ->
-                                DropdownMenuItem(
-                                    text = { Text(suggestion, color = palette.foreground) },
-                                    onClick = {
-                                        if (suggestion !in categories) {
-                                            categories = categories + suggestion
-                                        }
-                                        categoryInput = ""
-                                        categoryExpanded = false
-                                    }
-                                )
-                            }
                         }
+                    }
+                    
+                    // Plus button to add category (matching iOS)
+                    IconButton(
+                        onClick = {
+                            if (categoryInput.isNotBlank() && categoryInput.trim() !in categories) {
+                                categories = categories + categoryInput.trim()
+                                categoryInput = ""
+                            }
+                        },
+                        enabled = categoryInput.isNotBlank() && categoryInput.trim() !in categories,
+                        modifier = Modifier.size(44.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Add,
+                            contentDescription = "Add category",
+                            tint = if (categoryInput.isNotBlank() && categoryInput.trim() !in categories) {
+                                palette.primary
+                            } else {
+                                palette.mutedForeground
+                            },
+                            modifier = Modifier.size(24.dp)
+                        )
                     }
                 }
             }
@@ -2438,19 +2457,6 @@ fun AddEditPasswordEntryScreen(
                         color = palette.destructive,
                         style = MaterialTheme.typography.bodyMedium
                     )
-                    // Show upgrade button if error is about free tier limit
-                    if (state.errorMessage!!.contains("Free tier limit", ignoreCase = true)) {
-                        Button(
-                            onClick = onPremiumPurchase,
-                            modifier = Modifier.fillMaxWidth(),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = palette.primary,
-                                contentColor = palette.onPrimary
-                            )
-                        ) {
-                            Text("Upgrade to Premium")
-                        }
-                    }
                 }
             }
             

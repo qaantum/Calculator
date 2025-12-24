@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
 import com.ciphio.vault.crypto.CryptoService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -23,7 +24,6 @@ import java.util.UUID
  * - Encrypted storage using master password
  * - CRUD operations
  * - Search/filter functionality
- * - 10-item limit for free tier
  * 
  * This is a separate, modular feature that can be easily removed.
  */
@@ -86,6 +86,7 @@ class PasswordVaultRepository(
                 // Step 4: Quick write to DataStore (no crypto, just storage)
                 dataStore.edit { editPrefs ->
                     editPrefs[PASSWORDS_KEY] = encrypted.encoded
+                    editPrefs[DATA_VERSION_KEY] = CURRENT_DATA_VERSION // Store data version
                 }
                 
                 android.util.Log.d("PasswordVault", "Entry added successfully, total entries: $finalCount")
@@ -123,6 +124,7 @@ class PasswordVaultRepository(
                 // Step 4: Quick write to DataStore (no crypto, just storage)
                 dataStore.edit { prefs ->
                     prefs[PASSWORDS_KEY] = encrypted.encoded
+                    prefs[DATA_VERSION_KEY] = CURRENT_DATA_VERSION // Store data version
                 }
             } catch (e: Exception) {
                 android.util.Log.e("PasswordVault", "Failed to update entry: ${e.message}", e)
@@ -156,6 +158,7 @@ class PasswordVaultRepository(
                         val jsonData = json.encodeToString(updated)
                         val encrypted = cryptoService.encrypt(jsonData, masterPassword, com.ciphio.vault.crypto.AesMode.AES_GCM)
                         prefs[PASSWORDS_KEY] = encrypted.encoded
+                        prefs[DATA_VERSION_KEY] = CURRENT_DATA_VERSION // Store data version
                     }
                 }
             } catch (e: Exception) {
@@ -373,6 +376,7 @@ class PasswordVaultRepository(
                 val jsonData = json.encodeToString(entries)
                 val encrypted = cryptoService.encrypt(jsonData, newPassword, com.ciphio.vault.crypto.AesMode.AES_GCM)
                 editPrefs[PASSWORDS_KEY] = encrypted.encoded
+                editPrefs[DATA_VERSION_KEY] = CURRENT_DATA_VERSION // Store data version
                 android.util.Log.d("PasswordVault", "changeMasterPassword: re-encrypted ${entries.size} entries")
             }
             
@@ -489,6 +493,7 @@ class PasswordVaultRepository(
                 val encrypted = cryptoService.encrypt(jsonData, masterPassword, com.ciphio.vault.crypto.AesMode.AES_GCM)
                 dataStore.edit { prefs ->
                     prefs[PASSWORDS_KEY] = encrypted.encoded
+                    prefs[DATA_VERSION_KEY] = CURRENT_DATA_VERSION // Store data version
                 }
                 // Return detailed result
                 ImportResult(
@@ -507,6 +512,7 @@ class PasswordVaultRepository(
                 val encrypted = cryptoService.encrypt(jsonData, masterPassword, com.ciphio.vault.crypto.AesMode.AES_GCM)
                 dataStore.edit { prefs ->
                     prefs[PASSWORDS_KEY] = encrypted.encoded
+                    prefs[DATA_VERSION_KEY] = CURRENT_DATA_VERSION // Store data version
                 }
                 ImportResult(
                     newEntriesCount = importedDeduplicated.size,
@@ -720,6 +726,101 @@ class PasswordVaultRepository(
         private val MASTER_PASSWORD_HASH_KEY = stringPreferencesKey("master_password_hash")
         private val BIOMETRIC_ENABLED_KEY = booleanPreferencesKey("biometric_enabled")
         private val ENCRYPTED_MASTER_PASSWORD_KEY = stringPreferencesKey("encrypted_master_password_keystore")
+        private val DATA_VERSION_KEY = intPreferencesKey("data_version")
+        
+        // Data version for migration - increment when data format changes
+        private const val CURRENT_DATA_VERSION = 1
+    }
+    
+    init {
+        // Migrate data if needed on repository initialization
+        migrateDataIfNeeded()
+    }
+    
+    /**
+     * Migrate data format if version has changed.
+     * This ensures passwords don't break after app updates.
+     * 
+     * Handles skipped versions: If user has version 1 and app updates to version 5,
+     * all migrations (1→2, 2→3, 3→4, 4→5) will run sequentially.
+     */
+    private fun migrateDataIfNeeded() {
+        kotlinx.coroutines.runBlocking {
+            try {
+                val prefs = dataStore.data.first()
+                val storedVersion = prefs[DATA_VERSION_KEY] ?: 0
+                
+                // If no version stored, this is old data - set version to current
+                if (storedVersion == 0) {
+                    dataStore.edit { editPrefs ->
+                        editPrefs[DATA_VERSION_KEY] = CURRENT_DATA_VERSION
+                    }
+                    return@runBlocking
+                }
+                
+                // If version matches, no migration needed
+                if (storedVersion == CURRENT_DATA_VERSION) {
+                    return@runBlocking
+                }
+                
+                // Run all migrations sequentially from stored version to current version
+                // This handles cases where user skips updates (e.g., version 1 → version 5)
+                // Each migration transforms data from version N-1 to version N
+                var currentVersion = storedVersion
+                
+                // Future: Add migration logic here when data format changes
+                // IMPORTANT: Each migration function should transform data from previous version to next version
+                // They will run sequentially if user has skipped versions
+                // Example:
+                // while (currentVersion < CURRENT_DATA_VERSION) {
+                //     when (currentVersion) {
+                //         1 -> {
+                //             migrateFromV1ToV2()
+                //             currentVersion = 2
+                //         }
+                //         2 -> {
+                //             migrateFromV2ToV3()
+                //             currentVersion = 3
+                //         }
+                //         3 -> {
+                //             migrateFromV3ToV4()
+                //             currentVersion = 4
+                //         }
+                //         4 -> {
+                //             migrateFromV4ToV5()
+                //             currentVersion = 5
+                //         }
+                //     }
+                //     // Update stored version after each migration step
+                //     dataStore.edit { editPrefs ->
+                //         editPrefs[DATA_VERSION_KEY] = currentVersion
+                //     }
+                // }
+                
+                // Alternative pattern (simpler but requires all migrations to run):
+                // if (storedVersion < 2) {
+                //     migrateFromV1ToV2()
+                // }
+                // if (storedVersion < 3) {
+                //     migrateFromV2ToV3()  // This assumes data is now in v2 format
+                // }
+                // if (storedVersion < 4) {
+                //     migrateFromV3ToV4()  // This assumes data is now in v3 format
+                // }
+                // if (storedVersion < 5) {
+                //     migrateFromV4ToV5()  // This assumes data is now in v4 format
+                // }
+                // NOTE: With this pattern, each migration function must handle data in the
+                // format of the PREVIOUS version, not the stored version.
+                
+                // Update to current version after all migrations complete
+                dataStore.edit { editPrefs ->
+                    editPrefs[DATA_VERSION_KEY] = CURRENT_DATA_VERSION
+                }
+            } catch (e: Exception) {
+                android.util.Log.e("PasswordVault", "Error during data migration: ${e.message}", e)
+            }
+        }
     }
 }
 

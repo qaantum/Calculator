@@ -1,20 +1,26 @@
 package com.qaantum.calculatorhub.ui.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.qaantum.calculatorhub.R
 import com.qaantum.calculatorhub.data.CalculatorData
-import com.qaantum.calculatorhub.models.CalculatorItem
+import com.qaantum.calculatorhub.ui.components.CategoryCard
+import com.qaantum.calculatorhub.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -22,128 +28,137 @@ fun HomeScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Calculator Hub") }
+                title = { 
+                    Column {
+                        Text("Calculator Hub", fontWeight = FontWeight.Bold)
+                        Text("Professional Tools", style = MaterialTheme.typography.labelMedium)
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* TODO: Settings */ }) {
+                        Icon(Icons.Default.Settings, contentDescription = "Settings")
+                    }
+                }
             )
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = { navController.navigate("/custom") },
-                icon = { Icon(Icons.Default.Build, contentDescription = null) },
-                text = { Text("Custom") }
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                icon = { Icon(Icons.Default.Build, "Custom") },
+                text = { Text("Custom Builder") }
             )
         }
     ) { padding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+        val context = androidx.compose.ui.platform.LocalContext.current
+        val customService = remember { com.qaantum.calculatorhub.customcalculator.CustomCalculatorService(context) }
+        val myTools = remember { customService.getCalculators() }
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.padding(padding)
         ) {
-            // Custom Calculator Card at top
-            item {
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-                    onClick = { navController.navigate("/custom") }
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            Icons.Default.Build,
-                            contentDescription = null,
-                            modifier = Modifier.size(40.dp),
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Column {
-                            Text(
-                                "Custom Calculator",
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                            Text(
-                                "Build your own formulas",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
-                            )
-                        }
-                    }
+            if (myTools.isNotEmpty()) {
+                item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }) {
+                    Text(
+                        "My Tools",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = 0.dp)
+                    )
                 }
+                items(myTools) { tool ->
+                    CategoryCard(
+                        title = tool.title,
+                        icon = Icons.Default.Build, 
+                        color = MaterialTheme.colorScheme.tertiary,
+                        onClick = { navController.navigate("/custom/detail/${tool.id}") }
+                    )
+                }
+            }
+
+            // Quick Access Section (Spans full width)
+            item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }) {
+                Text(
+                    "Quick Access",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 0.dp)
+                )
+            }
+
+            // Standard Calculator Card
+            item {
+                CategoryCard(
+                    title = "Standard",
+                    icon = Icons.Default.Calculate,
+                    color = MaterialTheme.colorScheme.primary,
+                    onClick = { navController.navigate("/standard") }
+                )
+            }
+
+            // Scientific Calculator Card
+            item {
+                CategoryCard(
+                    title = "Scientific",
+                    icon = Icons.Default.Science, // Changed icon to Science/Flask if available or generic
+                    color = MaterialTheme.colorScheme.secondary,
+                    onClick = { navController.navigate("/scientific") }
+                )
+            }
+
+            // Categories Section Header
+            item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }) {
                 Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    "Categories",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            items(CalculatorData.categories) { category ->
+                CategoryCard(
+                    title = category,
+                    icon = getCategoryIcon(category),
+                    color = getCategoryColor(category),
+                    onClick = {
+                        navController.navigate("category/$category")
+                    }
+                )
             }
             
-            items(CalculatorData.categories) { category ->
-                CategorySection(
-                    category = category,
-                    calculators = CalculatorData.getCalculatorsByCategory(category),
-                    navController = navController
-                )
-            }
+            item { Spacer(modifier = Modifier.height(64.dp)) } // Spacer for FAB
         }
     }
 }
 
-@Composable
-fun CategorySection(
-    category: String,
-    calculators: List<CalculatorItem>,
-    navController: NavController
-) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(
-                text = category,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            calculators.forEach { calculator ->
-                CalculatorItemRow(
-                    calculator = calculator,
-                    onClick = {
-                        // Navigate to calculator screen
-                        navController.navigate(calculator.route)
-                    }
-                )
-            }
-        }
+fun getCategoryIcon(category: String): ImageVector {
+    return when (category) {
+        "Finance" -> Icons.Default.AttachMoney
+        "Math" -> Icons.Default.Calculate
+        "Health" -> Icons.Default.Favorite
+        "Converters" -> Icons.Default.Transform
+        "Other" -> Icons.Default.Widgets
+        else -> Icons.Default.Category
     }
 }
 
 @Composable
-fun CalculatorItemRow(
-    calculator: CalculatorItem,
-    onClick: () -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        onClick = onClick
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = calculator.title,
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
+fun getCategoryColor(category: String): Color {
+    // In our clean theme, we might want to keep icons somewhat uniform or use our palette accents
+    return when (category) {
+        "Finance" -> MaterialTheme.colorScheme.primary
+        "Math" -> MaterialTheme.colorScheme.primary
+        "Health" -> Red500
+        else -> MaterialTheme.colorScheme.secondary
     }
 }
 

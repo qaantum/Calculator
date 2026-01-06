@@ -18,7 +18,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MatrixDeterminantScreen() {
+fun MatrixDeterminantScreen(navController: androidx.navigation.NavController) {
     var a by remember { mutableStateOf("") }; var b by remember { mutableStateOf("") }
     var c by remember { mutableStateOf("") }; var d by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("---") }
@@ -30,7 +30,11 @@ fun MatrixDeterminantScreen() {
         result = "%.4f".format(calc.det2x2(av, bv, cv, dv))
     }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Matrix Determinant (2×2)") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Matrix Determinant (2×2)",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Text("| a  b |", style = MaterialTheme.typography.titleMedium)
             Text("| c  d |", style = MaterialTheme.typography.titleMedium)
@@ -54,7 +58,7 @@ fun MatrixDeterminantScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ColorConverterScreen() {
+fun ColorConverterScreen(navController: androidx.navigation.NavController) {
     var r by remember { mutableStateOf("255") }; var g by remember { mutableStateOf("128") }; var b by remember { mutableStateOf("0") }
     var hex by remember { mutableStateOf("#FF8000") }
     val conv = remember { ColorConverter() }
@@ -63,7 +67,11 @@ fun ColorConverterScreen() {
     val hsl = conv.rgbToHsl(rgb.first, rgb.second, rgb.third)
     val hexResult = conv.rgbToHex(rgb.first, rgb.second, rgb.third)
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Color Converter") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Color Converter",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Card(Modifier.fillMaxWidth().height(80.dp), colors = CardDefaults.cardColors(containerColor = Color(rgb.first, rgb.second, rgb.third))) {}
             Text("RGB Values", style = MaterialTheme.typography.titleMedium)
@@ -74,7 +82,7 @@ fun ColorConverterScreen() {
             }
             Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp)) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("HEX"); Text(hexResult, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleLarge) }
-                HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                Divider(Modifier.padding(vertical = 8.dp))
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("HSL"); Text("${hsl.first}°, ${hsl.second}%, ${hsl.third}%", fontWeight = FontWeight.Bold) }
             }}
         }
@@ -83,14 +91,18 @@ fun ColorConverterScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoanAffordabilityScreen() {
+fun LoanAffordabilityScreen(navController: androidx.navigation.NavController) {
     var income by remember { mutableStateOf("") }; var dti by remember { mutableStateOf("36") }
     var rate by remember { mutableStateOf("") }; var term by remember { mutableStateOf("360") }
     var result by remember { mutableStateOf<LoanAffordabilityResult?>(null) }
     val calc = remember { LoanAffordabilityCalculator() }
     val fmt = remember { NumberFormat.getCurrencyInstance(Locale.US) }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Loan Affordability") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Loan Affordability",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(income, { income = it }, Modifier.fillMaxWidth(), label = { Text("Monthly Income") }, prefix = { Text("$") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             OutlinedTextField(dti, { dti = it }, Modifier.fillMaxWidth(), label = { Text("Max Debt-to-Income Ratio") }, suffix = { Text("%") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
@@ -111,14 +123,18 @@ fun LoanAffordabilityScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RefinanceCalculatorScreen() {
+fun RefinanceCalculatorScreen(navController: androidx.navigation.NavController) {
     var balance by remember { mutableStateOf("") }; var oldRate by remember { mutableStateOf("") }
     var newRate by remember { mutableStateOf("") }; var term by remember { mutableStateOf("360") }; var costs by remember { mutableStateOf("") }
     var result by remember { mutableStateOf<RefinanceResult?>(null) }
     val calc = remember { RefinanceCalculator() }
     val fmt = remember { NumberFormat.getCurrencyInstance(Locale.US) }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Refinance Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Refinance Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             OutlinedTextField(balance, { balance = it }, Modifier.fillMaxWidth(), label = { Text("Loan Balance") }, prefix = { Text("$") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -131,7 +147,7 @@ fun RefinanceCalculatorScreen() {
             result?.let { Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(24.dp)) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Old Payment"); Text(fmt.format(it.oldPayment), fontWeight = FontWeight.Bold) }
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("New Payment"); Text(fmt.format(it.newPayment), fontWeight = FontWeight.Bold) }
-                HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                Divider(Modifier.padding(vertical = 8.dp))
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Monthly Savings", fontWeight = FontWeight.Bold); Text(fmt.format(it.monthlySavings), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = if (it.monthlySavings > 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error) }
                 Text("Break-even: ${it.breakEvenMonths} months", style = MaterialTheme.typography.bodySmall)
             }}}
@@ -141,14 +157,18 @@ fun RefinanceCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RentalPropertyScreen() {
+fun RentalPropertyScreen(navController: androidx.navigation.NavController) {
     var price by remember { mutableStateOf("") }; var down by remember { mutableStateOf("") }
     var rent by remember { mutableStateOf("") }; var expenses by remember { mutableStateOf("") }; var mortgage by remember { mutableStateOf("") }
     var result by remember { mutableStateOf<RentalResult?>(null) }
     val calc = remember { RentalPropertyCalculator() }
     val fmt = remember { NumberFormat.getCurrencyInstance(Locale.US) }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Rental Property") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Rental Property",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             OutlinedTextField(price, { price = it }, Modifier.fillMaxWidth(), label = { Text("Purchase Price") }, prefix = { Text("$") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             OutlinedTextField(down, { down = it }, Modifier.fillMaxWidth(), label = { Text("Down Payment") }, prefix = { Text("$") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
@@ -159,7 +179,7 @@ fun RentalPropertyScreen() {
             result?.let { Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(24.dp)) {
                 listOf("Annual Cash Flow" to fmt.format(it.cashFlow), "Cap Rate" to "%.2f%%".format(it.capRate), "ROI" to "%.2f%%".format(it.roi), "Cash-on-Cash" to "%.2f%%".format(it.cashOnCash)).forEach { (l, v) ->
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(l); Text(v, fontWeight = FontWeight.Bold) }
-                    HorizontalDivider(Modifier.padding(vertical = 4.dp))
+                    Divider(Modifier.padding(vertical = 4.dp))
                 }
             }}}
         }

@@ -17,11 +17,15 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AgeCalculatorScreen() {
+fun AgeCalculatorScreen(navController: androidx.navigation.NavController) {
     var year by remember { mutableStateOf("") }; var month by remember { mutableStateOf("") }; var day by remember { mutableStateOf("") }
     var result by remember { mutableStateOf<AgeResult?>(null) }
     val calc = remember { AgeCalculator() }
-    Scaffold(topBar = { TopAppBar(title = { Text("Age Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Age Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(year, { year = it }, Modifier.weight(1f), label = { Text("Year") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
@@ -40,14 +44,18 @@ fun AgeCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WorkHoursCalculatorScreen() {
+fun WorkHoursCalculatorScreen(navController: androidx.navigation.NavController) {
     var hours by remember { mutableStateOf("") }; var rate by remember { mutableStateOf("") }
     var threshold by remember { mutableStateOf("40") }; var mult by remember { mutableStateOf("1.5") }
     var result by remember { mutableStateOf<WorkHoursResult?>(null) }
     val calc = remember { WorkHoursCalculator() }
     val fmt = remember { NumberFormat.getCurrencyInstance(Locale.US) }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Work Hours Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Work Hours Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(hours, { hours = it }, Modifier.fillMaxWidth(), label = { Text("Hours Worked") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             OutlinedTextField(rate, { rate = it }, Modifier.fillMaxWidth(), label = { Text("Hourly Rate") }, prefix = { Text("$") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
@@ -59,7 +67,7 @@ fun WorkHoursCalculatorScreen() {
             result?.let { Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(24.dp)) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Regular Hours"); Text("%.1f".format(it.regularHours), fontWeight = FontWeight.Bold) }
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Overtime Hours"); Text("%.1f".format(it.overtimeHours), fontWeight = FontWeight.Bold) }
-                HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                Divider(Modifier.padding(vertical = 8.dp))
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Total Pay", fontWeight = FontWeight.Bold); Text(fmt.format(it.totalPay), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
             }}}
         }
@@ -68,13 +76,17 @@ fun WorkHoursCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FuelCostCalculatorScreen() {
+fun FuelCostCalculatorScreen(navController: androidx.navigation.NavController) {
     var distance by remember { mutableStateOf("") }; var mpg by remember { mutableStateOf("") }; var price by remember { mutableStateOf("") }
     var result by remember { mutableStateOf<FuelCostResult?>(null) }
     val calc = remember { FuelCostCalculator() }
     val fmt = remember { NumberFormat.getCurrencyInstance(Locale.US) }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Fuel Cost Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Fuel Cost Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(distance, { distance = it }, Modifier.fillMaxWidth(), label = { Text("Distance (miles)") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             OutlinedTextField(mpg, { mpg = it }, Modifier.fillMaxWidth(), label = { Text("Fuel Efficiency (MPG)") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
@@ -91,21 +103,25 @@ fun FuelCostCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordGeneratorScreen() {
+fun PasswordGeneratorScreen(navController: androidx.navigation.NavController) {
     var length by remember { mutableStateOf("16") }
     var upper by remember { mutableStateOf(true) }; var lower by remember { mutableStateOf(true) }
     var numbers by remember { mutableStateOf(true) }; var symbols by remember { mutableStateOf(true) }
     var password by remember { mutableStateOf("") }
     val gen = remember { PasswordGenerator() }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Password Generator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Password Generator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(length, { length = it }, Modifier.fillMaxWidth(), label = { Text("Length") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                FilterChip(upper, { upper = it }, { Text("ABC") })
-                FilterChip(lower, { lower = it }, { Text("abc") })
-                FilterChip(numbers, { numbers = it }, { Text("123") })
-                FilterChip(symbols, { symbols = it }, { Text("!@#") })
+                FilterChip(upper, { upper = !upper }, { Text("ABC") })
+                FilterChip(lower, { lower = !lower }, { Text("abc") })
+                FilterChip(numbers, { numbers = !numbers }, { Text("123") })
+                FilterChip(symbols, { symbols = !symbols }, { Text("!@#") })
             }
             Button({ password = gen.generate(length.toIntOrNull() ?: 16, upper, lower, numbers, symbols) }, Modifier.fillMaxWidth()) { Text("Generate") }
             if (password.isNotEmpty()) Card(Modifier.fillMaxWidth()) { Text(password, Modifier.padding(24.dp), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }

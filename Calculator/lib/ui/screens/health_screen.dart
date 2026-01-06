@@ -25,6 +25,10 @@ class HealthScreen extends StatelessWidget {
       {'title': 'Smoking Cost', 'icon': FontAwesomeIcons.banSmoking, 'route': '/health/smoking'},
       {'title': 'Target Heart Rate', 'icon': FontAwesomeIcons.heartPulse, 'route': '/health/heartrate'},
       {'title': 'Water Intake', 'icon': FontAwesomeIcons.glassWater, 'route': '/health/water'},
+      // NEW CALCULATORS
+      {'title': 'Blood Sugar', 'icon': FontAwesomeIcons.droplet, 'route': '/health/bloodsugar'},
+      {'title': 'VO₂ Max', 'icon': FontAwesomeIcons.lungs, 'route': '/health/vo2max'},
+      {'title': 'Medication Dosage', 'icon': FontAwesomeIcons.pills, 'route': '/health/dosage'},
     ];
 
     return Scaffold(

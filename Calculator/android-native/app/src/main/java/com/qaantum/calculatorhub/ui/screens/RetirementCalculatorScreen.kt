@@ -18,7 +18,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RetirementCalculatorScreen() {
+fun RetirementCalculatorScreen(navController: androidx.navigation.NavController) {
     var currentAge by remember { mutableStateOf("") }
     var retireAge by remember { mutableStateOf("65") }
     var savings by remember { mutableStateOf("0") }
@@ -29,8 +29,10 @@ fun RetirementCalculatorScreen() {
     val calculator = remember { RetirementCalculator() }
     val currencyFormat = remember { NumberFormat.getCurrencyInstance(Locale.US) }
 
-    Scaffold(
-        topBar = { TopAppBar(title = { Text("Retirement Calculator") }) }
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Retirement Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -110,7 +112,7 @@ fun RetirementCalculatorScreen() {
                             style = MaterialTheme.typography.displayMedium,
                             fontWeight = FontWeight.Bold
                         )
-                        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+                        Divider(modifier = Modifier.padding(vertical = 16.dp))
                         Text("Est. Monthly Income (4% Rule)", style = MaterialTheme.typography.titleSmall)
                         Text(
                             currencyFormat.format(res.monthlyIncome),

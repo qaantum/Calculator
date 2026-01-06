@@ -15,13 +15,17 @@ import com.qaantum.calculatorhub.calculators.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MacroCalculatorScreen() {
+fun MacroCalculatorScreen(navController: androidx.navigation.NavController) {
     var calories by remember { mutableStateOf("2000") }
     var protein by remember { mutableStateOf("30") }; var carbs by remember { mutableStateOf("40") }; var fat by remember { mutableStateOf("30") }
     var result by remember { mutableStateOf<MacroResult?>(null) }
     val calc = remember { MacroCalculator() }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Macro Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Macro Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(calories, { calories = it }, Modifier.fillMaxWidth(), label = { Text("Target Calories") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -35,7 +39,7 @@ fun MacroCalculatorScreen() {
                 Spacer(Modifier.height(16.dp))
                 listOf("Protein" to "${it.protein}g", "Carbs" to "${it.carbs}g", "Fat" to "${it.fat}g").forEach { (l, v) ->
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(l); Text(v, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleLarge) }
-                    HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                    Divider(Modifier.padding(vertical = 8.dp))
                 }
             }}}
         }
@@ -44,13 +48,17 @@ fun MacroCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WaterIntakeCalculatorScreen() {
+fun WaterIntakeCalculatorScreen(navController: androidx.navigation.NavController) {
     var weight by remember { mutableStateOf("") }; var activity by remember { mutableStateOf("Normal") }
     var result by remember { mutableStateOf<WaterResult?>(null) }
     val calc = remember { WaterIntakeCalculator() }
     val activities = listOf("Sedentary", "Normal", "Active", "Athlete")
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Water Intake") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Water Intake",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(weight, { weight = it }, Modifier.fillMaxWidth(), label = { Text("Weight (kg)") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) { activities.forEach { FilterChip(activity == it, { activity = it }, { Text(it) }) } }
@@ -68,18 +76,22 @@ fun WaterIntakeCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TargetHeartRateScreen() {
+fun TargetHeartRateScreen(navController: androidx.navigation.NavController) {
     var age by remember { mutableStateOf("") }
     var result by remember { mutableStateOf<TargetHRResult?>(null) }
     val calc = remember { TargetHeartRateCalculator() }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Target Heart Rate") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Target Heart Rate",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(age, { age = it; age.toIntOrNull()?.let { a -> result = calc.calculate(a) } }, Modifier.fillMaxWidth(), label = { Text("Age") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
             result?.let { res ->
                 Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp)) {
                     Text("Max HR: ${res.maxHR} bpm", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, modifier = Modifier.align(Alignment.CenterHorizontally))
-                    HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                    Divider(Modifier.padding(vertical = 8.dp))
                     listOf("Zone 1 (50-60%)" to res.zone1, "Zone 2 (60-70%)" to res.zone2, "Zone 3 (70-80%)" to res.zone3, "Zone 4 (80-90%)" to res.zone4, "Zone 5 (90-100%)" to res.zone5).forEach { (label, range) ->
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(label); Text("${range.first}-${range.second} bpm", fontWeight = FontWeight.Bold) }
                     }
@@ -91,12 +103,16 @@ fun TargetHeartRateScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SleepCalculatorScreen() {
+fun SleepCalculatorScreen(navController: androidx.navigation.NavController) {
     var hour by remember { mutableStateOf("22") }; var min by remember { mutableStateOf("00") }
     var result by remember { mutableStateOf<SleepResult?>(null) }
     val calc = remember { SleepCalculator() }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Sleep Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Sleep Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Text("When do you want to go to bed?", style = MaterialTheme.typography.titleMedium)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -118,12 +134,16 @@ fun SleepCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PaceCalculatorScreen() {
+fun PaceCalculatorScreen(navController: androidx.navigation.NavController) {
     var distance by remember { mutableStateOf("") }; var hours by remember { mutableStateOf("0") }; var mins by remember { mutableStateOf("") }; var secs by remember { mutableStateOf("0") }
     var result by remember { mutableStateOf<PaceResult?>(null) }
     val calc = remember { PaceCalculator() }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Pace Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Pace Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(distance, { distance = it }, Modifier.fillMaxWidth(), label = { Text("Distance (km)") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             Text("Time", style = MaterialTheme.typography.titleMedium)
@@ -136,7 +156,7 @@ fun PaceCalculatorScreen() {
             result?.let { Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(24.dp)) {
                 listOf("Pace/km" to it.pacePerKm, "Pace/mile" to it.pacePerMile, "Speed" to "%.2f km/h".format(it.speed)).forEach { (l, v) ->
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(l); Text(v, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleLarge) }
-                    HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                    Divider(Modifier.padding(vertical = 8.dp))
                 }
             }}}
         }

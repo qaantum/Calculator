@@ -18,7 +18,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InvestmentGrowthCalculatorScreen() {
+fun InvestmentGrowthCalculatorScreen(navController: androidx.navigation.NavController) {
     var initial by remember { mutableStateOf("") }
     var contribution by remember { mutableStateOf("") }
     var rate by remember { mutableStateOf("") }
@@ -36,8 +36,10 @@ fun InvestmentGrowthCalculatorScreen() {
         result = calculator.calculate(i, c, r, y)
     }
 
-    Scaffold(
-        topBar = { TopAppBar(title = { Text("Investment Growth") }) }
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Investment Growth",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -94,7 +96,7 @@ fun InvestmentGrowthCalculatorScreen() {
                             style = MaterialTheme.typography.displaySmall,
                             fontWeight = FontWeight.Bold
                         )
-                        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+                        Divider(modifier = Modifier.padding(vertical = 16.dp))
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                             Text("Total Contributed")
                             Text(currencyFormat.format(res.totalContributions), fontWeight = FontWeight.Bold)

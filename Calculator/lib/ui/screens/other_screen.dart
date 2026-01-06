@@ -21,6 +21,10 @@ class OtherScreen extends StatelessWidget {
       {'title': 'Time Calculator', 'icon': FontAwesomeIcons.clock, 'route': '/other/time'},
       {'title': 'TV Size', 'icon': FontAwesomeIcons.tv, 'route': '/other/tvsize'},
       {'title': 'Work Hours', 'icon': FontAwesomeIcons.briefcase, 'route': '/other/workhours'},
+      // NEW CALCULATORS
+      {'title': 'Moon Phase', 'icon': FontAwesomeIcons.moon, 'route': '/other/moonphase'},
+      {'title': 'Dice Roller', 'icon': FontAwesomeIcons.dice, 'route': '/other/dice'},
+      {'title': 'Hash Generator', 'icon': FontAwesomeIcons.fingerprint, 'route': '/other/hash'},
     ];
 
     return Scaffold(

@@ -15,7 +15,7 @@ import com.qaantum.calculatorhub.calculators.BodyFatCalculator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BodyFatCalculatorScreen() {
+fun BodyFatCalculatorScreen(navController: androidx.navigation.NavController) {
     var height by remember { mutableStateOf("") }
     var waist by remember { mutableStateOf("") }
     var neck by remember { mutableStateOf("") }
@@ -24,7 +24,11 @@ fun BodyFatCalculatorScreen() {
     var bodyFat by remember { mutableStateOf<Double?>(null) }
     val calculator = remember { BodyFatCalculator() }
 
-    Scaffold(topBar = { TopAppBar(title = { Text("Body Fat Calculator") }) }) { padding ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Body Fat Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 FilterChip(selected = gender == "Male", onClick = { gender = "Male"; hip = "" }, label = { Text("Male") }, modifier = Modifier.weight(1f))

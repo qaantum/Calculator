@@ -17,7 +17,7 @@ import java.text.NumberFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CompoundInterestCalculatorScreen() {
+fun CompoundInterestCalculatorScreen(navController: androidx.navigation.NavController) {
     var principal by remember { mutableStateOf("") }
     var rate by remember { mutableStateOf("") }
     var years by remember { mutableStateOf("") }
@@ -30,49 +30,10 @@ fun CompoundInterestCalculatorScreen() {
     val currencyFormat = remember { NumberFormat.getCurrencyInstance() }
     val context = LocalContext.current
 
-    // Customize Dialog
-    if (showCustomizeSheet) {
-        val forkedCalc = remember { ForkCalculator.createFork("/finance/interest/compound") }
-        forkedCalc?.let { calc ->
-            AlertDialog(
-                onDismissRequest = { showCustomizeSheet = false },
-                title = { Text("Customize This Calculator") },
-                text = { 
-                    Column {
-                        Text("Create your own version of the Compound Interest Calculator.")
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text("Formula: ${calc.formula}", style = MaterialTheme.typography.bodySmall)
-                    }
-                },
-                confirmButton = {
-                    Button(onClick = {
-                        val service = CustomCalculatorService(context)
-                        service.saveCalculator(calc)
-                        showCustomizeSheet = false
-                    }) {
-                        Text("Create My Version")
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = { showCustomizeSheet = false }) {
-                        Text("Cancel")
-                    }
-                }
-            )
-        }
-    }
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Compound Interest") },
-                actions = {
-                    IconButton(onClick = { showCustomizeSheet = true }) {
-                        Icon(Icons.Default.Build, contentDescription = "Customize")
-                    }
-                }
-            )
-        }
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Compound Interest",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -88,7 +49,7 @@ fun CompoundInterestCalculatorScreen() {
                 leadingIcon = { Text("$") },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
-                    keyboardType = androidx.compose.foundation.text.KeyboardType.Number
+                    keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
                 )
             )
 
@@ -98,7 +59,7 @@ fun CompoundInterestCalculatorScreen() {
                 label = { Text("Annual Interest Rate (%)") },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
-                    keyboardType = androidx.compose.foundation.text.KeyboardType.Number
+                    keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
                 )
             )
 
@@ -108,7 +69,7 @@ fun CompoundInterestCalculatorScreen() {
                 label = { Text("Time Period (Years)") },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
-                    keyboardType = androidx.compose.foundation.text.KeyboardType.Number
+                    keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
                 )
             )
 
@@ -119,7 +80,7 @@ fun CompoundInterestCalculatorScreen() {
                 leadingIcon = { Text("$") },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
-                    keyboardType = androidx.compose.foundation.text.KeyboardType.Number
+                    keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
                 )
             )
 
@@ -129,7 +90,7 @@ fun CompoundInterestCalculatorScreen() {
                 label = { Text("Compounds Per Year") },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
-                    keyboardType = androidx.compose.foundation.text.KeyboardType.Number
+                    keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
                 )
             )
 

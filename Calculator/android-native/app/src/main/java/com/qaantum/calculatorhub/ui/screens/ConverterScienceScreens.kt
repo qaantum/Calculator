@@ -15,7 +15,7 @@ import com.qaantum.calculatorhub.calculators.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UnitConverterScreen() {
+fun UnitConverterScreen(navController: androidx.navigation.NavController) {
     var input by remember { mutableStateOf("") }
     var category by remember { mutableStateOf("Length") }
     var fromUnit by remember { mutableStateOf("Meters") }
@@ -24,7 +24,11 @@ fun UnitConverterScreen() {
 
     val categories = listOf("Length", "Weight", "Temperature", "Volume", "Speed")
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Unit Converter") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Unit Converter",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             var expanded by remember { mutableStateOf(false) }
             ExposedDropdownMenuBox(expanded, { expanded = !expanded }) {
@@ -38,35 +42,35 @@ fun UnitConverterScreen() {
                     val v = input.toDoubleOrNull() ?: 0.0
                     Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp)) {
                         listOf("Meters" to v, "Feet" to conv.metersToFeet(v), "Km" to v/1000, "Miles" to conv.kmToMiles(v/1000), "Cm" to v*100, "Inches" to conv.cmToInches(v*100))
-                            .forEach { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(it.first); Text("%.4f".format(it.second), fontWeight = FontWeight.Bold) }; HorizontalDivider() }
+                            .forEach { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(it.first); Text("%.4f".format(it.second), fontWeight = FontWeight.Bold) }; Divider() }
                     }}
                 }
                 "Weight" -> {
                     val v = input.toDoubleOrNull() ?: 0.0
                     Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp)) {
                         listOf("Kg" to v, "Lbs" to conv.kgToLbs(v), "Grams" to v*1000, "Oz" to conv.gramsToOz(v*1000))
-                            .forEach { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(it.first); Text("%.4f".format(it.second), fontWeight = FontWeight.Bold) }; HorizontalDivider() }
+                            .forEach { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(it.first); Text("%.4f".format(it.second), fontWeight = FontWeight.Bold) }; Divider() }
                     }}
                 }
                 "Temperature" -> {
                     val v = input.toDoubleOrNull() ?: 0.0
                     Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp)) {
                         listOf("Celsius" to v, "Fahrenheit" to conv.celsiusToFahrenheit(v), "Kelvin" to conv.celsiusToKelvin(v))
-                            .forEach { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(it.first); Text("%.2f".format(it.second), fontWeight = FontWeight.Bold) }; HorizontalDivider() }
+                            .forEach { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(it.first); Text("%.2f".format(it.second), fontWeight = FontWeight.Bold) }; Divider() }
                     }}
                 }
                 "Volume" -> {
                     val v = input.toDoubleOrNull() ?: 0.0
                     Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp)) {
                         listOf("Liters" to v, "Gallons" to conv.litersToGallons(v), "mL" to v*1000, "Fl Oz" to conv.mlToFlOz(v*1000))
-                            .forEach { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(it.first); Text("%.4f".format(it.second), fontWeight = FontWeight.Bold) }; HorizontalDivider() }
+                            .forEach { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(it.first); Text("%.4f".format(it.second), fontWeight = FontWeight.Bold) }; Divider() }
                     }}
                 }
                 "Speed" -> {
                     val v = input.toDoubleOrNull() ?: 0.0
                     Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp)) {
                         listOf("km/h" to v, "mph" to conv.kphToMph(v), "m/s" to conv.kphToMs(v))
-                            .forEach { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(it.first); Text("%.4f".format(it.second), fontWeight = FontWeight.Bold) }; HorizontalDivider() }
+                            .forEach { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(it.first); Text("%.4f".format(it.second), fontWeight = FontWeight.Bold) }; Divider() }
                     }}
                 }
             }
@@ -76,7 +80,7 @@ fun UnitConverterScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun KinematicCalculatorScreen() {
+fun KinematicCalculatorScreen(navController: androidx.navigation.NavController) {
     var initial by remember { mutableStateOf("") }; var acceleration by remember { mutableStateOf("") }; var time by remember { mutableStateOf("") }
     var finalV by remember { mutableStateOf("---") }; var displacement by remember { mutableStateOf("---") }
     val calc = remember { KinematicCalculator() }
@@ -87,14 +91,18 @@ fun KinematicCalculatorScreen() {
         displacement = "%.4f m".format(calc.displacement(u, a, t))
     }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Kinematic Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Kinematic Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(initial, { initial = it; calc() }, Modifier.fillMaxWidth(), label = { Text("Initial Velocity (m/s)") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             OutlinedTextField(acceleration, { acceleration = it; calc() }, Modifier.fillMaxWidth(), label = { Text("Acceleration (m/s²)") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             OutlinedTextField(time, { time = it; calc() }, Modifier.fillMaxWidth(), label = { Text("Time (s)") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(24.dp)) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Final Velocity (v)"); Text(finalV, fontWeight = FontWeight.Bold) }
-                HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                Divider(Modifier.padding(vertical = 8.dp))
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Displacement (s)"); Text(displacement, fontWeight = FontWeight.Bold) }
             }}
         }
@@ -103,12 +111,16 @@ fun KinematicCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ForceCalculatorScreen() {
+fun ForceCalculatorScreen(navController: androidx.navigation.NavController) {
     var mass by remember { mutableStateOf("") }; var acceleration by remember { mutableStateOf("") }
     var force by remember { mutableStateOf("---") }
     val calc = remember { ForceCalculator() }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Force Calculator (F = ma)") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Force Calculator (F = ma)",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(mass, { mass = it }, Modifier.fillMaxWidth(), label = { Text("Mass (kg)") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             OutlinedTextField(acceleration, { acceleration = it }, Modifier.fillMaxWidth(), label = { Text("Acceleration (m/s²)") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
@@ -125,13 +137,17 @@ fun ForceCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PHCalculatorScreen() {
+fun PHCalculatorScreen(navController: androidx.navigation.NavController) {
     var input by remember { mutableStateOf("") }
     var mode by remember { mutableStateOf("pH") }
     var result by remember { mutableStateOf<PHResult?>(null) }
     val calc = remember { PHCalculator() }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("pH Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "pH Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 FilterChip(mode == "pH", { mode = "pH" }, { Text("From pH") }, Modifier.weight(1f))
@@ -142,7 +158,7 @@ fun PHCalculatorScreen() {
             result?.let { Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp)) {
                 listOf("pH" to it.pH, "pOH" to it.pOH, "[H+]" to it.hConc, "[OH-]" to it.ohConc).forEach { (label, value) ->
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(label); Text("%.6e".format(value).let { if (label.startsWith("p")) "%.2f".format(value) else it }, fontWeight = FontWeight.Bold) }
-                    HorizontalDivider()
+                    Divider()
                 }
             }}}
         }
@@ -151,12 +167,16 @@ fun PHCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StandardDeviationCalculatorScreen() {
+fun StandardDeviationCalculatorScreen(navController: androidx.navigation.NavController) {
     var input by remember { mutableStateOf("") }
     var result by remember { mutableStateOf<StatsResult?>(null) }
     val calc = remember { StandardDeviationCalculator() }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Statistics Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Statistics Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(input, { input = it }, Modifier.fillMaxWidth().height(120.dp), label = { Text("Enter numbers (comma separated)") })
             Button({ 
@@ -166,7 +186,7 @@ fun StandardDeviationCalculatorScreen() {
             result?.let { Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(24.dp)) {
                 listOf("Mean" to it.mean, "Variance" to it.variance, "Std Dev" to it.stdDev, "Count" to it.count.toDouble()).forEach { (l, v) ->
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(l); Text("%.4f".format(v), fontWeight = FontWeight.Bold) }
-                    HorizontalDivider()
+                    Divider()
                 }
             }}}
         }

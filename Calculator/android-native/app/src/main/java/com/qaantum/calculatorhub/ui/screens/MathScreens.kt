@@ -20,7 +20,7 @@ import com.qaantum.calculatorhub.customcalculator.CustomCalculatorService
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PercentageCalculatorScreen() {
+fun PercentageCalculatorScreen(navController: androidx.navigation.NavController) {
     var c1x by remember { mutableStateOf("") }; var c1y by remember { mutableStateOf("") }; var c1r by remember { mutableStateOf("") }
     var c2x by remember { mutableStateOf("") }; var c2y by remember { mutableStateOf("") }; var c2r by remember { mutableStateOf("") }
     var c3x by remember { mutableStateOf("") }; var c3y by remember { mutableStateOf("") }; var c3r by remember { mutableStateOf("") }
@@ -30,7 +30,11 @@ fun PercentageCalculatorScreen() {
     fun calc2() { c2r = "%.2f%%".format(calc.xIsWhatPercentOfY(c2x.toDoubleOrNull() ?: return, c2y.toDoubleOrNull() ?: return).value) }
     fun calc3() { c3r = calc.percentageChange(c3x.toDoubleOrNull() ?: return, c3y.toDoubleOrNull() ?: return).value.let { "%+.2f%%".format(it) } }
 
-    Scaffold(topBar = { TopAppBar(title = { Text("Percentage Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Percentage Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             PercentageCard("What is X% of Y?", c1x, { c1x = it; calc1() }, "X (%)", c1y, { c1y = it; calc1() }, "Y", c1r)
             PercentageCard("X is what % of Y?", c2x, { c2x = it; calc2() }, "X", c2y, { c2y = it; calc2() }, "Y (Total)", c2r)
@@ -54,12 +58,10 @@ private fun PercentageCard(title: String, v1: String, o1: (String) -> Unit, l1: 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QuadraticSolverScreen() {
+fun QuadraticSolverScreen(navController: androidx.navigation.NavController) {
     var a by remember { mutableStateOf("") }; var b by remember { mutableStateOf("") }; var c by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("---") }
-    var showCustomizeSheet by remember { mutableStateOf(false) }
     val solver = remember { QuadraticSolver() }
-    val context = LocalContext.current
     
     fun calc() {
         val aV = a.toDoubleOrNull() ?: return; val bV = b.toDoubleOrNull() ?: return; val cV = c.toDoubleOrNull() ?: return
@@ -71,40 +73,11 @@ fun QuadraticSolverScreen() {
         }
     }
     
-    if (showCustomizeSheet) {
-        val forkedCalc = remember { ForkCalculator.createFork("/math/quadratic") }
-        forkedCalc?.let { calc ->
-            AlertDialog(
-                onDismissRequest = { showCustomizeSheet = false },
-                title = { Text("Customize This Calculator") },
-                text = { 
-                    Column {
-                        Text("Create your own version of the Quadratic Solver.")
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text("Formula: ${calc.formula}", style = MaterialTheme.typography.bodySmall)
-                    }
-                },
-                confirmButton = {
-                    Button(onClick = {
-                        CustomCalculatorService(context).saveCalculator(calc)
-                        showCustomizeSheet = false
-                    }) { Text("Create My Version") }
-                },
-                dismissButton = { TextButton(onClick = { showCustomizeSheet = false }) { Text("Cancel") } }
-            )
-        }
-    }
-    
-    Scaffold(topBar = { 
-        TopAppBar(
-            title = { Text("Quadratic Solver") },
-            actions = {
-                IconButton(onClick = { showCustomizeSheet = true }) {
-                    Icon(Icons.Default.Build, contentDescription = "Customize")
-                }
-            }
-        )
-    }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Quadratic Solver",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Text("Solves ax² + bx + c = 0", style = MaterialTheme.typography.titleMedium, modifier = Modifier.align(Alignment.CenterHorizontally))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -123,12 +96,17 @@ fun QuadraticSolverScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GcdLcmCalculatorScreen() {
+fun GcdLcmCalculatorScreen(navController: androidx.navigation.NavController) {
     var a by remember { mutableStateOf("") }; var b by remember { mutableStateOf("") }
     var gcd by remember { mutableStateOf("---") }; var lcm by remember { mutableStateOf("---") }
     val calc = remember { GcdLcmCalculator() }
     fun calc() { val r = calc.calculate(a.toLongOrNull() ?: return, b.toLongOrNull() ?: return); gcd = r.gcd.toString(); lcm = r.lcm.toString() }
-    Scaffold(topBar = { TopAppBar(title = { Text("GCD / LCM Calculator") }) }) { p ->
+    
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "GCD / LCM Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(a, { a = it; calc() }, Modifier.weight(1f), label = { Text("Number A") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
@@ -136,7 +114,7 @@ fun GcdLcmCalculatorScreen() {
             }
             Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(24.dp)) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("GCD", style = MaterialTheme.typography.titleMedium); Text(gcd, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold) }
-                HorizontalDivider(Modifier.padding(vertical = 16.dp))
+                Divider(Modifier.padding(vertical = 16.dp))
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("LCM", style = MaterialTheme.typography.titleMedium); Text(lcm, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold) }
             }}
         }
@@ -145,10 +123,15 @@ fun GcdLcmCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FactorialCalculatorScreen() {
+fun FactorialCalculatorScreen(navController: androidx.navigation.NavController) {
     var n by remember { mutableStateOf("") }; var result by remember { mutableStateOf("---") }
     val calc = remember { FactorialCalculator() }
-    Scaffold(topBar = { TopAppBar(title = { Text("Factorial Calculator") }) }) { p ->
+    
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Factorial Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(n, { n = it; result = calc.calculate(it.toIntOrNull() ?: 0) }, Modifier.fillMaxWidth(), label = { Text("Enter n") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
             Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)) {
@@ -162,11 +145,16 @@ fun FactorialCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RandomNumberScreen() {
+fun RandomNumberScreen(navController: androidx.navigation.NavController) {
     var min by remember { mutableStateOf("1") }; var max by remember { mutableStateOf("100") }; var count by remember { mutableStateOf("1") }
     var results by remember { mutableStateOf(listOf<Int>()) }
     val gen = remember { RandomNumberGenerator() }
-    Scaffold(topBar = { TopAppBar(title = { Text("Random Number") }) }) { p ->
+    
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Random Number",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(min, { min = it }, Modifier.weight(1f), label = { Text("Min") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))

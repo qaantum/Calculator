@@ -18,7 +18,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoanCalculatorScreen() {
+fun LoanCalculatorScreen(navController: androidx.navigation.NavController) {
     var amount by remember { mutableStateOf("") }
     var rate by remember { mutableStateOf("") }
     var term by remember { mutableStateOf("") }
@@ -27,10 +27,10 @@ fun LoanCalculatorScreen() {
     val calculator = remember { LoanCalculator() }
     val currencyFormat = remember { NumberFormat.getCurrencyInstance(Locale.US) }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(title = { Text("Loan Calculator") })
-        }
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Loan Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -103,7 +103,7 @@ fun LoanCalculatorScreen() {
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSecondaryContainer
                         )
-                        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+                        Divider(modifier = Modifier.padding(vertical = 16.dp))
                         ResultRow("Total Interest", currencyFormat.format(res.totalInterest))
                         ResultRow("Total Cost", currencyFormat.format(res.totalCost))
                     }

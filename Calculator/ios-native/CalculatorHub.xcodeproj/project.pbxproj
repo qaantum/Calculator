@@ -5,28 +5,615 @@
 	};
 	objectVersion = 56;
 	objects = {
-		/* Begin PBXBuildFile section */
-		/* End PBXBuildFile section */
 
-		/* Begin PBXFileReference section */
-		/* End PBXFileReference section */
+/* Begin PBXBuildFile section */
+		001A00001 /* CalculatorHubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00001 /* CalculatorHubApp.swift */; };
+		001A00002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00002 /* ContentView.swift */; };
+		001A00003 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00003 /* HomeView.swift */; };
+		001A00004 /* CalculatorItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00004 /* CalculatorItem.swift */; };
+		001A00005 /* CalculatorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00005 /* CalculatorData.swift */; };
+		001A00010 /* BMICalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00010 /* BMICalculator.swift */; };
+		001A00011 /* CAGRCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00011 /* CAGRCalculator.swift */; };
+		001A00012 /* CompoundInterestCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00012 /* CompoundInterestCalculator.swift */; };
+		001A00013 /* Converters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00013 /* Converters.swift */; };
+		001A00014 /* DiscountCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00014 /* DiscountCalculator.swift */; };
+		001A00015 /* ElectronicsTextCalculators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00015 /* ElectronicsTextCalculators.swift */; };
+		001A00016 /* FinalCalculators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00016 /* FinalCalculators.swift */; };
+		001A00017 /* FinanceCalculators2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00017 /* FinanceCalculators2.swift */; };
+		001A00018 /* FinanceCalculators3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00018 /* FinanceCalculators3.swift */; };
+		001A00019 /* GeometryCalculators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00019 /* GeometryCalculators.swift */; };
+		001A00020 /* HealthCalculators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00020 /* HealthCalculators.swift */; };
+		001A00021 /* HealthCalculators2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00021 /* HealthCalculators2.swift */; };
+		001A00022 /* InvestmentGrowthCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00022 /* InvestmentGrowthCalculator.swift */; };
+		001A00023 /* LoanCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00023 /* LoanCalculator.swift */; };
+		001A00024 /* MathCalculators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00024 /* MathCalculators.swift */; };
+		001A00025 /* MortgageCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00025 /* MortgageCalculator.swift */; };
+		001A00026 /* RemainingCalculators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00026 /* RemainingCalculators.swift */; };
+		001A00027 /* RetirementCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00027 /* RetirementCalculator.swift */; };
+		001A00028 /* ROICalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00028 /* ROICalculator.swift */; };
+		001A00029 /* SavingsGoalCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00029 /* SavingsGoalCalculator.swift */; };
+		001A00030 /* ScienceCalculators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00030 /* ScienceCalculators.swift */; };
+		001A00031 /* ScientificCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00031 /* ScientificCalculator.swift */; };
+		001A00032 /* SimpleInterestCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00032 /* SimpleInterestCalculator.swift */; };
+		001A00033 /* SpecialtyCalculators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00033 /* SpecialtyCalculators.swift */; };
+		001A00034 /* StandardCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00034 /* StandardCalculator.swift */; };
+		001A00035 /* TipCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00035 /* TipCalculator.swift */; };
+		001A00036 /* UtilityCalculators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00036 /* UtilityCalculators.swift */; };
+		001A00050 /* BMICalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00050 /* BMICalculatorView.swift */; };
+		001A00051 /* CAGRCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00051 /* CAGRCalculatorView.swift */; };
+		001A00052 /* CompoundInterestCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00052 /* CompoundInterestCalculatorView.swift */; };
+		001A00053 /* ConverterScienceViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00053 /* ConverterScienceViews.swift */; };
+		001A00054 /* DiscountCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00054 /* DiscountCalculatorView.swift */; };
+		001A00055 /* ElectronicsTextViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00055 /* ElectronicsTextViews.swift */; };
+		001A00056 /* FinalViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00056 /* FinalViews.swift */; };
+		001A00057 /* FinanceViews2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00057 /* FinanceViews2.swift */; };
+		001A00058 /* HealthCalculatorViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00058 /* HealthCalculatorViews.swift */; };
+		001A00059 /* HealthViews2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00059 /* HealthViews2.swift */; };
+		001A00060 /* InvestmentGrowthCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00060 /* InvestmentGrowthCalculatorView.swift */; };
+		001A00061 /* LoanCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00061 /* LoanCalculatorView.swift */; };
+		001A00062 /* MathViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00062 /* MathViews.swift */; };
+		001A00063 /* MortgageCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00063 /* MortgageCalculatorView.swift */; };
+		001A00064 /* RemainingViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00064 /* RemainingViews.swift */; };
+		001A00065 /* RetirementCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00065 /* RetirementCalculatorView.swift */; };
+		001A00066 /* ROICalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00066 /* ROICalculatorView.swift */; };
+		001A00067 /* SavingsGoalCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00067 /* SavingsGoalCalculatorView.swift */; };
+		001A00068 /* ScientificCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00068 /* ScientificCalculatorView.swift */; };
+		001A00069 /* SimpleInterestCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00069 /* SimpleInterestCalculatorView.swift */; };
+		001A00070 /* SpecialtyViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00070 /* SpecialtyViews.swift */; };
+		001A00071 /* StandardCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00071 /* StandardCalculatorView.swift */; };
+		001A00072 /* TipCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00072 /* TipCalculatorView.swift */; };
+		001A00073 /* UtilityViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00073 /* UtilityViews.swift */; };
+		001A00080 /* CustomCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00080 /* CustomCalculator.swift */; };
+		001A00081 /* CalculatorTemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00081 /* CalculatorTemplates.swift */; };
+		001A00082 /* ForkCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00082 /* ForkCalculator.swift */; };
+		001A00083 /* CustomCalculatorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00083 /* CustomCalculatorListView.swift */; };
+		001A00084 /* CustomCalculatorBuilderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00084 /* CustomCalculatorBuilderView.swift */; };
+		001A00085 /* CustomCalculatorDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001B00085 /* CustomCalculatorDetailView.swift */; };
+/* End PBXBuildFile section */
 
-		/* Begin PBXGroup section */
-		/* End PBXGroup section */
+/* Begin PBXFileReference section */
+		001B00000 /* CalculatorHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalculatorHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		001B00001 /* CalculatorHubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorHubApp.swift; sourceTree = "<group>"; };
+		001B00002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		001B00003 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		001B00004 /* CalculatorItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorItem.swift; sourceTree = "<group>"; };
+		001B00005 /* CalculatorData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorData.swift; sourceTree = "<group>"; };
+		001B00010 /* BMICalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMICalculator.swift; sourceTree = "<group>"; };
+		001B00011 /* CAGRCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAGRCalculator.swift; sourceTree = "<group>"; };
+		001B00012 /* CompoundInterestCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundInterestCalculator.swift; sourceTree = "<group>"; };
+		001B00013 /* Converters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converters.swift; sourceTree = "<group>"; };
+		001B00014 /* DiscountCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountCalculator.swift; sourceTree = "<group>"; };
+		001B00015 /* ElectronicsTextCalculators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectronicsTextCalculators.swift; sourceTree = "<group>"; };
+		001B00016 /* FinalCalculators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalCalculators.swift; sourceTree = "<group>"; };
+		001B00017 /* FinanceCalculators2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceCalculators2.swift; sourceTree = "<group>"; };
+		001B00018 /* FinanceCalculators3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceCalculators3.swift; sourceTree = "<group>"; };
+		001B00019 /* GeometryCalculators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryCalculators.swift; sourceTree = "<group>"; };
+		001B00020 /* HealthCalculators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCalculators.swift; sourceTree = "<group>"; };
+		001B00021 /* HealthCalculators2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCalculators2.swift; sourceTree = "<group>"; };
+		001B00022 /* InvestmentGrowthCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestmentGrowthCalculator.swift; sourceTree = "<group>"; };
+		001B00023 /* LoanCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanCalculator.swift; sourceTree = "<group>"; };
+		001B00024 /* MathCalculators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathCalculators.swift; sourceTree = "<group>"; };
+		001B00025 /* MortgageCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MortgageCalculator.swift; sourceTree = "<group>"; };
+		001B00026 /* RemainingCalculators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingCalculators.swift; sourceTree = "<group>"; };
+		001B00027 /* RetirementCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetirementCalculator.swift; sourceTree = "<group>"; };
+		001B00028 /* ROICalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROICalculator.swift; sourceTree = "<group>"; };
+		001B00029 /* SavingsGoalCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsGoalCalculator.swift; sourceTree = "<group>"; };
+		001B00030 /* ScienceCalculators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScienceCalculators.swift; sourceTree = "<group>"; };
+		001B00031 /* ScientificCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScientificCalculator.swift; sourceTree = "<group>"; };
+		001B00032 /* SimpleInterestCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleInterestCalculator.swift; sourceTree = "<group>"; };
+		001B00033 /* SpecialtyCalculators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialtyCalculators.swift; sourceTree = "<group>"; };
+		001B00034 /* StandardCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardCalculator.swift; sourceTree = "<group>"; };
+		001B00035 /* TipCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipCalculator.swift; sourceTree = "<group>"; };
+		001B00036 /* UtilityCalculators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityCalculators.swift; sourceTree = "<group>"; };
+		001B00050 /* BMICalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMICalculatorView.swift; sourceTree = "<group>"; };
+		001B00051 /* CAGRCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAGRCalculatorView.swift; sourceTree = "<group>"; };
+		001B00052 /* CompoundInterestCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundInterestCalculatorView.swift; sourceTree = "<group>"; };
+		001B00053 /* ConverterScienceViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConverterScienceViews.swift; sourceTree = "<group>"; };
+		001B00054 /* DiscountCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountCalculatorView.swift; sourceTree = "<group>"; };
+		001B00055 /* ElectronicsTextViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectronicsTextViews.swift; sourceTree = "<group>"; };
+		001B00056 /* FinalViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalViews.swift; sourceTree = "<group>"; };
+		001B00057 /* FinanceViews2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceViews2.swift; sourceTree = "<group>"; };
+		001B00058 /* HealthCalculatorViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCalculatorViews.swift; sourceTree = "<group>"; };
+		001B00059 /* HealthViews2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViews2.swift; sourceTree = "<group>"; };
+		001B00060 /* InvestmentGrowthCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestmentGrowthCalculatorView.swift; sourceTree = "<group>"; };
+		001B00061 /* LoanCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanCalculatorView.swift; sourceTree = "<group>"; };
+		001B00062 /* MathViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathViews.swift; sourceTree = "<group>"; };
+		001B00063 /* MortgageCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MortgageCalculatorView.swift; sourceTree = "<group>"; };
+		001B00064 /* RemainingViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingViews.swift; sourceTree = "<group>"; };
+		001B00065 /* RetirementCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetirementCalculatorView.swift; sourceTree = "<group>"; };
+		001B00066 /* ROICalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROICalculatorView.swift; sourceTree = "<group>"; };
+		001B00067 /* SavingsGoalCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsGoalCalculatorView.swift; sourceTree = "<group>"; };
+		001B00068 /* ScientificCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScientificCalculatorView.swift; sourceTree = "<group>"; };
+		001B00069 /* SimpleInterestCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleInterestCalculatorView.swift; sourceTree = "<group>"; };
+		001B00070 /* SpecialtyViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialtyViews.swift; sourceTree = "<group>"; };
+		001B00071 /* StandardCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardCalculatorView.swift; sourceTree = "<group>"; };
+		001B00072 /* TipCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipCalculatorView.swift; sourceTree = "<group>"; };
+		001B00073 /* UtilityViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityViews.swift; sourceTree = "<group>"; };
+		001B00080 /* CustomCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCalculator.swift; sourceTree = "<group>"; };
+		001B00081 /* CalculatorTemplates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorTemplates.swift; sourceTree = "<group>"; };
+		001B00082 /* ForkCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForkCalculator.swift; sourceTree = "<group>"; };
+		001B00083 /* CustomCalculatorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCalculatorListView.swift; sourceTree = "<group>"; };
+		001B00084 /* CustomCalculatorBuilderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCalculatorBuilderView.swift; sourceTree = "<group>"; };
+		001B00085 /* CustomCalculatorDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCalculatorDetailView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
 
-		/* Begin PBXNativeTarget section */
-		/* End PBXNativeTarget section */
+/* Begin PBXFrameworksBuildPhase section */
+		001C00001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
-		/* Begin PBXProject section */
-		/* End PBXProject section */
+/* Begin PBXGroup section */
+		001D00000 = {
+			isa = PBXGroup;
+			children = (
+				001D00001 /* CalculatorHub */,
+				001D00002 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		001D00001 /* CalculatorHub */ = {
+			isa = PBXGroup;
+			children = (
+				001B00001 /* CalculatorHubApp.swift */,
+				001B00002 /* ContentView.swift */,
+				001D00010 /* Models */,
+				001D00011 /* Data */,
+				001D00012 /* Calculators */,
+				001D00013 /* Views */,
+				001D00014 /* CustomCalculator */,
+			);
+			path = CalculatorHub;
+			sourceTree = "<group>";
+		};
+		001D00002 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				001B00000 /* CalculatorHub.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		001D00010 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				001B00004 /* CalculatorItem.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		001D00011 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				001B00005 /* CalculatorData.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		001D00012 /* Calculators */ = {
+			isa = PBXGroup;
+			children = (
+				001B00010 /* BMICalculator.swift */,
+				001B00011 /* CAGRCalculator.swift */,
+				001B00012 /* CompoundInterestCalculator.swift */,
+				001B00013 /* Converters.swift */,
+				001B00014 /* DiscountCalculator.swift */,
+				001B00015 /* ElectronicsTextCalculators.swift */,
+				001B00016 /* FinalCalculators.swift */,
+				001B00017 /* FinanceCalculators2.swift */,
+				001B00018 /* FinanceCalculators3.swift */,
+				001B00019 /* GeometryCalculators.swift */,
+				001B00020 /* HealthCalculators.swift */,
+				001B00021 /* HealthCalculators2.swift */,
+				001B00022 /* InvestmentGrowthCalculator.swift */,
+				001B00023 /* LoanCalculator.swift */,
+				001B00024 /* MathCalculators.swift */,
+				001B00025 /* MortgageCalculator.swift */,
+				001B00026 /* RemainingCalculators.swift */,
+				001B00027 /* RetirementCalculator.swift */,
+				001B00028 /* ROICalculator.swift */,
+				001B00029 /* SavingsGoalCalculator.swift */,
+				001B00030 /* ScienceCalculators.swift */,
+				001B00031 /* ScientificCalculator.swift */,
+				001B00032 /* SimpleInterestCalculator.swift */,
+				001B00033 /* SpecialtyCalculators.swift */,
+				001B00034 /* StandardCalculator.swift */,
+				001B00035 /* TipCalculator.swift */,
+				001B00036 /* UtilityCalculators.swift */,
+			);
+			path = Calculators;
+			sourceTree = "<group>";
+		};
+		001D00013 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				001B00003 /* HomeView.swift */,
+				001B00050 /* BMICalculatorView.swift */,
+				001B00051 /* CAGRCalculatorView.swift */,
+				001B00052 /* CompoundInterestCalculatorView.swift */,
+				001B00053 /* ConverterScienceViews.swift */,
+				001B00054 /* DiscountCalculatorView.swift */,
+				001B00055 /* ElectronicsTextViews.swift */,
+				001B00056 /* FinalViews.swift */,
+				001B00057 /* FinanceViews2.swift */,
+				001B00058 /* HealthCalculatorViews.swift */,
+				001B00059 /* HealthViews2.swift */,
+				001B00060 /* InvestmentGrowthCalculatorView.swift */,
+				001B00061 /* LoanCalculatorView.swift */,
+				001B00062 /* MathViews.swift */,
+				001B00063 /* MortgageCalculatorView.swift */,
+				001B00064 /* RemainingViews.swift */,
+				001B00065 /* RetirementCalculatorView.swift */,
+				001B00066 /* ROICalculatorView.swift */,
+				001B00067 /* SavingsGoalCalculatorView.swift */,
+				001B00068 /* ScientificCalculatorView.swift */,
+				001B00069 /* SimpleInterestCalculatorView.swift */,
+				001B00070 /* SpecialtyViews.swift */,
+				001B00071 /* StandardCalculatorView.swift */,
+				001B00072 /* TipCalculatorView.swift */,
+				001B00073 /* UtilityViews.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		001D00014 /* CustomCalculator */ = {
+			isa = PBXGroup;
+			children = (
+				001B00080 /* CustomCalculator.swift */,
+				001B00081 /* CalculatorTemplates.swift */,
+				001B00082 /* ForkCalculator.swift */,
+				001D00015 /* Views */,
+			);
+			path = CustomCalculator;
+			sourceTree = "<group>";
+		};
+		001D00015 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				001B00083 /* CustomCalculatorListView.swift */,
+				001B00084 /* CustomCalculatorBuilderView.swift */,
+				001B00085 /* CustomCalculatorDetailView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
 
-		/* Begin XCBuildConfiguration section */
-		/* End XCBuildConfiguration section */
+/* Begin PBXNativeTarget section */
+		001E00001 /* CalculatorHub */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 001F00003 /* Build configuration list for PBXNativeTarget "CalculatorHub" */;
+			buildPhases = (
+				001E00002 /* Sources */,
+				001C00001 /* Frameworks */,
+				001E00003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CalculatorHub;
+			productName = CalculatorHub;
+			productReference = 001B00000 /* CalculatorHub.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
 
-		/* Begin XCConfigurationList section */
-		/* End XCConfigurationList section */
+/* Begin PBXProject section */
+		001E00000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					001E00001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = 001F00001 /* Build configuration list for PBXProject "CalculatorHub" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 001D00000;
+			productRefGroup = 001D00002 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				001E00001 /* CalculatorHub */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		001E00003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		001E00002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				001A00001 /* CalculatorHubApp.swift in Sources */,
+				001A00002 /* ContentView.swift in Sources */,
+				001A00003 /* HomeView.swift in Sources */,
+				001A00004 /* CalculatorItem.swift in Sources */,
+				001A00005 /* CalculatorData.swift in Sources */,
+				001A00010 /* BMICalculator.swift in Sources */,
+				001A00011 /* CAGRCalculator.swift in Sources */,
+				001A00012 /* CompoundInterestCalculator.swift in Sources */,
+				001A00013 /* Converters.swift in Sources */,
+				001A00014 /* DiscountCalculator.swift in Sources */,
+				001A00015 /* ElectronicsTextCalculators.swift in Sources */,
+				001A00016 /* FinalCalculators.swift in Sources */,
+				001A00017 /* FinanceCalculators2.swift in Sources */,
+				001A00018 /* FinanceCalculators3.swift in Sources */,
+				001A00019 /* GeometryCalculators.swift in Sources */,
+				001A00020 /* HealthCalculators.swift in Sources */,
+				001A00021 /* HealthCalculators2.swift in Sources */,
+				001A00022 /* InvestmentGrowthCalculator.swift in Sources */,
+				001A00023 /* LoanCalculator.swift in Sources */,
+				001A00024 /* MathCalculators.swift in Sources */,
+				001A00025 /* MortgageCalculator.swift in Sources */,
+				001A00026 /* RemainingCalculators.swift in Sources */,
+				001A00027 /* RetirementCalculator.swift in Sources */,
+				001A00028 /* ROICalculator.swift in Sources */,
+				001A00029 /* SavingsGoalCalculator.swift in Sources */,
+				001A00030 /* ScienceCalculators.swift in Sources */,
+				001A00031 /* ScientificCalculator.swift in Sources */,
+				001A00032 /* SimpleInterestCalculator.swift in Sources */,
+				001A00033 /* SpecialtyCalculators.swift in Sources */,
+				001A00034 /* StandardCalculator.swift in Sources */,
+				001A00035 /* TipCalculator.swift in Sources */,
+				001A00036 /* UtilityCalculators.swift in Sources */,
+				001A00050 /* BMICalculatorView.swift in Sources */,
+				001A00051 /* CAGRCalculatorView.swift in Sources */,
+				001A00052 /* CompoundInterestCalculatorView.swift in Sources */,
+				001A00053 /* ConverterScienceViews.swift in Sources */,
+				001A00054 /* DiscountCalculatorView.swift in Sources */,
+				001A00055 /* ElectronicsTextViews.swift in Sources */,
+				001A00056 /* FinalViews.swift in Sources */,
+				001A00057 /* FinanceViews2.swift in Sources */,
+				001A00058 /* HealthCalculatorViews.swift in Sources */,
+				001A00059 /* HealthViews2.swift in Sources */,
+				001A00060 /* InvestmentGrowthCalculatorView.swift in Sources */,
+				001A00061 /* LoanCalculatorView.swift in Sources */,
+				001A00062 /* MathViews.swift in Sources */,
+				001A00063 /* MortgageCalculatorView.swift in Sources */,
+				001A00064 /* RemainingViews.swift in Sources */,
+				001A00065 /* RetirementCalculatorView.swift in Sources */,
+				001A00066 /* ROICalculatorView.swift in Sources */,
+				001A00067 /* SavingsGoalCalculatorView.swift in Sources */,
+				001A00068 /* ScientificCalculatorView.swift in Sources */,
+				001A00069 /* SimpleInterestCalculatorView.swift in Sources */,
+				001A00070 /* SpecialtyViews.swift in Sources */,
+				001A00071 /* StandardCalculatorView.swift in Sources */,
+				001A00072 /* TipCalculatorView.swift in Sources */,
+				001A00073 /* UtilityViews.swift in Sources */,
+				001A00080 /* CustomCalculator.swift in Sources */,
+				001A00081 /* CalculatorTemplates.swift in Sources */,
+				001A00082 /* ForkCalculator.swift in Sources */,
+				001A00083 /* CustomCalculatorListView.swift in Sources */,
+				001A00084 /* CustomCalculatorBuilderView.swift in Sources */,
+				001A00085 /* CustomCalculatorDetailView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		001F00011 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		001F00012 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		001F00021 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qaantum.calculatorhub;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		001F00022 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qaantum.calculatorhub;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		001F00001 /* Build configuration list for PBXProject "CalculatorHub" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				001F00011 /* Debug */,
+				001F00012 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		001F00003 /* Build configuration list for PBXNativeTarget "CalculatorHub" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				001F00021 /* Debug */,
+				001F00022 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
 	};
-	rootObject = /* Begin XCSwiftPackageProductDependency section */
-		/* End XCSwiftPackageProductDependency section */
+	rootObject = 001E00000 /* Project object */;
 }
-

@@ -20,6 +20,11 @@ class ConvertersScreen extends StatelessWidget {
       {'title': 'Speed', 'icon': FontAwesomeIcons.gaugeHigh, 'route': '/converters/speed'},
       {'title': 'Torque', 'icon': FontAwesomeIcons.wrench, 'route': '/converters/torque'},
       {'title': 'Unit Converter', 'icon': FontAwesomeIcons.arrowRightArrowLeft, 'route': '/converters/unit'},
+      // NEW CONVERTERS
+      {'title': 'Temperature', 'icon': FontAwesomeIcons.temperatureHalf, 'route': '/converters/temperature'},
+      {'title': 'Length', 'icon': FontAwesomeIcons.ruler, 'route': '/converters/length'},
+      {'title': 'Weight', 'icon': FontAwesomeIcons.weightScale, 'route': '/converters/weight'},
+      {'title': 'Volume', 'icon': FontAwesomeIcons.flask, 'route': '/converters/volume'},
     ];
 
     // Sort alphabetically

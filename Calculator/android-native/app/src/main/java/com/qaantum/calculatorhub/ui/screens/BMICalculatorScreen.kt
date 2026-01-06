@@ -19,7 +19,7 @@ import java.text.NumberFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BMICalculatorScreen() {
+fun BMICalculatorScreen(navController: androidx.navigation.NavController) {
     var isMetric by remember { mutableStateOf(true) }
     var height by remember { mutableStateOf("") }
     var weight by remember { mutableStateOf("") }
@@ -30,50 +30,10 @@ fun BMICalculatorScreen() {
     val calculator = remember { BMICalculator() }
     val context = LocalContext.current
 
-    // Customize Sheet
-    if (showCustomizeSheet) {
-        val forkedCalc = remember { ForkCalculator.createFork("/health/bmi") }
-        forkedCalc?.let { calc ->
-            AlertDialog(
-                onDismissRequest = { showCustomizeSheet = false },
-                title = { Text("Customize This Calculator") },
-                text = { 
-                    Column {
-                        Text("Create your own version of the BMI Calculator with custom variables and formulas.")
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text("Formula: ${calc.formula}", style = MaterialTheme.typography.bodySmall)
-                    }
-                },
-                confirmButton = {
-                    Button(onClick = {
-                        // Save the forked calculator
-                        val service = CustomCalculatorService(context)
-                        service.saveCalculator(calc)
-                        showCustomizeSheet = false
-                    }) {
-                        Text("Create My Version")
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = { showCustomizeSheet = false }) {
-                        Text("Cancel")
-                    }
-                }
-            )
-        }
-    }
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("BMI Calculator") },
-                actions = {
-                    IconButton(onClick = { showCustomizeSheet = true }) {
-                        Icon(Icons.Default.Build, contentDescription = "Customize")
-                    }
-                }
-            )
-        }
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "BMI Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -83,10 +43,11 @@ fun BMICalculatorScreen() {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             // Unit selector
+            // Unit selector
             SegmentedButton(
                 segments = listOf(
-                    ButtonSegment("Metric", selected = isMetric) { isMetric = true },
-                    ButtonSegment("Imperial", selected = !isMetric) { isMetric = false }
+                    ButtonSegment("Metric", selected = isMetric),
+                    ButtonSegment("Imperial", selected = !isMetric)
                 ),
                 onSegmentSelected = { index ->
                     isMetric = index == 0
@@ -105,7 +66,7 @@ fun BMICalculatorScreen() {
                     label = { Text("Height (cm)") },
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
-                        keyboardType = androidx.compose.foundation.text.KeyboardType.Number
+                        keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
                     )
                 )
             } else {
@@ -119,7 +80,7 @@ fun BMICalculatorScreen() {
                         label = { Text("Feet") },
                         modifier = Modifier.weight(1f),
                         keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
-                            keyboardType = androidx.compose.foundation.text.KeyboardType.Number
+                            keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
                         )
                     )
                     OutlinedTextField(
@@ -128,7 +89,7 @@ fun BMICalculatorScreen() {
                         label = { Text("Inches") },
                         modifier = Modifier.weight(1f),
                         keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
-                            keyboardType = androidx.compose.foundation.text.KeyboardType.Number
+                            keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
                         )
                     )
                 }
@@ -141,7 +102,7 @@ fun BMICalculatorScreen() {
                 label = { Text(if (isMetric) "Weight (kg)" else "Weight (lbs)") },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
-                    keyboardType = androidx.compose.foundation.text.KeyboardType.Number
+                    keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
                 )
             )
 
@@ -198,6 +159,7 @@ fun BMICalculatorScreen() {
 }
 
 // Helper composable for segmented button
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SegmentedButton(
     segments: List<ButtonSegment>,

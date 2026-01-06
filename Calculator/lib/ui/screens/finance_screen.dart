@@ -42,6 +42,13 @@ class FinanceScreen extends StatelessWidget {
       {'title': l10n.calcTax, 'icon': FontAwesomeIcons.calculator, 'route': '/finance/tax'},
       {'title': l10n.calcTVM, 'icon': FontAwesomeIcons.moneyBillTrendUp, 'route': '/finance/tvm'},
       {'title': l10n.calcUnitPrice, 'icon': FontAwesomeIcons.tag, 'route': '/finance/unitprice'},
+      // NEW CALCULATORS
+      {'title': 'NPV Calculator', 'icon': FontAwesomeIcons.chartLine, 'route': '/finance/npv'},
+      {'title': 'IRR Calculator', 'icon': FontAwesomeIcons.chartLine, 'route': '/finance/irr'},
+      {'title': 'Down Payment', 'icon': FontAwesomeIcons.house, 'route': '/finance/downpayment'},
+      {'title': 'Paycheck', 'icon': FontAwesomeIcons.moneyCheck, 'route': '/finance/paycheck'},
+      {'title': 'CD Calculator', 'icon': FontAwesomeIcons.buildingColumns, 'route': '/finance/cd'},
+      {'title': 'Tip Split', 'icon': FontAwesomeIcons.users, 'route': '/finance/tipsplit'},
     ];
 
     return Scaffold(

@@ -12,15 +12,15 @@ import com.qaantum.calculatorhub.calculators.ScientificCalculator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScientificCalculatorScreen() {
+fun ScientificCalculatorScreen(navController: androidx.navigation.NavController) {
     val calculator = remember { ScientificCalculator() }
     var input by remember { mutableStateOf(calculator.getInput()) }
     var result by remember { mutableStateOf(calculator.getResult()) }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(title = { Text("Scientific Calculator") })
-        }
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Scientific Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
     ) { padding ->
         Column(
             modifier = Modifier

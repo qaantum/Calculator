@@ -20,7 +20,7 @@ import com.qaantum.calculatorhub.customcalculator.CustomCalculatorService
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BMRCalculatorScreen() {
+fun BMRCalculatorScreen(navController: androidx.navigation.NavController) {
     var age by remember { mutableStateOf("") }
     var height by remember { mutableStateOf("") }
     var weight by remember { mutableStateOf("") }
@@ -30,40 +30,11 @@ fun BMRCalculatorScreen() {
     val calculator = remember { BMRCalculator() }
     val context = LocalContext.current
 
-    if (showCustomizeSheet) {
-        val forkedCalc = remember { ForkCalculator.createFork("/health/bmr") }
-        forkedCalc?.let { calc ->
-            AlertDialog(
-                onDismissRequest = { showCustomizeSheet = false },
-                title = { Text("Customize This Calculator") },
-                text = { 
-                    Column {
-                        Text("Create your own version of the BMR Calculator.")
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text("Formula: ${calc.formula}", style = MaterialTheme.typography.bodySmall)
-                    }
-                },
-                confirmButton = {
-                    Button(onClick = {
-                        CustomCalculatorService(context).saveCalculator(calc)
-                        showCustomizeSheet = false
-                    }) { Text("Create My Version") }
-                },
-                dismissButton = { TextButton(onClick = { showCustomizeSheet = false }) { Text("Cancel") } }
-            )
-        }
-    }
-
-    Scaffold(topBar = { 
-        TopAppBar(
-            title = { Text("BMR Calculator") },
-            actions = {
-                IconButton(onClick = { showCustomizeSheet = true }) {
-                    Icon(Icons.Default.Build, contentDescription = "Customize")
-                }
-            }
-        )
-    }) { padding ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "BMR Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { padding ->
         Column(
             modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp).verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)

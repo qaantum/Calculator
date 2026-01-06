@@ -19,7 +19,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DiscountCalculatorScreen() {
+fun DiscountCalculatorScreen(navController: androidx.navigation.NavController) {
     var originalPrice by remember { mutableStateOf("") }
     var discountPercent by remember { mutableStateOf("") }
     var result by remember { mutableStateOf<DiscountResult?>(null) }
@@ -33,10 +33,10 @@ fun DiscountCalculatorScreen() {
         result = calculator.calculate(price, discount)
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(title = { Text("Discount Calculator") })
-        }
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Discount Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -91,7 +91,7 @@ fun DiscountCalculatorScreen() {
                             fontWeight = FontWeight.Bold,
                             color = Color(0xFF4CAF50) // Green color
                         )
-                        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+                        Divider(modifier = Modifier.padding(vertical = 16.dp))
                         Text(
                             "Final Price",
                             style = MaterialTheme.typography.titleMedium

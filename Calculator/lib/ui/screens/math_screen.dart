@@ -29,6 +29,10 @@ class MathScreen extends StatelessWidget {
       {'title': 'Standard Deviation', 'icon': FontAwesomeIcons.chartBar, 'route': '/math/stddev'},
       {'title': 'Surface Area', 'icon': FontAwesomeIcons.layerGroup, 'route': '/math/surfacearea'},
       {'title': 'Volume', 'icon': FontAwesomeIcons.cube, 'route': '/math/volume'},
+      // NEW CALCULATORS
+      {'title': 'Logarithm', 'icon': FontAwesomeIcons.squareRootVariable, 'route': '/math/logarithm'},
+      {'title': 'Statistics', 'icon': FontAwesomeIcons.chartBar, 'route': '/math/statistics'},
+      {'title': 'Summation', 'icon': FontAwesomeIcons.plus, 'route': '/math/summation'},
     ];
 
     return Scaffold(

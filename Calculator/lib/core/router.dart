@@ -171,6 +171,36 @@ import '../features/custom_calculator/screens/custom_calculator_builder_screen.d
 import '../features/custom_calculator/screens/custom_calculator_detail_screen.dart';
 import '../features/custom_calculator/models/custom_calculator_model.dart';
 
+// NEW CALCULATORS - Finance
+import '../features/finance/npv_calculator.dart';
+import '../features/finance/irr_calculator.dart';
+import '../features/finance/down_payment_calculator.dart';
+import '../features/finance/paycheck_calculator.dart';
+import '../features/finance/cd_calculator.dart';
+import '../features/finance/tip_split_calculator.dart';
+
+// NEW CALCULATORS - Math
+import '../features/math/logarithm_calculator.dart';
+import '../features/math/statistics_calculator.dart';
+import '../features/math/summation_calculator.dart';
+
+// NEW CALCULATORS - Health
+import '../features/health/blood_sugar_converter.dart';
+import '../features/health/vo2_max_calculator.dart';
+import '../features/health/medication_dosage_calculator.dart';
+
+// NEW CALCULATORS - Converters
+import '../features/converters/temperature_converter.dart';
+import '../features/converters/length_converter.dart';
+import '../features/converters/weight_converter.dart';
+import '../features/converters/volume_converter.dart';
+
+// NEW CALCULATORS - Other
+import '../features/other/moon_phase_calculator.dart';
+import '../features/other/dice_roller.dart';
+import '../features/other/hash_generator.dart';
+
+
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -343,6 +373,31 @@ final router = GoRouter(
               path: 'refinance',
               builder: (context, state) => const RefinanceCalculator(),
             ),
+            // NEW Finance Calculators
+            GoRoute(
+              path: 'npv',
+              builder: (context, state) => const NPVCalculator(),
+            ),
+            GoRoute(
+              path: 'irr',
+              builder: (context, state) => const IRRCalculator(),
+            ),
+            GoRoute(
+              path: 'downpayment',
+              builder: (context, state) => const DownPaymentCalculator(),
+            ),
+            GoRoute(
+              path: 'paycheck',
+              builder: (context, state) => const PaycheckCalculator(),
+            ),
+            GoRoute(
+              path: 'cd',
+              builder: (context, state) => const CDCalculator(),
+            ),
+            GoRoute(
+              path: 'tipsplit',
+              builder: (context, state) => const TipSplitCalculator(),
+            ),
           ],
         ),
         GoRoute(
@@ -428,6 +483,19 @@ final router = GoRouter(
             GoRoute(
               path: 'caffeine',
               builder: (context, state) => const CaffeineCalculator(),
+            ),
+            // NEW Health Calculators
+            GoRoute(
+              path: 'bloodsugar',
+              builder: (context, state) => const BloodSugarConverter(),
+            ),
+            GoRoute(
+              path: 'vo2max',
+              builder: (context, state) => const VO2MaxCalculator(),
+            ),
+            GoRoute(
+              path: 'dosage',
+              builder: (context, state) => const MedicationDosageCalculator(),
             ),
           ],
         ),
@@ -516,6 +584,19 @@ final router = GoRouter(
               path: 'factorial',
               builder: (context, state) => const FactorialCalculator(),
             ),
+            // NEW Math Calculators
+            GoRoute(
+              path: 'logarithm',
+              builder: (context, state) => const LogarithmCalculator(),
+            ),
+            GoRoute(
+              path: 'statistics',
+              builder: (context, state) => const StatisticsCalculator(),
+            ),
+            GoRoute(
+              path: 'summation',
+              builder: (context, state) => const SummationCalculator(),
+            ),
           ],
         ),
         GoRoute(
@@ -595,6 +676,23 @@ final router = GoRouter(
             GoRoute(
               path: 'shoesize',
               builder: (context, state) => const ShoeSizeConverter(),
+            ),
+            // NEW Converters
+            GoRoute(
+              path: 'temperature',
+              builder: (context, state) => const TemperatureConverter(),
+            ),
+            GoRoute(
+              path: 'length',
+              builder: (context, state) => const LengthConverter(),
+            ),
+            GoRoute(
+              path: 'weight',
+              builder: (context, state) => const WeightConverter(),
+            ),
+            GoRoute(
+              path: 'volume',
+              builder: (context, state) => const VolumeConverter(),
             ),
           ],
         ),
@@ -783,6 +881,19 @@ final router = GoRouter(
             GoRoute(
               path: 'tile',
               builder: (context, state) => const TileCalculator(),
+            ),
+            // NEW Other Calculators
+            GoRoute(
+              path: 'moonphase',
+              builder: (context, state) => const MoonPhaseCalculator(),
+            ),
+            GoRoute(
+              path: 'dice',
+              builder: (context, state) => const DiceRoller(),
+            ),
+            GoRoute(
+              path: 'hash',
+              builder: (context, state) => const HashGenerator(),
             ),
           ],
         ),

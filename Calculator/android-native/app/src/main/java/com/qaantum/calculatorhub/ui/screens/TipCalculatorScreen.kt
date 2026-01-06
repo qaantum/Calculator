@@ -22,7 +22,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TipCalculatorScreen() {
+fun TipCalculatorScreen(navController: androidx.navigation.NavController) {
     var billAmount by remember { mutableStateOf("") }
     var tipPercentage by remember { mutableFloatStateOf(15f) }
     var splitCount by remember { mutableIntStateOf(1) }
@@ -38,49 +38,10 @@ fun TipCalculatorScreen() {
         result = calculator.calculate(bill, tipPercentage.toDouble(), splitCount)
     }
 
-    // Customize Dialog
-    if (showCustomizeSheet) {
-        val forkedCalc = remember { ForkCalculator.createFork("/finance/tip") }
-        forkedCalc?.let { calc ->
-            AlertDialog(
-                onDismissRequest = { showCustomizeSheet = false },
-                title = { Text("Customize This Calculator") },
-                text = { 
-                    Column {
-                        Text("Create your own version of the Tip Calculator with custom variables and formulas.")
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text("Formula: ${calc.formula}", style = MaterialTheme.typography.bodySmall)
-                    }
-                },
-                confirmButton = {
-                    Button(onClick = {
-                        val service = CustomCalculatorService(context)
-                        service.saveCalculator(calc)
-                        showCustomizeSheet = false
-                    }) {
-                        Text("Create My Version")
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = { showCustomizeSheet = false }) {
-                        Text("Cancel")
-                    }
-                }
-            )
-        }
-    }
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Tip Calculator") },
-                actions = {
-                    IconButton(onClick = { showCustomizeSheet = true }) {
-                        Icon(Icons.Default.Build, contentDescription = "Customize")
-                    }
-                }
-            )
-        }
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Tip Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -141,9 +102,9 @@ fun TipCalculatorScreen() {
                         modifier = Modifier.padding(24.dp)
                     ) {
                         TipResultRow("Tip Amount", currencyFormat.format(res.tipAmount))
-                        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                        Divider(modifier = Modifier.padding(vertical = 8.dp))
                         TipResultRow("Total Bill", currencyFormat.format(res.totalBill))
-                        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                        Divider(modifier = Modifier.padding(vertical = 8.dp))
                         TipResultRow(
                             "Per Person",
                             currencyFormat.format(res.amountPerPerson),

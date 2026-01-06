@@ -15,7 +15,7 @@ import com.qaantum.calculatorhub.calculators.CAGRResult
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CAGRCalculatorScreen() {
+fun CAGRCalculatorScreen(navController: androidx.navigation.NavController) {
     var startValue by remember { mutableStateOf("") }
     var endValue by remember { mutableStateOf("") }
     var years by remember { mutableStateOf("") }
@@ -30,8 +30,10 @@ fun CAGRCalculatorScreen() {
         result = calculator.calculate(s, e, y)
     }
 
-    Scaffold(
-        topBar = { TopAppBar(title = { Text("CAGR Calculator") }) }
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "CAGR Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -83,7 +85,7 @@ fun CAGRCalculatorScreen() {
                             fontWeight = FontWeight.Bold
                         )
                     }
-                    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                    Divider(modifier = Modifier.padding(vertical = 8.dp))
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                         Text("Total Growth", style = MaterialTheme.typography.bodyLarge)
                         Text(

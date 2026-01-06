@@ -137,6 +137,36 @@ struct HomeView: View {
         case "/health/child-height": ChildHeightPredictorView()
         case "/health/smoking-cost": SmokingCostCalculatorView()
         
+        // NEW CALCULATORS
+        // Finance
+        case "/finance/npv": NPVCalculatorView()
+        case "/finance/irr": IRRCalculatorView()
+        case "/finance/down-payment": DownPaymentCalculatorView()
+        case "/finance/paycheck": PaycheckCalculatorView()
+        case "/finance/cd": CDCalculatorView()
+        case "/finance/tip-split": TipSplitCalculatorView()
+        
+        // Math
+        case "/math/logarithm": LogarithmCalculatorView()
+        case "/math/stats": StatisticsCalculatorView()
+        case "/math/summation": SummationCalculatorView()
+        
+        // Health
+        case "/health/blood-sugar": BloodSugarConverterView()
+        case "/health/vo2-max": VO2MaxCalculatorView()
+        case "/health/medication-dosage": MedicationDosageCalculatorView()
+        
+        // Converters
+        case "/converter/temperature": TemperatureConverterView()
+        case "/converter/length": LengthConverterView()
+        case "/converter/weight": WeightConverterView()
+        case "/converter/volume": VolumeConverterView()
+        
+        // Other
+        case "/other/moon-phase": MoonPhaseCalculatorView()
+        case "/other/dice": DiceRollerView()
+        case "/other/hash": HashGeneratorView()
+        
         default: Text("Coming soon: \(calculator.title)")
         }
 

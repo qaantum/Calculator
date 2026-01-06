@@ -17,7 +17,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AutoLoanCalculatorScreen() {
+fun AutoLoanCalculatorScreen(navController: androidx.navigation.NavController) {
     var price by remember { mutableStateOf("") }
     var downPayment by remember { mutableStateOf("0") }
     var tradeIn by remember { mutableStateOf("0") }
@@ -28,7 +28,11 @@ fun AutoLoanCalculatorScreen() {
     val calculator = remember { AutoLoanCalculator() }
     val fmt = remember { NumberFormat.getCurrencyInstance(Locale.US) }
 
-    Scaffold(topBar = { TopAppBar(title = { Text("Auto Loan Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Auto Loan Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             OutlinedTextField(price, { price = it }, Modifier.fillMaxWidth(), label = { Text("Vehicle Price") }, prefix = { Text("$") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -45,7 +49,7 @@ fun AutoLoanCalculatorScreen() {
                 Column(Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                     Text("Monthly Payment", style = MaterialTheme.typography.titleMedium)
                     Text(fmt.format(it.monthlyPayment), style = MaterialTheme.typography.displayMedium, fontWeight = FontWeight.Bold)
-                    HorizontalDivider(Modifier.padding(vertical = 16.dp))
+                    Divider(Modifier.padding(vertical = 16.dp))
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Total Interest"); Text(fmt.format(it.totalInterest), fontWeight = FontWeight.Bold) }
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Total Cost"); Text(fmt.format(it.totalCost), fontWeight = FontWeight.Bold) }
                 }
@@ -56,7 +60,7 @@ fun AutoLoanCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommissionCalculatorScreen() {
+fun CommissionCalculatorScreen(navController: androidx.navigation.NavController) {
     var salePrice by remember { mutableStateOf("") }
     var commissionRate by remember { mutableStateOf("") }
     var result by remember { mutableStateOf<CommissionResult?>(null) }
@@ -64,7 +68,11 @@ fun CommissionCalculatorScreen() {
     fun calc() { val p = salePrice.toDoubleOrNull() ?: return; val r = commissionRate.toDoubleOrNull() ?: return; result = calculator.calculate(p, r) }
     val fmt = remember { NumberFormat.getCurrencyInstance(Locale.US) }
 
-    Scaffold(topBar = { TopAppBar(title = { Text("Commission Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Commission Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(salePrice, { salePrice = it; calc() }, Modifier.fillMaxWidth(), label = { Text("Sale Price") }, prefix = { Text("$") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             OutlinedTextField(commissionRate, { commissionRate = it; calc() }, Modifier.fillMaxWidth(), label = { Text("Commission Rate") }, suffix = { Text("%") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
@@ -81,7 +89,7 @@ fun CommissionCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SalesTaxCalculatorScreen() {
+fun SalesTaxCalculatorScreen(navController: androidx.navigation.NavController) {
     var amount by remember { mutableStateOf("") }
     var taxRate by remember { mutableStateOf("") }
     var isReverse by remember { mutableStateOf(false) }
@@ -90,7 +98,11 @@ fun SalesTaxCalculatorScreen() {
     val fmt = remember { NumberFormat.getCurrencyInstance(Locale.US) }
     fun calc() { val a = amount.toDoubleOrNull() ?: return; val r = taxRate.toDoubleOrNull() ?: return; result = calculator.calculate(a, r, isReverse) }
 
-    Scaffold(topBar = { TopAppBar(title = { Text("Sales Tax Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Sales Tax Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 FilterChip(!isReverse, { isReverse = false; calc() }, { Text("Add Tax") }, Modifier.weight(1f))
@@ -100,9 +112,9 @@ fun SalesTaxCalculatorScreen() {
             OutlinedTextField(taxRate, { taxRate = it; calc() }, Modifier.fillMaxWidth(), label = { Text("Tax Rate") }, suffix = { Text("%") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             result?.let { Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)) { Column(Modifier.padding(24.dp)) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Net Amount"); Text(fmt.format(it.netAmount), fontWeight = FontWeight.Bold) }
-                HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                Divider(Modifier.padding(vertical = 8.dp))
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Tax Amount"); Text(fmt.format(it.taxAmount), fontWeight = FontWeight.Bold) }
-                HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                Divider(Modifier.padding(vertical = 8.dp))
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Total Amount", fontWeight = FontWeight.Bold); Text(fmt.format(it.totalAmount), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleLarge) }
             }}}
         }
@@ -111,7 +123,7 @@ fun SalesTaxCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SalaryCalculatorScreen() {
+fun SalaryCalculatorScreen(navController: androidx.navigation.NavController) {
     var amount by remember { mutableStateOf("") }
     var frequency by remember { mutableStateOf("Annual") }
     var hours by remember { mutableStateOf("40") }
@@ -122,14 +134,18 @@ fun SalaryCalculatorScreen() {
     val frequencies = listOf("Annual", "Monthly", "Bi-Weekly", "Weekly", "Daily", "Hourly")
     fun calc() { val a = amount.toDoubleOrNull() ?: return; result = calculator.calculate(a, frequency, hours.toDoubleOrNull() ?: 40.0, days.toDoubleOrNull() ?: 5.0) }
 
-    Scaffold(topBar = { TopAppBar(title = { Text("Salary Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Salary Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(amount, { amount = it; calc() }, Modifier.weight(2f), label = { Text("Amount") }, prefix = { Text("$") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
                 var expanded by remember { mutableStateOf(false) }
                 ExposedDropdownMenuBox(expanded, { expanded = !expanded }, Modifier.weight(1f)) {
                     OutlinedTextField(frequency, {}, Modifier.menuAnchor(), readOnly = true, label = { Text("Per") }, trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) })
-                    ExposedDropdownMenu(expanded, { expanded = false }) { frequencies.forEach { SelectionEffect -> DropdownMenuItem({ Text(it) }, { frequency = it; expanded = false; calc() }) } }
+                    ExposedDropdownMenu(expanded, { expanded = false }) { frequencies.forEach { freq -> DropdownMenuItem({ Text(freq) }, { frequency = freq; expanded = false; calc() }) } }
                 }
             }
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -139,7 +155,7 @@ fun SalaryCalculatorScreen() {
             result?.let { Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp)) {
                 listOf("Annual" to it.annual, "Monthly" to it.monthly, "Bi-Weekly" to it.biWeekly, "Weekly" to it.weekly, "Daily" to it.daily, "Hourly" to it.hourly).forEach { (l, v) ->
                     Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), horizontalArrangement = Arrangement.SpaceBetween) { Text(l); Text(fmt.format(v), fontWeight = FontWeight.Bold) }
-                    HorizontalDivider()
+                    Divider()
                 }
             }}}
         }

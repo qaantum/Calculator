@@ -23,7 +23,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MortgageCalculatorScreen() {
+fun MortgageCalculatorScreen(navController: androidx.navigation.NavController) {
     var principal by remember { mutableStateOf("") }
     var rate by remember { mutableStateOf("") }
     var term by remember { mutableStateOf("30") }
@@ -37,41 +37,10 @@ fun MortgageCalculatorScreen() {
     val currencyFormat = remember { NumberFormat.getCurrencyInstance(Locale.US) }
     val context = LocalContext.current
 
-    if (showCustomizeSheet) {
-        val forkedCalc = remember { ForkCalculator.createFork("/finance/mortgage") }
-        forkedCalc?.let { calc ->
-            AlertDialog(
-                onDismissRequest = { showCustomizeSheet = false },
-                title = { Text("Customize This Calculator") },
-                text = { 
-                    Column {
-                        Text("Create your own version of the Mortgage Calculator.")
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text("Formula: ${calc.formula}", style = MaterialTheme.typography.bodySmall)
-                    }
-                },
-                confirmButton = {
-                    Button(onClick = {
-                        CustomCalculatorService(context).saveCalculator(calc)
-                        showCustomizeSheet = false
-                    }) { Text("Create My Version") }
-                },
-                dismissButton = { TextButton(onClick = { showCustomizeSheet = false }) { Text("Cancel") } }
-            )
-        }
-    }
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Mortgage Calculator") },
-                actions = {
-                    IconButton(onClick = { showCustomizeSheet = true }) {
-                        Icon(Icons.Default.Build, contentDescription = "Customize")
-                    }
-                }
-            )
-        }
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Mortgage Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -191,7 +160,7 @@ fun MortgageCalculatorScreen() {
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
-                        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+                        Divider(modifier = Modifier.padding(vertical = 16.dp))
                         MortgageResultRow("Principal & Interest", currencyFormat.format(res.monthlyPrincipalAndInterest))
                         MortgageResultRow("Property Tax", currencyFormat.format(res.monthlyTax))
                         MortgageResultRow("Home Insurance", currencyFormat.format(res.monthlyInsurance))

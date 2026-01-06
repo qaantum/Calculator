@@ -43,24 +43,7 @@ class RomanNumeralConverter {
     }
 }
 
-// Hash Generator (simplified - actual implementation would use proper hashing)
-class HashGenerator {
-    fun md5Hash(input: String): String {
-        return try {
-            val md = java.security.MessageDigest.getInstance("MD5")
-            val digest = md.digest(input.toByteArray())
-            digest.joinToString("") { "%02x".format(it) }
-        } catch (e: Exception) { "Error" }
-    }
-    
-    fun sha256Hash(input: String): String {
-        return try {
-            val md = java.security.MessageDigest.getInstance("SHA-256")
-            val digest = md.digest(input.toByteArray())
-            digest.joinToString("") { "%02x".format(it) }
-        } catch (e: Exception) { "Error" }
-    }
-}
+
 
 // Grade Calculator
 data class GradeResult(val average: Double, val letterGrade: String, val gpa: Double)

@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "com.qaantum.calculatorhub.app-debug-51:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.qaantum.calculatorhub.app-main-53:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.qaantum.calculatorhub.app-debug-51:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.qaantum.calculatorhub.app-main-53:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.qaantum.calculatorhub.app-debug-51:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.qaantum.calculatorhub.app-main-53:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.qaantum.calculatorhub.app-debug-51:/xml_backup_rules.xml.flat",
+        "source": "com.qaantum.calculatorhub.app-main-53:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.qaantum.calculatorhub.app-debug-51:/xml_data_extraction_rules.xml.flat",
+        "source": "com.qaantum.calculatorhub.app-main-53:/xml/data_extraction_rules.xml"
+    }
+]

@@ -15,13 +15,17 @@ import com.qaantum.calculatorhub.calculators.IdealWeightCalculator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun IdealWeightCalculatorScreen() {
+fun IdealWeightCalculatorScreen(navController: androidx.navigation.NavController) {
     var height by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("Male") }
     var result by remember { mutableStateOf<Triple<Double, Double, Double>?>(null) }
     val calculator = remember { IdealWeightCalculator() }
 
-    Scaffold(topBar = { TopAppBar(title = { Text("Ideal Weight") }) }) { padding ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Ideal Weight",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 FilterChip(selected = gender == "Male", onClick = { gender = "Male" }, label = { Text("Male") }, modifier = Modifier.weight(1f))
@@ -39,7 +43,7 @@ fun IdealWeightCalculatorScreen() {
                     Column(modifier = Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                         Text("Ideal Weight (Devine)", style = MaterialTheme.typography.titleMedium)
                         Text("${String.format("%.1f", ideal)} kg", style = MaterialTheme.typography.displayMedium, fontWeight = FontWeight.Bold)
-                        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+                        Divider(modifier = Modifier.padding(vertical = 16.dp))
                         Text("Healthy BMI Range", style = MaterialTheme.typography.titleSmall)
                         Text("${String.format("%.1f", min)} - ${String.format("%.1f", max)} kg", style = MaterialTheme.typography.titleLarge)
                     }

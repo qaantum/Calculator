@@ -15,7 +15,7 @@ import com.qaantum.calculatorhub.calculators.CaloriesCalculator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CaloriesCalculatorScreen() {
+fun CaloriesCalculatorScreen(navController: androidx.navigation.NavController) {
     var age by remember { mutableStateOf("") }
     var height by remember { mutableStateOf("") }
     var weight by remember { mutableStateOf("") }
@@ -29,7 +29,11 @@ fun CaloriesCalculatorScreen() {
         1.725f to "Very active", 1.9f to "Super active"
     )
 
-    Scaffold(topBar = { TopAppBar(title = { Text("Calorie Calculator") }) }) { padding ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Calorie Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 FilterChip(selected = gender == "Male", onClick = { gender = "Male" }, label = { Text("Male") }, modifier = Modifier.weight(1f))

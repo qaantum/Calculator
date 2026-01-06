@@ -17,7 +17,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CurrencyConverterScreen() {
+fun CurrencyConverterScreen(navController: androidx.navigation.NavController) {
     var amount by remember { mutableStateOf("") }
     var fromCurrency by remember { mutableStateOf("USD") }
     var toCurrency by remember { mutableStateOf("EUR") }
@@ -26,7 +26,11 @@ fun CurrencyConverterScreen() {
     
     fun calc() { amount.toDoubleOrNull()?.let { result = conv.convert(it, fromCurrency, toCurrency) } }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Currency Converter") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Currency Converter",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(amount, { amount = it; calc() }, Modifier.fillMaxWidth(), label = { Text("Amount") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -55,13 +59,17 @@ fun CurrencyConverterScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OvulationCalculatorScreen() {
+fun OvulationCalculatorScreen(navController: androidx.navigation.NavController) {
     var year by remember { mutableStateOf("") }; var month by remember { mutableStateOf("") }; var day by remember { mutableStateOf("") }
     var cycleLength by remember { mutableStateOf("28") }
     var result by remember { mutableStateOf<OvulationResult?>(null) }
     val calc = remember { OvulationCalculator() }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Ovulation Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Ovulation Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Text("Estimate your fertile window and ovulation date.", style = MaterialTheme.typography.bodyMedium)
             Text("First Day of Last Period", style = MaterialTheme.typography.titleMedium)
@@ -76,10 +84,10 @@ fun OvulationCalculatorScreen() {
                 Column(Modifier.padding(24.dp)) {
                     Text("Estimated Ovulation", style = MaterialTheme.typography.titleSmall)
                     Text(it.ovulationDate, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
-                    HorizontalDivider(Modifier.padding(vertical = 12.dp))
+                    Divider(Modifier.padding(vertical = 12.dp))
                     Text("Fertile Window", style = MaterialTheme.typography.titleSmall)
                     Text("${it.fertileWindowStart} - ${it.fertileWindowEnd}", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                    HorizontalDivider(Modifier.padding(vertical = 12.dp))
+                    Divider(Modifier.padding(vertical = 12.dp))
                     Text("Next Period", style = MaterialTheme.typography.titleSmall)
                     Text(it.nextPeriodDate, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                 }
@@ -91,13 +99,17 @@ fun OvulationCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChildHeightPredictorScreen() {
+fun ChildHeightPredictorScreen(navController: androidx.navigation.NavController) {
     var fatherH by remember { mutableStateOf("") }; var motherH by remember { mutableStateOf("") }
     var isBoy by remember { mutableStateOf(true) }
     var result by remember { mutableStateOf<ChildHeightResult?>(null) }
     val pred = remember { ChildHeightPredictor() }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Child Height Predictor") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Child Height Predictor",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Text("Predict adult height based on parents' height (Mid-Parental Method)", style = MaterialTheme.typography.bodyMedium)
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -121,13 +133,17 @@ fun ChildHeightPredictorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SmokingCostCalculatorScreen() {
+fun SmokingCostCalculatorScreen(navController: androidx.navigation.NavController) {
     var packs by remember { mutableStateOf("") }; var cost by remember { mutableStateOf("") }; var years by remember { mutableStateOf("") }
     var result by remember { mutableStateOf<SmokingCostResult?>(null) }
     val calc = remember { SmokingCostCalculator() }
     val fmt = remember { NumberFormat.getCurrencyInstance(Locale.US) }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Smoking Cost Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Smoking Cost Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Text("See how much money you could save by quitting.", style = MaterialTheme.typography.bodyMedium)
             OutlinedTextField(packs, { packs = it }, Modifier.fillMaxWidth(), label = { Text("Packs per Day") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
@@ -141,7 +157,7 @@ fun SmokingCostCalculatorScreen() {
                             Text(label, fontWeight = if (label == "Lifetime") FontWeight.Bold else FontWeight.Normal)
                             Text(fmt.format(value), fontWeight = FontWeight.Bold, color = if (label == "Lifetime") MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onErrorContainer)
                         }
-                        HorizontalDivider(Modifier.padding(vertical = 4.dp))
+                        Divider(Modifier.padding(vertical = 4.dp))
                     }
                 }
             }}

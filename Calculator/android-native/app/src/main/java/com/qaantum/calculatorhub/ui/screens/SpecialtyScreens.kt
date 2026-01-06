@@ -15,7 +15,7 @@ import com.qaantum.calculatorhub.calculators.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BinaryConverterScreen() {
+fun BinaryConverterScreen(navController: androidx.navigation.NavController) {
     var input by remember { mutableStateOf("") }
     var inputType by remember { mutableStateOf("Decimal") }
     val conv = remember { BinaryConverter() }
@@ -28,7 +28,11 @@ fun BinaryConverterScreen() {
         else -> input.toIntOrNull() ?: 0
     }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Number Base Converter") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Number Base Converter",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             var expanded by remember { mutableStateOf(false) }
             ExposedDropdownMenuBox(expanded, { expanded = !expanded }) {
@@ -39,7 +43,7 @@ fun BinaryConverterScreen() {
             Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp)) {
                 listOf("Decimal" to decimal.toString(), "Binary" to conv.decimalToBinary(decimal), "Hex" to conv.decimalToHex(decimal), "Octal" to conv.decimalToOctal(decimal)).forEach { (l, v) ->
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text(l); Text(v, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.bodyLarge) }
-                    HorizontalDivider(Modifier.padding(vertical = 4.dp))
+                    Divider(Modifier.padding(vertical = 4.dp))
                 }
             }}
         }
@@ -48,12 +52,16 @@ fun BinaryConverterScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RomanNumeralConverterScreen() {
+fun RomanNumeralConverterScreen(navController: androidx.navigation.NavController) {
     var decimal by remember { mutableStateOf("") }; var roman by remember { mutableStateOf("") }
     var romanResult by remember { mutableStateOf("---") }; var decimalResult by remember { mutableStateOf("---") }
     val conv = remember { RomanNumeralConverter() }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Roman Numerals") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Roman Numerals",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp)) {
                 Text("Decimal → Roman", style = MaterialTheme.typography.titleMedium)
@@ -71,12 +79,16 @@ fun RomanNumeralConverterScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GradeCalculatorScreen() {
+fun GradeCalculatorScreen(navController: androidx.navigation.NavController) {
     var gradesInput by remember { mutableStateOf("") }
     var result by remember { mutableStateOf<GradeResult?>(null) }
     val calc = remember { GradeCalculator() }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Grade Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Grade Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(gradesInput, { gradesInput = it }, Modifier.fillMaxWidth().height(120.dp), label = { Text("Enter grades (comma separated)") })
             Button({ 
@@ -96,12 +108,16 @@ fun GradeCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OneRepMaxCalculatorScreen() {
+fun OneRepMaxCalculatorScreen(navController: androidx.navigation.NavController) {
     var weight by remember { mutableStateOf("") }; var reps by remember { mutableStateOf("") }
     var result by remember { mutableStateOf<OneRepMaxResult?>(null) }
     val calc = remember { OneRepMaxCalculator() }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("One Rep Max (1RM)") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "One Rep Max (1RM)",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(weight, { weight = it }, Modifier.fillMaxWidth(), label = { Text("Weight Lifted") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             OutlinedTextField(reps, { reps = it }, Modifier.fillMaxWidth(), label = { Text("Reps Performed") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
@@ -109,7 +125,7 @@ fun OneRepMaxCalculatorScreen() {
             result?.let { Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(24.dp)) {
                 Text("Estimated 1RM", style = MaterialTheme.typography.titleMedium, modifier = Modifier.align(Alignment.CenterHorizontally))
                 Text("${"%.1f".format(it.oneRepMax)}", style = MaterialTheme.typography.displayMedium, fontWeight = FontWeight.Bold, modifier = Modifier.align(Alignment.CenterHorizontally))
-                HorizontalDivider(Modifier.padding(vertical = 16.dp))
+                Divider(Modifier.padding(vertical = 16.dp))
                 Text("Rep Estimates:", style = MaterialTheme.typography.titleSmall)
                 it.estimatedReps.take(6).forEach { (r, w) ->
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("$r rep${if (r > 1) "s" else ""}"); Text("${"%.1f".format(w)}", fontWeight = FontWeight.Bold) }

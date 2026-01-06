@@ -20,47 +20,16 @@ import com.qaantum.calculatorhub.customcalculator.CustomCalculatorService
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OhmsLawCalculatorScreen() {
+fun OhmsLawCalculatorScreen(navController: androidx.navigation.NavController) {
     var voltage by remember { mutableStateOf("") }; var current by remember { mutableStateOf("") }; var resistance by remember { mutableStateOf("") }
     var result by remember { mutableStateOf<OhmsLawResult?>(null) }
-    var showCustomizeSheet by remember { mutableStateOf(false) }
     val calc = remember { OhmsLawCalculator() }
-    val context = LocalContext.current
     
-    if (showCustomizeSheet) {
-        val forkedCalc = remember { ForkCalculator.createFork("/electronics/ohms-law") }
-        forkedCalc?.let { fc ->
-            AlertDialog(
-                onDismissRequest = { showCustomizeSheet = false },
-                title = { Text("Customize This Calculator") },
-                text = { 
-                    Column {
-                        Text("Create your own version of the Ohm's Law Calculator.")
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text("Formula: ${fc.formula}", style = MaterialTheme.typography.bodySmall)
-                    }
-                },
-                confirmButton = {
-                    Button(onClick = {
-                        CustomCalculatorService(context).saveCalculator(fc)
-                        showCustomizeSheet = false
-                    }) { Text("Create My Version") }
-                },
-                dismissButton = { TextButton(onClick = { showCustomizeSheet = false }) { Text("Cancel") } }
-            )
-        }
-    }
-    
-    Scaffold(topBar = { 
-        TopAppBar(
-            title = { Text("Ohm's Law Calculator") },
-            actions = {
-                IconButton(onClick = { showCustomizeSheet = true }) {
-                    Icon(Icons.Default.Build, contentDescription = "Customize")
-                }
-            }
-        )
-    }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Ohm's Law Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Text("V = I × R", style = MaterialTheme.typography.titleMedium, modifier = Modifier.align(Alignment.CenterHorizontally))
             OutlinedTextField(voltage, { voltage = it }, Modifier.fillMaxWidth(), label = { Text("Voltage (V)") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
@@ -75,7 +44,7 @@ fun OhmsLawCalculatorScreen() {
                 it.voltage?.let { v -> Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Voltage"); Text("%.4f V".format(v), fontWeight = FontWeight.Bold) } }
                 it.current?.let { i -> Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Current"); Text("%.4f A".format(i), fontWeight = FontWeight.Bold) } }
                 it.resistance?.let { r -> Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Resistance"); Text("%.4f Ω".format(r), fontWeight = FontWeight.Bold) } }
-                it.power?.let { pw -> HorizontalDivider(Modifier.padding(vertical = 8.dp)); Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Power"); Text("%.4f W".format(pw), fontWeight = FontWeight.Bold) } }
+                it.power?.let { pw -> Divider(Modifier.padding(vertical = 8.dp)); Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("Power"); Text("%.4f W".format(pw), fontWeight = FontWeight.Bold) } }
             }}}
         }
     }
@@ -83,12 +52,16 @@ fun OhmsLawCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LEDResistorCalculatorScreen() {
+fun LEDResistorCalculatorScreen(navController: androidx.navigation.NavController) {
     var supply by remember { mutableStateOf("") }; var led by remember { mutableStateOf("") }; var current by remember { mutableStateOf("20") }
     var result by remember { mutableStateOf<LEDResistorResult?>(null) }
     val calc = remember { LEDResistorCalculator() }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("LED Resistor Calculator") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "LED Resistor Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(supply, { supply = it }, Modifier.fillMaxWidth(), label = { Text("Supply Voltage (V)") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
             OutlinedTextField(led, { led = it }, Modifier.fillMaxWidth(), label = { Text("LED Forward Voltage (V)") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
@@ -106,12 +79,16 @@ fun LEDResistorCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WordCountCalculatorScreen() {
+fun WordCountCalculatorScreen(navController: androidx.navigation.NavController) {
     var text by remember { mutableStateOf("") }
     var result by remember { mutableStateOf<WordCountResult?>(null) }
     val calc = remember { WordCountCalculator() }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Word Count") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Word Count",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(text, { text = it; result = calc.count(it) }, Modifier.fillMaxWidth().height(200.dp), label = { Text("Enter text...") })
             result?.let { Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp)) {
@@ -127,11 +104,15 @@ fun WordCountCalculatorScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Base64ConverterScreen() {
+fun Base64ConverterScreen(navController: androidx.navigation.NavController) {
     var input by remember { mutableStateOf("") }; var output by remember { mutableStateOf("") }
     val conv = remember { Base64Converter() }
     
-    Scaffold(topBar = { TopAppBar(title = { Text("Base64 Converter") }) }) { p ->
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Base64 Converter",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
+    ) { p ->
         Column(Modifier.fillMaxSize().padding(p).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedTextField(input, { input = it }, Modifier.fillMaxWidth().height(120.dp), label = { Text("Input") })
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {

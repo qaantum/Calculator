@@ -24,7 +24,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ROICalculatorScreen() {
+fun ROICalculatorScreen(navController: androidx.navigation.NavController) {
     var investment by remember { mutableStateOf("") }
     var finalValue by remember { mutableStateOf("") }
     var result by remember { mutableStateOf<ROIResult?>(null) }
@@ -40,41 +40,10 @@ fun ROICalculatorScreen() {
         result = calculator.calculate(i, f)
     }
 
-    if (showCustomizeSheet) {
-        val forkedCalc = remember { ForkCalculator.createFork("/finance/roi") }
-        forkedCalc?.let { calc ->
-            AlertDialog(
-                onDismissRequest = { showCustomizeSheet = false },
-                title = { Text("Customize This Calculator") },
-                text = { 
-                    Column {
-                        Text("Create your own version of the ROI Calculator.")
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text("Formula: ${calc.formula}", style = MaterialTheme.typography.bodySmall)
-                    }
-                },
-                confirmButton = {
-                    Button(onClick = {
-                        CustomCalculatorService(context).saveCalculator(calc)
-                        showCustomizeSheet = false
-                    }) { Text("Create My Version") }
-                },
-                dismissButton = { TextButton(onClick = { showCustomizeSheet = false }) { Text("Cancel") } }
-            )
-        }
-    }
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Return on Investment (ROI)") },
-                actions = {
-                    IconButton(onClick = { showCustomizeSheet = true }) {
-                        Icon(Icons.Default.Build, contentDescription = "Customize")
-                    }
-                }
-            )
-        }
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Return on Investment (ROI)",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
     ) { padding ->
         Column(
             modifier = Modifier

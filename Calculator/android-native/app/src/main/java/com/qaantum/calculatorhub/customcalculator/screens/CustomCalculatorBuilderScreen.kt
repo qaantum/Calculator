@@ -20,6 +20,7 @@ import java.util.UUID
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomCalculatorBuilderScreen(
+    navController: androidx.navigation.NavController,
     existingCalculator: CustomCalculator? = null,
     onSave: () -> Unit,
     onBack: () -> Unit
@@ -27,9 +28,25 @@ fun CustomCalculatorBuilderScreen(
     val context = LocalContext.current
     val service = remember { CustomCalculatorService(context) }
     
-    var title by remember { mutableStateOf(existingCalculator?.title ?: "") }
-    var formula by remember { mutableStateOf(existingCalculator?.formula ?: "") }
-    var variables by remember { mutableStateOf(existingCalculator?.inputs?.toMutableList() ?: mutableListOf()) }
+    // Attempt to load template if starting new and coming from a known route
+    var templateCalc by remember { mutableStateOf<CustomCalculator?>(null) }
+    
+    LaunchedEffect(Unit) {
+        if (existingCalculator == null) {
+            val prevRoute = navController.previousBackStackEntry?.destination?.route
+            if (prevRoute != null) {
+                com.qaantum.calculatorhub.data.CalculatorTemplates.getTemplate(prevRoute)?.let {
+                    templateCalc = it
+                }
+            }
+        }
+    }
+
+    val baseCalc = existingCalculator ?: templateCalc
+    
+    var title by remember(baseCalc) { mutableStateOf(baseCalc?.title ?: "") }
+    var formula by remember(baseCalc) { mutableStateOf(baseCalc?.formula ?: "") }
+    var variables by remember(baseCalc) { mutableStateOf(baseCalc?.inputs?.toMutableList() ?: mutableListOf()) }
     
     // Variable creation state
     var varName by remember { mutableStateOf("") }
@@ -439,7 +456,7 @@ fun CustomCalculatorBuilderScreen(
                         }
                         
                         Spacer(modifier = Modifier.height(16.dp))
-                        HorizontalDivider()
+                        Divider()
                         Spacer(modifier = Modifier.height(16.dp))
                         
                         if (error != null) {

@@ -620,6 +620,81 @@ class CalculatorTemplates {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     ),
+    // NEW CALCULATORS
+    CustomCalculator(
+      id: const Uuid().v4(),
+      title: 'NPV Calculator',
+      iconCode: FontAwesomeIcons.chartLine.codePoint,
+      iconFontFamily: FontAwesomeIcons.chartLine.fontFamily,
+      iconFontPackage: FontAwesomeIcons.chartLine.fontPackage,
+      inputs: [
+        CalculatorVariable(name: 'initial', unitLabel: '\$', min: 0, description: 'Initial Investment'),
+        CalculatorVariable(name: 'cf1', unitLabel: '\$', description: 'Year 1 Cash Flow'),
+        CalculatorVariable(name: 'cf2', unitLabel: '\$', description: 'Year 2 Cash Flow'),
+        CalculatorVariable(name: 'cf3', unitLabel: '\$', description: 'Year 3 Cash Flow'),
+        CalculatorVariable(name: 'rate', unitLabel: '%', min: 0, description: 'Discount Rate'),
+      ],
+      formula: '-initial + cf1/(1+rate/100) + cf2/(1+rate/100)^2 + cf3/(1+rate/100)^3',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    ),
+    CustomCalculator(
+      id: const Uuid().v4(),
+      title: 'CD Calculator',
+      iconCode: FontAwesomeIcons.buildingColumns.codePoint,
+      iconFontFamily: FontAwesomeIcons.buildingColumns.fontFamily,
+      iconFontPackage: FontAwesomeIcons.buildingColumns.fontPackage,
+      inputs: [
+        CalculatorVariable(name: 'deposit', unitLabel: '\$', min: 0, description: 'Initial Deposit'),
+        CalculatorVariable(name: 'apy', unitLabel: '%', min: 0, description: 'APY'),
+        CalculatorVariable(name: 'months', unitLabel: 'mo', min: 0, description: 'Term in Months'),
+      ],
+      formula: 'deposit * (1 + apy/100)^(months/12)',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    ),
+    CustomCalculator(
+      id: const Uuid().v4(),
+      title: 'Tip Split',
+      iconCode: FontAwesomeIcons.users.codePoint,
+      iconFontFamily: FontAwesomeIcons.users.fontFamily,
+      iconFontPackage: FontAwesomeIcons.users.fontPackage,
+      inputs: [
+        CalculatorVariable(name: 'bill', unitLabel: '\$', min: 0, description: 'Bill Amount'),
+        CalculatorVariable(name: 'tip', unitLabel: '%', min: 0, description: 'Tip Percentage'),
+        CalculatorVariable(name: 'people', unitLabel: '', min: 1, type: VariableType.integer, description: 'Number of People'),
+      ],
+      formula: '(bill * (1 + tip/100)) / people',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    ),
+    CustomCalculator(
+      id: const Uuid().v4(),
+      title: 'Logarithm',
+      iconCode: FontAwesomeIcons.squareRootVariable.codePoint,
+      iconFontFamily: FontAwesomeIcons.squareRootVariable.fontFamily,
+      iconFontPackage: FontAwesomeIcons.squareRootVariable.fontPackage,
+      inputs: [
+        CalculatorVariable(name: 'value', unitLabel: '', min: 0, description: 'Value'),
+        CalculatorVariable(name: 'base', unitLabel: '', min: 0, description: 'Base'),
+      ],
+      formula: 'log(value) / log(base)',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    ),
+    CustomCalculator(
+      id: const Uuid().v4(),
+      title: 'Temperature C to F',
+      iconCode: FontAwesomeIcons.temperatureHalf.codePoint,
+      iconFontFamily: FontAwesomeIcons.temperatureHalf.fontFamily,
+      iconFontPackage: FontAwesomeIcons.temperatureHalf.fontPackage,
+      inputs: [
+        CalculatorVariable(name: 'celsius', unitLabel: '°C', description: 'Temperature in Celsius'),
+      ],
+      formula: '(celsius * 9/5) + 32',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    ),
   ];
 
   static final Map<String, String> _routeToTemplateTitle = {
@@ -665,6 +740,12 @@ class CalculatorTemplates {
     '/conversion/f2c': 'Fahrenheit to Celsius',
     '/conversion/fuel': 'L/100km to MPG',
     '/finance/savings': 'Monthly Savings',
+    // NEW CALCULATOR ROUTES
+    '/finance/npv': 'NPV Calculator',
+    '/finance/cd': 'CD Calculator',
+    '/finance/tipsplit': 'Tip Split',
+    '/math/logarithm': 'Logarithm',
+    '/converters/temperature': 'Temperature C to F',
   };
 
   static CustomCalculator? getTemplateForRoute(String route) {

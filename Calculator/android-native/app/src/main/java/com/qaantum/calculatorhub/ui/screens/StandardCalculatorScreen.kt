@@ -12,16 +12,16 @@ import com.qaantum.calculatorhub.calculators.StandardCalculator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StandardCalculatorScreen() {
+fun StandardCalculatorScreen(navController: androidx.navigation.NavController) {
     val calculator = remember { StandardCalculator() }
     var input by remember { mutableStateOf(calculator.getInput()) }
     var result by remember { mutableStateOf(calculator.getResult()) }
     var expression by remember { mutableStateOf(calculator.getExpression()) }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(title = { Text("Standard Calculator") })
-        }
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Standard Calculator",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
     ) { padding ->
         Column(
             modifier = Modifier

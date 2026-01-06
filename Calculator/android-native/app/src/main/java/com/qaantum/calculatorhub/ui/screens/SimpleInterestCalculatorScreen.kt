@@ -18,7 +18,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SimpleInterestCalculatorScreen() {
+fun SimpleInterestCalculatorScreen(navController: androidx.navigation.NavController) {
     var principal by remember { mutableStateOf("") }
     var rate by remember { mutableStateOf("") }
     var time by remember { mutableStateOf("") }
@@ -27,10 +27,10 @@ fun SimpleInterestCalculatorScreen() {
     val calculator = remember { SimpleInterestCalculator() }
     val currencyFormat = remember { NumberFormat.getCurrencyInstance(Locale.US) }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(title = { Text("Simple Interest") })
-        }
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Simple Interest",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -103,7 +103,7 @@ fun SimpleInterestCalculatorScreen() {
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
-                        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+                        Divider(modifier = Modifier.padding(vertical = 16.dp))
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween

@@ -17,7 +17,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SavingsGoalCalculatorScreen() {
+fun SavingsGoalCalculatorScreen(navController: androidx.navigation.NavController) {
     var goal by remember { mutableStateOf("") }
     var initial by remember { mutableStateOf("0") }
     var rate by remember { mutableStateOf("") }
@@ -27,8 +27,10 @@ fun SavingsGoalCalculatorScreen() {
     val calculator = remember { SavingsGoalCalculator() }
     val currencyFormat = remember { NumberFormat.getCurrencyInstance(Locale.US) }
 
-    Scaffold(
-        topBar = { TopAppBar(title = { Text("Savings Goal") }) }
+    com.qaantum.calculatorhub.ui.components.CalculatorScaffold(
+        title = "Savings Goal",
+        navController = navController,
+        onCustomize = { navController.navigate("/custom/builder") }
     ) { padding ->
         Column(
             modifier = Modifier
